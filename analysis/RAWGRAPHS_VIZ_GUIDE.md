@@ -4,6 +4,8 @@ Use **RAWGraphs** ([rawgraphs.io](https://www.rawgraphs.io), [GitHub](https://gi
 
 **Same CSVs** as the Flourish export: run `Rscript analysis/R/06_flourish_export.R` after the pipeline has built tables (or `run_all.R`). Files appear under **`analysis/output/flourish/`** (gitignored).
 
+**Headless line chart (no ggplot2):** after the CSV exists, run **`Rscript analysis/R/07_slide4_line_export.R`** to write **`slide4_ed_per_py_by_year_line.png`** and **`.svg`** into **`analysis/output/figures/`** for Slide 4 (base R graphics, deck colors **#2b7aa1** / **#c5462a**).
+
 ---
 
 ## Run RAWGraphs locally (recommended for privacy)

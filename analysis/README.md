@@ -18,3 +18,7 @@
 ## Deliverable PDFs
 
 Built with pandoc + XeLaTeX from `output/deliverables/TeamXX_*.md`.
+
+## Manus (3000-character chat limit)
+
+Use **`analysis/MANUS_PROMPT_3000.txt`** or repo root **`manus.txt`** for the short paste block (~2.1k chars). Full brief: **`analysis/MANUS_PRESENTATION_PROMPT.md`** (local if gitignored).

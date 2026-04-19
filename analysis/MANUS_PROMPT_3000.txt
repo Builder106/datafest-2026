@@ -1,0 +1,23 @@
+MANUS — paste this entire block as plain chat text (not file upload). Under 3000 chars.
+
+Build ONE PowerPoint: exactly 4 slides = 1 cover + 3 content. Target export TeamXX_Presentation.pdf. DataFest 2026 · Wesleyan. Talk ~5–8 min. Do NOT embed PNGs or live Flourish. Use gray dashed rectangles or PowerPoint Picture placeholders; under each frame print the exact filename below so the author inserts images later.
+
+PLACEHOLDER FILENAMES (verbatim labels):
+analysis/output/figures/fig1_transport_journey_signature.png
+analysis/output/figures/fig2_transport_adjusted_or.png
+analysis/output/figures/fig4_chronic_ed_180d.png (slide 3, 3rd row or column if readable; else speaker notes only)
+Optional: analysis/output/figures/fig3_setting_mix.png
+
+S1 COVER: title + subtitle (question) + DataFest 2026 + Team XX + names + date.
+
+S2 CONTENT: hook (access/transport); one-line pull quote “THE CORE INQUIRY …”; tiny table barrier vs no barrier vs declined with n; footnote “barrier”=ever Yes to transport Qs, “no barrier”=ever No never Yes. 3–5 bullets. Optional tiny empty “Flourish still” placeholder.
+
+S3 CONTENT: 2 cols — L: title + ≥2 bullets + frame fig1 (acute magnitude, person-yr). R: title + ≥2 bullets + frame fig2 (adjusted OR, not just age). Prefer +fig4 strip (180d ED chronic). Footer: DataFest 2026 · author analysis.
+
+S4 CONTENT: large empty zone text [FLOURISH — paste embed or export after generation] + strip INTERACTIVE COMPONENT: FLOURISH + 2 bullets (what animates). Interventions: rides, telehealth, pharmacy. 2–3 caveats: SDOH screening selection; diagnosis-key gaps; weak geo. Two-line FINAL CONCLUSION. Same footer.
+
+STYLE: Capitol_Alpha vibe compressed — banded headers, 2-col, no stock finance content. Colors #2b7aa1 (no barrier) #c5462a (barrier). Sans, large type (18pt+ body). Default “regional health system” not sponsor if public timing unclear. No raw data screenshots.
+
+THESIS: Transport barrier → more ED/inpatient; persists after age/sex adj; same pattern in chronic slice.
+
+SPEAKER NOTES all slides; S1 ~30s; S2–4 ~2–3 min each; Q&A in notes only (bias, OR, pilot).

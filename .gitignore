@@ -3,6 +3,8 @@
 *.duckdb.wal
 
 DataFest 2026 - Data Challenge/Data/
+DataFest 2026 - Data Challenge/*.docx
+DataFest 2026 - Data Challenge/*.xlsx
 
 *.mp4
 /*.pdf

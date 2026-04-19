@@ -101,8 +101,8 @@ export_slide4 <- function(csv, fig_dir, stem, main, xlab, sub, x_col, quarterly)
     seg <- (as.integer(t) - 1L) %/% anim_substeps + 1L
     al <- ((as.integer(t) - 1L) %% anim_substeps + 1L) / anim_substeps
     if (seg >= 2L) {
-      lines(xc_nb[seq_len(seg - 1L)], nb$value[seq_len(seg - 1L)], lwd = 2.5, col = pal_nb)
-      lines(xc_tb[seq_len(seg - 1L)], tb$value[seq_len(seg - 1L)], lwd = 2.5, col = pal_tb)
+      lines(xc_nb[seq_len(seg)], nb$value[seq_len(seg)], lwd = 2.5, col = pal_nb)
+      lines(xc_tb[seq_len(seg)], tb$value[seq_len(seg)], lwd = 2.5, col = pal_tb)
     }
     xa1 <- xc_nb[seg]
     xa2 <- xc_nb[seg + 1L]

@@ -16,6 +16,8 @@ pal_nb <- "#2b7aa1"
 pal_tb <- "#c5462a"
 
 export_slide4 <- function(csv, fig_dir, stem, main, xlab, sub, x_col, quarterly) {
+  anim_substeps <- if (quarterly) 8L else 5L
+  anim_fps <- 15L
   if (!file.exists(csv)) {
     warning("missing ", csv, " — run analysis/R/06_flourish_export.R after 03_journey")
     return(invisible(NULL))
@@ -65,6 +67,8 @@ export_slide4 <- function(csv, fig_dir, stem, main, xlab, sub, x_col, quarterly)
   }
 
   n_steps <- length(ux)
+  xc_nb <- nb[[x_col]]
+  xc_tb <- tb[[x_col]]
   draw_cumulative <- function(k) {
     plot_axes()
     kk <- min(k, n_steps)
@@ -78,6 +82,47 @@ export_slide4 <- function(csv, fig_dir, stem, main, xlab, sub, x_col, quarterly)
     }
     points(nb_k[[x_col]], nb_k$value, pch = 19, cex = 1.1, col = pal_nb)
     points(tb_k[[x_col]], tb_k$value, pch = 19, cex = 1.1, col = pal_tb)
+  }
+
+  draw_anim_smooth <- function(t) {
+    plot_axes()
+    if (n_steps < 2L) {
+      if (n_steps == 1L) {
+        points(xc_nb[1], nb$value[1], pch = 19, cex = 1.1, col = pal_nb)
+        points(xc_tb[1], tb$value[1], pch = 19, cex = 1.1, col = pal_tb)
+      }
+      return()
+    }
+    if (t == 0L) {
+      points(xc_nb[1], nb$value[1], pch = 19, cex = 1.1, col = pal_nb)
+      points(xc_tb[1], tb$value[1], pch = 19, cex = 1.1, col = pal_tb)
+      return()
+    }
+    seg <- (as.integer(t) - 1L) %/% anim_substeps + 1L
+    al <- ((as.integer(t) - 1L) %% anim_substeps + 1L) / anim_substeps
+    if (seg >= 2L) {
+      lines(xc_nb[seq_len(seg - 1L)], nb$value[seq_len(seg - 1L)], lwd = 2.5, col = pal_nb)
+      lines(xc_tb[seq_len(seg - 1L)], tb$value[seq_len(seg - 1L)], lwd = 2.5, col = pal_tb)
+    }
+    xa1 <- xc_nb[seg]
+    xa2 <- xc_nb[seg + 1L]
+    ya1 <- nb$value[seg]
+    ya2 <- nb$value[seg + 1L]
+    lines(c(xa1, xa1 + al * (xa2 - xa1)), c(ya1, ya1 + al * (ya2 - ya1)), lwd = 2.5, col = pal_nb)
+    xb1 <- xc_tb[seg]
+    xb2 <- xc_tb[seg + 1L]
+    yb1 <- tb$value[seg]
+    yb2 <- tb$value[seg + 1L]
+    lines(c(xb1, xb1 + al * (xb2 - xb1)), c(yb1, yb1 + al * (yb2 - yb1)), lwd = 2.5, col = pal_tb)
+    points(xc_nb[seq_len(seg)], nb$value[seq_len(seg)], pch = 19, cex = 1.1, col = pal_nb)
+    points(xc_tb[seq_len(seg)], tb$value[seq_len(seg)], pch = 19, cex = 1.1, col = pal_tb)
+    if (al < 1 - 1e-9) {
+      points(xa1 + al * (xa2 - xa1), ya1 + al * (ya2 - ya1), pch = 19, cex = 0.95, col = pal_nb)
+      points(xb1 + al * (xb2 - xb1), yb1 + al * (yb2 - yb1), pch = 19, cex = 0.95, col = pal_tb)
+    } else {
+      points(xa2, ya2, pch = 19, cex = 1.1, col = pal_nb)
+      points(xb2, yb2, pch = 19, cex = 1.1, col = pal_tb)
+    }
   }
 
   draw_full <- function() {
@@ -105,22 +150,51 @@ export_slide4 <- function(csv, fig_dir, stem, main, xlab, sub, x_col, quarterly)
           unlink(tmp, recursive = TRUE)
         }
       )
-      n_hold <- min(4L, max(1L, n_steps %/% 4))
-      n_frames <- n_steps + n_hold
-      for (i in seq_len(n_frames)) {
-        k <- min(i, n_steps)
-        png(sprintf("frame_%02d.png", i), width = 11 * 100, height = 6 * 100, res = 100)
-        draw_cumulative(k)
+      n_hold <- min(12L, max(4L, anim_fps))
+      if (n_steps >= 2L) {
+        n_body <- 1L + (n_steps - 1L) * anim_substeps
+        frame_seq <- c(0L, seq_len((n_steps - 1L) * anim_substeps))
+      } else {
+        n_body <- max(1L, n_steps)
+        frame_seq <- seq_len(n_body) - 1L
+      }
+      n_frames <- length(frame_seq) + n_hold
+      patt_in <- if (n_frames > 99L) "frame_%03d.png" else "frame_%02d.png"
+      for (i in seq_along(frame_seq)) {
+        png(
+          sprintf(patt_in, i),
+          width = 11 * 100,
+          height = 6 * 100,
+          res = 100
+        )
+        if (n_steps >= 2L) {
+          draw_anim_smooth(frame_seq[i])
+        } else {
+          draw_cumulative(max(1L, n_steps))
+        }
+        dev.off()
+      }
+      for (j in seq_len(n_hold)) {
+        png(
+          sprintf(patt_in, length(frame_seq) + j),
+          width = 11 * 100,
+          height = 6 * 100,
+          res = 100
+        )
+        if (n_steps >= 2L) {
+          draw_anim_smooth((n_steps - 1L) * anim_substeps)
+        } else {
+          draw_cumulative(max(1L, n_steps))
+        }
         dev.off()
       }
       out_mp4 <- file.path(tmp, "out.mp4")
       out_gif <- file.path(tmp, "out.gif")
-      fps <- if (quarterly) 4L else 1L
       st1 <- system2(
         ffmpeg,
         c(
-          "-y", "-framerate", as.character(fps),
-          "-i", "frame_%02d.png",
+          "-y", "-framerate", as.character(anim_fps),
+          "-i", patt_in,
           "-c:v", "libx264", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
           out_mp4
         ),
@@ -129,8 +203,8 @@ export_slide4 <- function(csv, fig_dir, stem, main, xlab, sub, x_col, quarterly)
       st2 <- system2(
         ffmpeg,
         c(
-          "-y", "-framerate", as.character(fps),
-          "-i", "frame_%02d.png",
+          "-y", "-framerate", as.character(anim_fps),
+          "-i", patt_in,
           "-loop", "0", out_gif
         ),
         stdout = FALSE, stderr = FALSE

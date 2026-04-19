@@ -16,4 +16,4 @@
 
 **Compliance.** Aggregate summary only; **no raw rows**. For external decks, prefer **regional health system** over sponsor name unless rules allow.
 
-**Deck / figure alignment.** Slides: `fig1_transport_journey_signature.png` (rates/py); `fig2_transport_adjusted_or.png` (adjusted ORs); `fig4_chronic_ed_180d.png` (180d ED return, I10/E11/N18/I48). Optional: `fig3_setting_mix.png`. Flourish: ED or acute trajectory **2022–2025**, **barrier vs no barrier**, labels match cohort rules above.
+**Deck / figure alignment.** Slides: `fig1_transport_journey_signature.png` (rates/py); `fig2_transport_adjusted_or.png` (adjusted ORs); `fig4_chronic_ed_180d.png` (180d ED return, I10/E11/N18/I48). Optional: `fig3_setting_mix.png`. Time animation: **RAWGraphs** (local) or static PNG from `analysis/output/flourish/*.csv` — see **`analysis/RAWGRAPHS_VIZ_GUIDE.md`**; ED trajectory **2022–2025**, **barrier vs no barrier**, labels match cohort rules above.

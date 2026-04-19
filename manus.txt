@@ -1,25 +1,21 @@
-MANUS — paste this entire block as plain chat text (not file upload). Under 3000 chars.
+MANUS — paste as plain chat text. Under 3000 chars.
 
-Build ONE PowerPoint: exactly 4 slides = 1 cover + 3 content. Target export TeamXX_Presentation.pdf. DataFest 2026 · Wesleyan. Talk ~5–8 min. Do NOT embed PNGs or live Flourish. Use gray dashed rectangles or PowerPoint Picture placeholders; under each frame print the exact filename below so the author inserts images later.
+CRITICAL: Put only "Slide Text" blocks on slides. Put "Speaker Notes" ONLY in PowerPoint presenter notes — never on the slide.
 
-PLACEHOLDER FILENAMES (verbatim labels):
-analysis/output/figures/fig1_transport_journey_signature.png
-analysis/output/figures/fig2_transport_adjusted_or.png
-analysis/output/figures/fig4_chronic_ed_180d.png (slide 3, 3rd row or column if readable; else speaker notes only)
-Optional: analysis/output/figures/fig3_setting_mix.png
+4 slides only: S1 cover + S2–S4 content. Target TeamXX_Presentation.pdf. DataFest 2026 · Wesleyan. 5–8 min. Do NOT embed images/Flourish — use large gray/dashed PLACEHOLDER boxes labeled with exact strings below.
 
-S1 COVER: title + subtitle (question) + DataFest 2026 + Team XX + names + date.
+DESIGN: Investigative + consulting vibe. Navy, charcoal, white; muted deep red accents. Helvetica/Roboto/Inter. Minimal backgrounds.
 
-S2 CONTENT: hook (access/transport); one-line pull quote “THE CORE INQUIRY …”; tiny table barrier vs no barrier vs declined with n; footnote “barrier”=ever Yes to transport Qs, “no barrier”=ever No never Yes. 3–5 bullets. Optional tiny empty “Flourish still” placeholder.
+S1 TITLE: working title + subtitle DataFest 2026 Team XX + names + date. NOTES: intro, de-identified data, one-line access problem.
 
-S3 CONTENT: 2 cols — L: title + ≥2 bullets + frame fig1 (acute magnitude, person-yr). R: title + ≥2 bullets + frame fig2 (adjusted OR, not just age). Prefer +fig4 strip (180d ED chronic). Footer: DataFest 2026 · author analysis.
+S2 PROBLEM: Title question (transport answer → journey?). Bullets: access hypothesis; THE CORE INQUIRY one-liner; table n no-barrier ~56k barrier ~3k declined ~1.4k; footnote barrier=ever Yes no-barrier=ever No never Yes; optional scale ~7.7M enc ~0.95M pat 2022–2025. NOTES: person-year window censoring; screening ~6%; association not causation.
 
-S4 CONTENT: large empty zone text [FLOURISH — paste embed or export after generation] + strip INTERACTIVE COMPONENT: FLOURISH + 2 bullets (what animates). Interventions: rides, telehealth, pharmacy. 2–3 caveats: SDOH screening selection; diagnosis-key gaps; weak geo. Two-line FINAL CONCLUSION. Same footer.
+S3 EVIDENCE: Title higher acute use with barrier. Three placeholders:
+[LEAVE LARGE PLACEHOLDER: analysis/output/figures/fig1_transport_journey_signature.png]
+[LEAVE LARGE PLACEHOLDER: analysis/output/figures/fig2_transport_adjusted_or.png]
+[LEAVE LARGE PLACEHOLDER: analysis/output/figures/fig4_chronic_ed_180d.png]
+Pair each with short headers/bullets (magnitude; adjusted OR not just age; 180d ED chronic). Footer DataFest 2026 author analysis. If crowded stack fig1 then fig2+fig4 columns. NOTES: walk axes ORs younger group smaller barrier n fig3 only in notes if omitted.
 
-STYLE: Capitol_Alpha vibe compressed — banded headers, 2-col, no stock finance content. Colors #2b7aa1 (no barrier) #c5462a (barrier). Sans, large type (18pt+ body). Default “regional health system” not sponsor if public timing unclear. No raw data screenshots.
+S4 CLOSE: Title signal to action. Placeholder [FLOURISH — paste embed or export] + strip INTERACTIVE COMPONENT FLOURISH + 2 bullets. Interventions rides telehealth pharmacy. Caveats selection diagnosis-key FIPS dept unknown flags. FINAL CONCLUSION two lines (~3x adjusted odds acute care). NOTES: MP4 if no embed; Q&A bias OR pilot. Compliance: regional health system not sponsor if unclear; no raw rows.
 
-THESIS: Transport barrier → more ED/inpatient; persists after age/sex adj; same pattern in chronic slice.
-
-SPEAKER NOTES all slides; S1 ~30s; S2–4 ~2–3 min each; Q&A in notes only (bias, OR, pilot).
-
-Full detail (not for Manus box): analysis/MANUS_PRESENTATION_PROMPT.md
+Full outline: analysis/MANUS_PRESENTATION_PROMPT.md

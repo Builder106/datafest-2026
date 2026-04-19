@@ -4,7 +4,6 @@
 
 suppressPackageStartupMessages({
   library(data.table)
-  library(duckdb)
   library(DBI)
   library(dplyr)
   library(tidyr)
@@ -13,6 +12,10 @@ suppressPackageStartupMessages({
   library(ggplot2)
   library(scales)
 })
+.use_duckdb <- Sys.getenv("DATAFEST_USE_DUCKDB", "1") == "1"
+if (.use_duckdb) {
+  suppressPackageStartupMessages(library(duckdb))
+}
 
 ROOT <- "/Users/yinkavaughan/My Drive (yvaughan@wesleyan.edu)/DataFest"
 
@@ -41,6 +44,10 @@ CSV <- list(
 )
 
 connect_db <- function(read_only = FALSE) {
+  if (!.use_duckdb) {
+    stop("duckdb is disabled (DATAFEST_USE_DUCKDB=0). Unset or set DATAFEST_USE_DUCKDB=1 to use connect_db().",
+         call. = FALSE)
+  }
   dbConnect(duckdb::duckdb(), dbdir = DB_PATH, read_only = read_only)
 }
 

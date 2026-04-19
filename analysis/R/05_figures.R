@@ -1,8 +1,9 @@
+if (Sys.getenv("DATAFEST_INCLUDE_FIG5_DUCKDB", "0") != "1") {
+  Sys.setenv(DATAFEST_USE_DUCKDB = "0")
+}
 source("/Users/yinkavaughan/My Drive (yvaughan@wesleyan.edu)/DataFest/analysis/R/00_config.R")
 
 log_note("05_figures: start")
-con <- connect_db(read_only = TRUE)
-on.exit(try(dbDisconnect(con, shutdown = TRUE), silent = TRUE), add = TRUE)
 
 status_levels <- c("no_barrier", "barrier")
 status_labels <- c("No transport barrier\n(n = 55,653)",
@@ -63,14 +64,15 @@ or_fig <- ors[term == "transportbarrier",
 or_fig[, outcome := ifelse(model == "any_ED",
                            "Any ED visit (≥1 in 4y)",
                            "Any inpatient admission (≥1 in 4y)")]
+or_fig[, label := sprintf("OR %.2f (%.2f–%.2f)", odds_ratio, or_lo, or_hi)]
+or_fig[, label_x := or_hi + (max(or_hi) - 1L) * 0.06 + 0.06]
 
 p2 <- ggplot(or_fig, aes(odds_ratio, reorder(outcome, odds_ratio))) +
   geom_vline(xintercept = 1, linetype = 2, color = "grey40") +
   geom_errorbarh(aes(xmin = or_lo, xmax = or_hi), height = 0.15, color = pal[["barrier"]]) +
   geom_point(size = 4, color = pal[["barrier"]]) +
-  geom_text(aes(label = sprintf("OR %.2f (%.2f–%.2f)", odds_ratio, or_lo, or_hi)),
-            hjust = -0.15, size = 3.4) +
-  scale_x_continuous(limits = c(1, max(or_fig$or_hi) * 1.35),
+  geom_text(aes(x = label_x, label = label), hjust = 0, size = 3.4) +
+  scale_x_continuous(limits = c(1, max(or_fig$label_x) * 1.08),
                      breaks = c(1, 2, 3, 4)) +
   labs(x = "Odds ratio vs no transport barrier",
        y = NULL,
@@ -158,23 +160,29 @@ p4 <- ggplot(chronic_fu, aes(status_lab, pct_any_ed_180, fill = transport_status
   theme_df()
 save_fig(p4, "fig4_chronic_ed_180d.png", width = 11, height = 4.5)
 
-log_note("Figure 5 (context): patient age distribution by transport status")
-pa_df <- as.data.table(dbGetQuery(con, "
-  SELECT age_proxy, transport_status
-  FROM patient_analytic
-  WHERE transport_status IN ('barrier','no_barrier')
-    AND age_proxy BETWEEN 0 AND 100;"))
-pa_df[, status_lab := factor(transport_status, levels = status_levels, labels = status_labels)]
+if (Sys.getenv("DATAFEST_INCLUDE_FIG5_DUCKDB", "0") == "1") {
+  log_note("Figure 5 (context): patient age distribution by transport status")
+  con <- connect_db(read_only = TRUE)
+  on.exit(try(dbDisconnect(con, shutdown = TRUE), silent = TRUE), add = TRUE)
+  pa_df <- as.data.table(dbGetQuery(con, "
+    SELECT age_proxy, transport_status
+    FROM patient_analytic
+    WHERE transport_status IN ('barrier','no_barrier')
+      AND age_proxy BETWEEN 0 AND 100;"))
+  pa_df[, status_lab := factor(transport_status, levels = status_levels, labels = status_labels)]
 
-p5 <- ggplot(pa_df, aes(age_proxy, fill = transport_status)) +
-  geom_density(alpha = 0.55, color = NA) +
-  scale_fill_manual(values = pal, labels = status_labels) +
-  labs(x = "Approx. age (2026 - birth-year bin)",
-       y = "Density",
-       fill = NULL,
-       title = "Barrier patients are younger — so the gap isn't just age",
-       subtitle = "Higher ED and inpatient rates persist after age adjustment (see OR plot)") +
-  theme_df() + theme(legend.position = "top")
-save_fig(p5, "fig5_age_density.png", width = 8, height = 4)
+  p5 <- ggplot(pa_df, aes(age_proxy, fill = transport_status)) +
+    geom_density(alpha = 0.55, color = NA) +
+    scale_fill_manual(values = pal, labels = status_labels) +
+    labs(x = "Approx. age (2026 - birth-year bin)",
+         y = "Density",
+         fill = NULL,
+         title = "Barrier patients are younger — so the gap isn't just age",
+         subtitle = "Higher ED and inpatient rates persist after age adjustment (see OR plot)") +
+    theme_df() + theme(legend.position = "top")
+  save_fig(p5, "fig5_age_density.png", width = 8, height = 4)
+} else {
+  log_note("Skipping fig5 (no DuckDB). For age density: fix R package duckdb, then DATAFEST_INCLUDE_FIG5_DUCKDB=1 Rscript 05_figures.R")
+}
 
 log_note("05_figures: done")

@@ -12,7 +12,7 @@
 
 - Tables: `analysis/output/tables/`
 - Figures: `analysis/output/figures/`
-- Year-by-cohort CSVs (gitignored): `analysis/output/flourish/` — **`analysis/RAWGRAPHS_VIZ_GUIDE.md`** (open-source, run locally). Optional extra copy: `analysis/FLOURISH_VIZ_PROMPT.md` (gitignored). Use **`flourish_transport_ed_by_year.csv`** for a four-year line chart, or **`flourish_slope_ed_per_py_2022_2025.csv`** for 2022 vs 2025 only.
+- Flourish/RAWGraphs CSVs (gitignored): **`analysis/output/flourish/annual/`** (`flourish_transport_ed_by_year.csv` — one row per calendar year per cohort) and **`analysis/output/flourish/quarterly/`** (`flourish_transport_ed_by_quarter.csv` — one row per quarter per cohort). Produced by `06_flourish_export.R`. See **`analysis/RAWGRAPHS_VIZ_GUIDE.md`**. Slide 4 exports land in **`figures/slide4_ed_py_annual/`** and **`figures/slide4_ed_py_quarterly/`** (`07_slide4_line_export.R`).
 - Submission PDFs and code bundle: `analysis/output/deliverables/` (`TeamXX_*` — replace `XX` with team number)
 
 ## Deliverable PDFs

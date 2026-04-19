@@ -16,8 +16,11 @@ stopifnot(all(c("no_barrier", "barrier") %in% h$transport_status))
 or <- fread(file.path(TBL, "an_logit_or_transport.csv"))
 stopifnot(any(or$term == "transportbarrier"))
 stopifnot(min(or[term == "transportbarrier", odds_ratio]) > 2.5)
-s4_mp4 <- file.path(FIG, "slide4_ed_per_py_by_year_line.mp4")
-if (file.exists(s4_mp4)) {
-  stopifnot(file.size(s4_mp4) > 5000L)
+s4a <- file.path(FIG, "slide4_ed_py_annual", "slide4_ed_per_py_by_year_line.mp4")
+s4q <- file.path(FIG, "slide4_ed_py_quarterly", "slide4_ed_per_py_by_quarter_line.mp4")
+for (p in c(s4a, s4q)) {
+  if (file.exists(p)) {
+    stopifnot(file.size(p) > 5000L)
+  }
 }
 cat("smoke_test_outputs: OK\n")

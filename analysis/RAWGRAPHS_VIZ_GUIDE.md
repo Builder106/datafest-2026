@@ -2,9 +2,14 @@
 
 Use **RAWGraphs** ([rawgraphs.io](https://www.rawgraphs.io), [GitHub](https://github.com/rawgraphs/rawgraphs-app)) as an **open-source, browser-based** alternative to hosted tools like Flourish. Data stays **on your machine** when you run the app **locally** (see below).
 
-**Same CSVs** as the Flourish export: run `Rscript analysis/R/06_flourish_export.R` after the pipeline has built tables (or `run_all.R`). Files appear under **`analysis/output/flourish/`** (gitignored).
+**CSVs** come from `Rscript analysis/R/06_flourish_export.R` after **`patient_analytic`** exists (or at the end of `run_all.R`). They are split into two folders:
 
-**Headless line chart (no ggplot2):** after the CSV exists, run **`Rscript analysis/R/07_slide4_line_export.R`** to write **`slide4_ed_per_py_by_year_line.png`** and **`.svg`** into **`analysis/output/figures/`** for Slide 4 (base R graphics, deck colors **#2b7aa1** / **#c5462a**). With **ffmpeg** on your `PATH`, the same script also writes **`slide4_ed_per_py_by_year_line.mp4`** and **`.gif`**: a **cumulative year-by-year** line reveal (four steps) plus a short hold on the final frame—Flourish-like motion for slides without hosting data off-machine.
+| Folder | File | Rows (2 cohorts × …) |
+|--------|------|----------------------|
+| **`analysis/output/flourish/annual/`** | `flourish_transport_ed_by_year.csv` | 4 years → 8 rows |
+| **`analysis/output/flourish/quarterly/`** | `flourish_transport_ed_by_quarter.csv` | 16 quarters → 32 rows |
+
+**Headless line charts (base R, deck colors #2b7aa1 / #c5462a):** run **`Rscript analysis/R/07_slide4_line_export.R`** after the CSVs exist. It writes matching PNG/SVG (and optional MP4/GIF with **ffmpeg**) into **`analysis/output/figures/slide4_ed_py_annual/`** and **`analysis/output/figures/slide4_ed_py_quarterly/`** so you can compare **annual vs quarterly** person-time versions side by side.
 
 ---
 
@@ -27,7 +32,8 @@ Open the URL printed in the terminal (often `http://localhost:3000`). Paste or u
 
 | CSV | Use in RAWGraphs |
 |-----|------------------|
-| **`flourish_transport_ed_by_year.csv`** | **Line chart:** map **`year`** → x, **`value`** → y, **`cohort`** → color (series). Shows **2022–2025** ED visits per person-year for **No transport barrier** vs **Transport barrier**. |
+| **`annual/flourish_transport_ed_by_year.csv`** | **Line chart:** **`year`** → x, **`value`** → y, **`cohort`** → color. |
+| **`quarterly/flourish_transport_ed_by_quarter.csv`** | **Line chart:** **`t`** (or **`period_start`**) → x, **`value`** → y, **`cohort`** → color — 16 quarterly points per series (smoother animation in Flourish). |
 | **`flourish_slope_ed_per_py_2022_2025.csv`** | **Line chart** or **bar chart:** only **2022 and 2025** — good for a **before/after** style graphic (two points per series). |
 | **`flourish_slope_ed_per_py_wide.csv`** | If you prefer **one column per cohort** and **one row per year**, use this for **stacked/diverging** layouts that expect wide data. |
 

@@ -1,0 +1,32 @@
+DisplayName,Domain
+Q2: How many drinks containing alcohol do you have on a typical day when you are drinking?,Alcohol Use
+Q3: How often do you have six or more drinks on one occasion?,Alcohol Use
+Q1: How often do you have a drink containing alcohol?,Alcohol Use
+Patient Health Questionnaire-2 Score,Depression
+The thought of harming myself has occurred to me.,Depression
+Edinburgh Depression Scale Total,Depression
+PHQ-2 Total Score,Depression
+"In the past 12 months has the electric, gas, oil, or water company threatened to shut off services in your home?",Financial Resource Strain
+"In the last 12 months, was there a time when you were not able to pay the mortgage or rent on time?",Financial Resource Strain
+"Within the past 12 months, you worried that your food would run out before you got the money to buy more.",Food Insecurity
+"Within the past 12 months, the food you bought just didn't last and you didn't have money to get more.",Food Insecurity
+"In the last 12 months, was there a time when you did not have a steady place to sleep or slept in a shelter (including now)?",Housing Stability
+"In the last 12 months, how many places have you lived?",Housing Stability
+"At any time in the past 12 months, were you homeless or living in a shelter (including now)?",Housing Stability
+"In the past 12 months, how many times have you moved where you were living?",Housing Stability
+"Within the last year, have you been raped or forced to have any kind of sexual activity by your partner or ex-partner?",Intimate Partner Violence
+"Within the last year, have you been kicked, hit, slapped, or otherwise physically hurt by your partner or ex-partner?",Intimate Partner Violence
+"Within the last year, have you been humiliated or emotionally abused in other ways by your partner or ex-partner?",Intimate Partner Violence
+"Within the last year, have you been afraid of your partner or ex-partner?",Intimate Partner Violence
+"On average, how many minutes do you engage in exercise at this level?",Physical Activity
+"On average, how many days per week do you engage in moderate to strenuous exercise (like a brisk walk)?",Physical Activity
+"Do you belong to any clubs or organizations such as church groups, unions, fraternal or athletic groups, or school groups?",Social Connections
+"Are you married, widowed, divorced, separated, never married, or living with a partner?",Social Connections
+How often do you attend meetings of the clubs or organizations you belong to?,Social Connections
+How often do you attend church or religious services?,Social Connections
+"In a typical week, how many times do you talk on the phone with family, friends, or neighbors?",Social Connections
+How often do you get together with friends or relatives?,Social Connections
+"Do you feel stress - tense, restless, nervous, or anxious, or unable to sleep at night because your mind is troubled all the time - these days?",Stress
+"In the past 12 months, has lack of transportation kept you from meetings, work, or from getting things needed for daily living?",Transportation Needs
+"In the past 12 months, has lack of transportation kept you from medical appointments or from getting medications?",Transportation Needs
+"How hard is it for you to pay for the very basics like food, housing, medical care, and heating?",Utilities

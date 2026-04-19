@@ -2,7 +2,9 @@
 
 Use **RAWGraphs** ([rawgraphs.io](https://www.rawgraphs.io), [GitHub](https://github.com/rawgraphs/rawgraphs-app)) as an **open-source, browser-based** alternative to hosted tools like Flourish. Data stays **on your machine** when you run the app **locally** (see below).
 
-**CSVs** come from `Rscript analysis/R/06_flourish_export.R` after **`patient_analytic`** exists (or at the end of `run_all.R`). They are split into two folders:
+**CSVs** are produced from the same SQL as in **`analysis/sql/`** — either **`bash analysis/sh/flourish_export_duckdb_cli.sh`** (needs `duckdb` on your `PATH`, e.g. `brew install duckdb`) or **`Rscript analysis/R/06_flourish_export.R`**. Requires database **`~/.datafest_cache/datafest.duckdb`** after **`patient_analytic`** exists (end of `run_all`). If the R package `duckdb` segfaults on your Mac, use the shell script or `DATAFEST_FLOURISH_CLI_ONLY=1 Rscript analysis/R/06_flourish_export.R`.
+
+They are split into two folders:
 
 | Folder | File | Rows (2 cohorts × …) |
 |--------|------|----------------------|

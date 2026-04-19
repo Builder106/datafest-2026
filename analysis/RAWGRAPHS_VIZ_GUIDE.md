@@ -4,7 +4,7 @@ Use **RAWGraphs** ([rawgraphs.io](https://www.rawgraphs.io), [GitHub](https://gi
 
 **Same CSVs** as the Flourish export: run `Rscript analysis/R/06_flourish_export.R` after the pipeline has built tables (or `run_all.R`). Files appear under **`analysis/output/flourish/`** (gitignored).
 
-**Headless line chart (no ggplot2):** after the CSV exists, run **`Rscript analysis/R/07_slide4_line_export.R`** to write **`slide4_ed_per_py_by_year_line.png`** and **`.svg`** into **`analysis/output/figures/`** for Slide 4 (base R graphics, deck colors **#2b7aa1** / **#c5462a**).
+**Headless line chart (no ggplot2):** after the CSV exists, run **`Rscript analysis/R/07_slide4_line_export.R`** to write **`slide4_ed_per_py_by_year_line.png`** and **`.svg`** into **`analysis/output/figures/`** for Slide 4 (base R graphics, deck colors **#2b7aa1** / **#c5462a**). With **ffmpeg** on your `PATH`, the same script also writes **`slide4_ed_per_py_by_year_line.mp4`** and **`.gif`**: a **cumulative year-by-year** line reveal (four steps) plus a short hold on the final frame—Flourish-like motion for slides without hosting data off-machine.
 
 ---
 
@@ -41,12 +41,11 @@ Open the URL printed in the terminal (often `http://localhost:3000`). Paste or u
 2. **Bar chart** (grouped): **year** on one axis, **value** on the other, **cohort** as grouping/color.
 3. **Slope-like read:** use the **four-year** CSV and line chart; or use the **2022 vs 2025** file for a minimal **two-point** line per cohort.
 
-RAWGraphs does **not** export a built-in **Flourish-style auto animation**. For the deck you typically:
+RAWGraphs does **not** export a built-in **Flourish-style auto animation**. For motion without Flourish:
 
-- Export **SVG** or high-res **PNG** from RAWGraphs and place on the slide, or  
-- Export **one PNG per year** and use **PowerPoint transitions**, or  
-- **Screen-record** the chart while scrubbing **year** (if you add interaction elsewhere), or  
-- Use a short **local** **gganimate** / **MP4** from R for motion (see `FLOURISH_VIZ_PROMPT.md` export section, adapted to static story).
+- Run **`07_slide4_line_export.R`** (with ffmpeg) for an **MP4** (or **GIF**) you can insert in Google Slides / PowerPoint / Keynote, or  
+- Export **SVG** or **PNG** from RAWGraphs and animate in-deck (transitions) or **screen-record** a scrubbed view, or  
+- Use **Flourish** in the browser if the team accepts hosted tooling for that slide.
 
 ---
 

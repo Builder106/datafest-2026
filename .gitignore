@@ -12,6 +12,7 @@ DataFest 2026 - Data Challenge/*.xlsx
 analysis/output/tables/
 analysis/output/figures/
 analysis/output/logs/
+analysis/output/flourish/
 analysis/output/deliverables/*.pdf
 analysis/output/deliverables/TeamXX_Code.txt
 

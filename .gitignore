@@ -5,6 +5,7 @@
 DataFest 2026 - Data Challenge/Data/
 
 *.mp4
+/*.pdf
 
 analysis/output/tables/
 analysis/output/figures/

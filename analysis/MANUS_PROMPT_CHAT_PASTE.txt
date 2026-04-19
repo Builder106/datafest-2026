@@ -1,0 +1,80 @@
+=== PASTE EVERYTHING BELOW THIS LINE INTO MANUS AS PLAIN CHAT TEXT ===
+=== Do not use "upload file" or drag-and-drop for this block; type or paste into the message field. ===
+
+MANUS BRIEF — DataFest 2026 presentation (transport SDOH × patient journeys)
+
+Use the following as your system-style brief.
+
+Goal: produce exactly one polished PowerPoint deck that exports as TeamXX_Presentation.pdf: 4 slides total — 1 cover + 3 content slides (DataFest 2026; confirm DATAFEST_SUBMISSION_CHECKLIST.md). Target 5–8 minute talk + 1–2 min Q&A. Story is validated in R/DuckDB; your job is layout, clarity, pacing — not new numbers.
+
+Figures: Do not embed final PNGs. Use clear placeholder frames (light gray rectangle, dashed border, centered label) so the author drops in exports afterward. Each placeholder label must include the exact filename (Section 7).
+
+--- Section 0 — Style reference (Capitol_Alpha — compress)
+
+Local reference deck (author machine, not in git): Google Drive folder "QAC 420 Data for Good - Spring 2026", Students, Olayinka, Submissions, file Capitol_Alpha.pptx.
+
+That deck uses many slides; you have three content slides only. Merge patterns: two-column and banded section headers; one-line "THE CORE INQUIRY" pull quote on slide 2; on slide 4 use INTERACTIVE COMPONENT FLOURISH strip plus empty region and 2 bullets. Do not import congressional finance content — layout and tone only.
+
+--- Section 1 — Deliver (4 slides)
+
+Slide 1 Cover: title, subtitle, DataFest 2026, Wesleyan, Team XX, names, date.
+
+Slide 2 Content 1: hook, core inquiry one-liner, tiny cohort table (barrier / no barrier / declined with n), define ever Yes footnote. Optional small placeholder for Flourish still or QR (no real image). 3–5 bullets max.
+
+Slide 3 Content 2: Evidence. Two columns — left Placeholder A labeled fig1_transport_journey_signature.png with at least 2 bullets. Right Placeholder B labeled fig2_transport_adjusted_or.png with at least 2 bullets. Do not paste images. Alternative: stack A full width then B and D in two columns. Minimum frames A and B; strongly prefer D fig4_chronic_ed_180d.png as third row or column. Fig C fig3_setting_mix.png optional.
+
+Slide 4 Content 3: Flourish placeholder region (empty frame plus text bracket FLOURISH paste embed or export after generation). INTERACTIVE COMPONENT FLOURISH strip, 2 bullets, interventions, 2–3 caveat bullets, FINAL CONCLUSION two lines, footer DataFest 2026 author analysis.
+
+Success: non-technical gets point from slides 2–3; stats listener sees cohort outcome adjustment limitation on slides 2–4; no orphan placeholders (title + 2–4 bullets + source per slot); 18pt+ body where possible.
+
+--- Section 2 — Compliance
+
+Do not name data sponsor before May 2 if public leak risk; default "regional health system." No raw row screenshots. Figure slots: rectangle plus filename; leave room for Insert Pictures; use Picture placeholder shapes if available.
+
+--- Section 3 — Audience and thesis
+
+Mixed audience. Calm evidence-led. Thesis: Patients who report transportation barriers show more ED and inpatient use; gap persists after age sex adjustment and within common chronic conditions.
+
+--- Section 4 — Story spine
+
+Slide 2 hook ~1.5–2 min; slide 3 evidence ~3–4 min; slide 4 so what ~2–3 min; cover ~20–30 s.
+
+--- Section 5 — Data facts
+
+Window 2022-01-01 to 2025-12-31. ~7.7M encounters, ~0.95M patients. Barrier equals ever Yes to transport questions; no barrier ever No never Yes. ~61k screened; primary ~56k vs ~3k. Headline ~3–4x acute intensity; ~3x adjusted ORs. Chronic ~double 180d ED return in I10 E11 N18 I48. Caveats: screening selection, diagnosis key mismatch, FIPS missing, DepartmentType unknown use encounter flags.
+
+--- Section 6 — Flourish
+
+Build brief in local file analysis/FLOURISH_VIZ_PROMPT.md (gitignored). Slide 4: large empty placeholder, FLOURISH bracket text, strip, subtitle, 2 bullets, colors hex 2b7aa1 and c5462a. Manus does not embed Flourish.
+
+--- Section 7 — Placeholder labels (verbatim on shapes)
+
+Slot A: analysis/output/figures/fig1_transport_journey_signature.png
+Slot B: analysis/output/figures/fig2_transport_adjusted_or.png
+Slot C optional: analysis/output/figures/fig3_setting_mix.png
+Slot D: analysis/output/figures/fig4_chronic_ed_180d.png
+Slot E optional: analysis/output/figures/fig5_age_density.png
+
+Per panel: TITLE + BULLETS + PLACEHOLDER FRAME gray dashed no stock imagery + FOOTER DataFest 2026 author analysis.
+
+--- Section 8 — Speaker notes
+
+Slide 1 ~20–30 s. Slides 2–4 ~2–3 min each; slide 3 read axes first. Q&A prep in notes only.
+
+--- Section 9 — Visuals
+
+Colors 2b7aa1 no barrier, c5462a barrier. Sans-serif, large titles.
+
+--- Section 10 — Q&A prep in notes
+
+Screening bias; no county maps; OR interpretation; one pilot one metric.
+
+--- Section 11 — Handoff
+
+4 slides PDF TeamXX_Presentation.pdf; replace placeholders with PNGs from analysis/output/figures/; after insert keep title bullets footer; test Flourish; writeup and code per checklist.
+
+--- Section 12 — One-shot instruction for Manus
+
+Build 4-slide PowerPoint DataFest 2026 one cover three content only. Topic transportation SDOH patient journeys. Follow sections above. Capitol_Alpha as compressed layout inspiration only. Do not embed charts or Flourish — gray dashed placeholders with exact filenames from Section 7. Each slot needs title 2–4 bullets source line. Slide 4 Flourish reserved area plus INTERACTIVE COMPONENT FLOURISH strip. Hidden speaker notes all slides. Export-ready PDF after author replaces placeholders.
+
+=== END OF PASTE BLOCK ===

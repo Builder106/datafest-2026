@@ -1,0 +1,13 @@
+.DS_Store
+*.duckdb
+*.duckdb.wal
+
+DataFest 2026 - Data Challenge/Data/
+
+*.mp4
+
+analysis/output/tables/
+analysis/output/figures/
+analysis/output/logs/
+analysis/output/deliverables/*.pdf
+analysis/output/deliverables/TeamXX_Code.txt

@@ -37,6 +37,7 @@ jobs:
           mkdir -p _site/assets
           cp assets/banner-dark.svg assets/banner-light.svg _site/assets/
           cp assets/banner-dark.png assets/banner-light.png _site/assets/
+          cp assets/social-card.png assets/social-card.svg _site/assets/
 
       - uses: actions/configure-pages@v5
 

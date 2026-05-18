@@ -8,6 +8,8 @@ DataFest 2026 - Data Challenge/*.xlsx
 
 *.mp4
 /*.pdf
+!/Team13_Writeup.pdf
+!/Team13_Presentation.pdf
 
 analysis/output/tables/
 analysis/output/figures/

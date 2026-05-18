@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  syntax:
+    name: R + shell syntax
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3'
+          use-public-rspm: true
+
+      - name: Parse all R scripts
+        run: |
+          set -euo pipefail
+          fail=0
+          while IFS= read -r f; do
+            echo "::group::parse $f"
+            if ! Rscript -e "parse(file = commandArgs(TRUE)[1])" "$f"; then
+              echo "::error file=$f::R parse error"
+              fail=1
+            fi
+            echo "::endgroup::"
+          done < <(find analysis -type f -name '*.R')
+          exit "$fail"
+
+      - name: Shellcheck shell scripts
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: analysis/sh
+          severity: warning

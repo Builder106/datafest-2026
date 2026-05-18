@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When a Ride Is the Missing Treatment — Wesleyan DataFest 2026, Team 13</title>
+  <meta name="description" content="Wesleyan DataFest 2026 (Team 13). Transportation barriers in Stormont Vail Health EHR data drive 3× higher emergency-department use — an actionable social-determinants signal. R + DuckDB pipeline.">
+  <meta property="og:title" content="When a Ride Is the Missing Treatment">
+  <meta property="og:description" content="Wesleyan DataFest 2026 (Team 13). Transportation barriers drive 3× higher ED use in Stormont Vail Health EHR data.">
+  <meta property="og:image" content="https://yinkavaughan.me/datafest-2026/assets/banner-dark.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
+      <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
+      <img alt="When a Ride Is the Missing Treatment — Wesleyan DataFest 2026, Team 13" src="assets/banner-dark.png" width="1200" height="420">
+    </picture>
+  </header>
+
+  <main>
+    <section class="lede">
+      <p>A single question — <em>"Has lack of transportation kept you from medical appointments?"</em> — identifies a cohort with <strong>~3× odds</strong> of acute-care need, independent of age. This site documents the analysis. The reproducible R + DuckDB pipeline lives <a href="https://github.com/Builder106/datafest-2026">on GitHub</a>.</p>
+    </section>
+
+    <section>
+      <h2>What this is</h2>
+      <p>Team 13's submission to <a href="https://ww2.amstat.org/education/datafest/">ASA DataFest 2026</a> at <a href="https://www.wesleyan.edu/qac/">Wesleyan University</a>, April 17–19, 2026. The data sponsor was <strong>Stormont Vail Health</strong>, which released a longitudinal EHR sample joined to a 12-domain social-determinants questionnaire.</p>
+      <p>I asked: <em>Do patients who report a transportation barrier experience measurably different healthcare journeys than otherwise similar patients?</em> If yes, the transport question itself becomes a screening signal — an upstream variable the health system can act on with rides, tele-visits, or case management.</p>
+    </section>
+
+    <section>
+      <h2>Key findings</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Outcome</th>
+            <th class="num">No barrier</th>
+            <th class="num">Transport barrier</th>
+            <th class="num">Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ED visits per person-year</td>
+            <td class="num">0.48</td>
+            <td class="num"><strong>1.94</strong></td>
+            <td class="num">4.0× crude</td>
+          </tr>
+          <tr>
+            <td>Inpatient admits per person-year</td>
+            <td class="num">0.22</td>
+            <td class="num"><strong>0.70</strong></td>
+            <td class="num">3.2× crude</td>
+          </tr>
+          <tr>
+            <td>Any ED visit (prevalence)</td>
+            <td class="num">43%</td>
+            <td class="num"><strong>68%</strong></td>
+            <td class="num">OR <strong>3.17</strong> (95% CI 2.93–3.43)</td>
+          </tr>
+          <tr>
+            <td>Any inpatient admit (prevalence)</td>
+            <td class="num">35%</td>
+            <td class="num"><strong>63%</strong></td>
+            <td class="num">OR <strong>3.49</strong> (3.23–3.77)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted">The logistic model is <code>outcome ~ transport + age + sex</code>, fit on n = 58,639 screened patients. Barrier patients are <em>younger</em> (median 51 vs 61), ruling out an age artifact. The ED-return gap also persists inside every chronic-disease cohort we examined (HTN 33% vs 15%, T2D 40% vs 17%, CKD 37% vs 21%, AFib 34% vs 24% — 180-day ED return after index encounter).</p>
+    </section>
+
+    <section>
+      <h2>Pipeline</h2>
+      <pre class="mermaid">
+flowchart LR
+  csv[7 CSV files<br/>Stormont Vail EHR + SDOH] --&gt; etl[01_etl.R<br/>load to DuckDB]
+  etl --&gt; duck[(DuckDB<br/>columnar store)]
+  duck --&gt; eda[02_eda.R<br/>EDA tables]
+  duck --&gt; journey[03_journey.R<br/>patient-level analytic table]
+  journey --&gt; analyses[04_analyses.R<br/>cohort stats + logistic GLM]
+  journey --&gt; figures[05_figures.R<br/>ggplot2 figures]
+  duck --&gt; flourish[06_flourish_export.R<br/>+ sql/]
+  duck --&gt; slide4[07_slide4_line_export.R<br/>animated MP4/GIF]
+  analyses --&gt; tables[output/tables/]
+  figures --&gt; figs[output/figures/]
+  flourish --&gt; rawviz[output/flourish/<br/>annual + quarterly]
+  slide4 --&gt; animation[figures/slide4_ed_py_*]
+  tables --&gt; deck[Team13 deck + writeup]
+  figs --&gt; deck
+  rawviz --&gt; deck
+  animation --&gt; deck
+      </pre>
+    </section>
+
+    <section>
+      <h2>Reproducing the analysis</h2>
+      <p>The raw EHR data is <strong>not</strong> in the repository (data-use agreement with Stormont Vail). The pipeline is reproducible against any DataFest 2026 CSV bundle dropped into <code>DataFest 2026 - Data Challenge/Data/2026-ASA-DataFest-Data-Files/</code>.</p>
+      <pre><code># 1. R packages (one-time, into ~/R/datafest_libs)
+Rscript -e 'install.packages(c("data.table","duckdb","DBI","dplyr","tidyr","stringr","lubridate","ggplot2","scales"), lib="~/R/datafest_libs")'
+
+# 2. Drop the official DataFest 2026 CSV bundle into place,
+#    then run the pipeline (builds ~/.datafest_cache/datafest.duckdb on first run)
+Rscript analysis/R/run_all.R
+
+# 3. Smoke-test the outputs
+Rscript analysis/tests/smoke_test_outputs.R</code></pre>
+      <p>Full run order and outputs are documented in <a href="https://github.com/Builder106/datafest-2026/blob/main/analysis/README.md"><code>analysis/README.md</code></a>.</p>
+    </section>
+
+    <section>
+      <h2>Caveats</h2>
+      <p>The data is observational and the screening sample is non-random. The major caveats:</p>
+      <ul>
+        <li>Only <strong>~6%</strong> of patients (61,052 / 947,685) have any SDOH answer; absolute prevalences should not be projected to the full system.</li>
+        <li><strong>20%</strong> of encounter rows carry a <code>PrimaryDiagnosisKey</code> not found in the diagnosis lookup — the chronic-disease cohort is a lower bound.</li>
+        <li><strong>65%</strong> of patients have no parseable FIPS code, so no geographic model was fit.</li>
+        <li><code>DepartmentType</code> is <code>*Unknown</code> for <strong>71%</strong> of rows; setting analyses use boolean encounter flags (<code>IsEdVisit</code>, <code>IsInpatientAdmission</code>) instead.</li>
+        <li>Patient journeys are left- and right-censored at the 2022-01-01 / 2025-12-31 window; rates are annualized by observed follow-up.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Deliverables</h2>
+      <ul class="deliverables">
+        <li>
+          <a href="https://github.com/Builder106/datafest-2026/blob/main/Team13_Writeup.pdf">
+            <span class="label">PDF</span>
+            <span class="title">1-page writeup</span>
+            <span class="desc">The judges' brief.</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/Builder106/datafest-2026/blob/main/Team13_Presentation.pdf">
+            <span class="label">PDF</span>
+            <span class="title">4-slide deck</span>
+            <span class="desc">Presentation slides.</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/Builder106/datafest-2026">
+            <span class="label">Code</span>
+            <span class="title">R + DuckDB pipeline</span>
+            <span class="desc">Reproducible analysis on GitHub.</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Acknowledgments</h2>
+      <ul>
+        <li><strong>Stormont Vail Health</strong> for the de-identified EHR and SDOH data sponsorship.</li>
+        <li><a href="https://www.wesleyan.edu/qac/">Wesleyan QAC</a> for hosting Wesleyan DataFest 2026.</li>
+        <li><a href="https://www.amstat.org/">American Statistical Association</a> for the DataFest program.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Code released under the <a href="https://github.com/Builder106/datafest-2026/blob/main/LICENSE">MIT License</a>. Underlying EHR/SDOH data not included; remains subject to the Stormont Vail Health data-use agreement and ASA DataFest 2026 release terms.</p>
+    <p>Wesleyan DataFest 2026 · Team 13 · <a href="https://github.com/Builder106/datafest-2026">github.com/Builder106/datafest-2026</a></p>
+  </footer>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: isDark ? 'dark' : 'neutral',
+      themeVariables: isDark
+        ? { primaryColor: '#142037', primaryTextColor: '#ffffff', primaryBorderColor: '#2a3a5c', lineColor: '#4dd0e1', secondaryColor: '#1a2a48', tertiaryColor: '#0c1525' }
+        : { primaryColor: '#f3f5f9', primaryTextColor: '#0c1525', primaryBorderColor: '#dce2ed', lineColor: '#0c8aa3', secondaryColor: '#eef2f9', tertiaryColor: '#fbfcfd' }
+    });
+  </script>
+</body>
+</html>

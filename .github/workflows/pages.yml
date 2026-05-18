@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
-      - 'assets/banner-*.png'
+      - 'assets/banner-*'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -35,6 +35,7 @@ jobs:
           mkdir -p _site
           cp -r docs/. _site/
           mkdir -p _site/assets
+          cp assets/banner-dark.svg assets/banner-light.svg _site/assets/
           cp assets/banner-dark.png assets/banner-light.png _site/assets/
 
       - uses: actions/configure-pages@v5

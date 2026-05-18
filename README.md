@@ -4,7 +4,7 @@
   <img alt="When a Ride Is the Missing Treatment — Wesleyan DataFest 2026, Team 13" src="assets/banner-dark.png">
 </picture>
 
-[![CI](https://github.com/Builder106/DataFest/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/DataFest/actions/workflows/ci.yml)
+[![CI](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml)
 [![R](https://img.shields.io/badge/R-4.3%2B-276DC3.svg?logo=r&logoColor=white)](https://www.r-project.org/)
 [![DuckDB](https://img.shields.io/badge/DuckDB-columnar-FFF000.svg?logo=duckdb&logoColor=black)](https://duckdb.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)

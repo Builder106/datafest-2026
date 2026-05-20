@@ -18,5 +18,11 @@ analysis/output/flourish/
 analysis/output/deliverables/*.pdf
 analysis/output/deliverables/TeamXX_Code.txt
 
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+missfont.log
+
 analysis/MANUS_PRESENTATION_PROMPT.md
 analysis/FLOURISH_VIZ_PROMPT.md

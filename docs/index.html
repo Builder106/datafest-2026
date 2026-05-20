@@ -74,6 +74,10 @@
       <symbol id="i-quote" viewBox="0 0 24 24">
         <path d="M7 11c0-3 2-5 4-5M7 11v3a3 3 0 0 0 3 3v0a3 3 0 0 0 0-6H7zM15 11c0-3 2-5 4-5M15 11v3a3 3 0 0 0 3 3v0a3 3 0 0 0 0-6h-3z"/>
       </symbol>
+      <symbol id="i-yield" viewBox="0 0 24 24">
+        <path d="M12 3l10 17H2z"/>
+        <path d="M12 10v5M12 17.5v.5"/>
+      </symbol>
     </defs>
   </svg>
 
@@ -236,7 +240,7 @@
     </section>
 
     <section class="caveat">
-      <p class="kicker">Honest limits</p>
+      <p class="kicker caution-kicker"><svg class="icon" aria-hidden="true"><use href="#i-yield"/></svg>Honest limits</p>
       <p>The data is observational and the screening sample is non-random. Only <strong>~6%</strong> of patients in the release have any SDOH answer, so absolute prevalences shouldn't be projected to the full system. <strong>20%</strong> of encounter rows carry a diagnosis key not in the lookup; <strong>65%</strong> of patients have no parseable FIPS code, so no geographic model was fit. Patient journeys are left- and right-censored at the 2022&ndash;2025 window. The <a href="https://github.com/Builder106/datafest-2026/blob/main/Team13_Writeup.pdf">writeup</a> spells out the full caveat list.</p>
     </section>
 

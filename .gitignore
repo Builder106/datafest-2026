@@ -24,5 +24,8 @@ analysis/output/deliverables/TeamXX_Code.txt
 *.out
 missfont.log
 
+# Reference deck from sibling CapitolAlpha project (>50 MB)
+/Capitol_Alpha_reference_deck.pptx
+
 analysis/MANUS_PRESENTATION_PROMPT.md
 analysis/FLOURISH_VIZ_PROMPT.md

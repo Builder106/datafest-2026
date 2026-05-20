@@ -11,6 +11,9 @@
   --warn: #d94c4c;
   --cool-bar: #c4ccdb;
   --code-bg: #eef1f7;
+  --asphalt: #2a2f3d;
+  --lane-marker: #f3f5f9;
+  --sage: #2e8a6b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +29,9 @@
     --warn: #ff7676;
     --cool-bar: #3a4a6c;
     --code-bg: #142037;
+    --asphalt: #0a0f1a;
+    --lane-marker: #4a5872;
+    --sage: #4ec0a0;
   }
 }
 
@@ -109,6 +115,19 @@ code {
 }
 .question .answer strong { color: var(--warn); }
 
+/* Reusable icon */
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
 /* Stat cards */
 .stats {
   list-style: none;
@@ -120,12 +139,30 @@ code {
 }
 .stats li {
   margin: 0;
-  padding: 24px 20px;
+  padding: 22px 20px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.stats li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 3px;
+  background: var(--warn);
+  border-radius: 0 0 3px 0;
+  opacity: 0.85;
+}
+.stat-icon {
+  font-size: 22px;
+  color: var(--dim);
+  margin-bottom: 14px;
 }
 .stat-num {
   font-size: 44px;
@@ -148,19 +185,19 @@ code {
   margin-top: 10px;
 }
 
-/* Bar comparison */
+/* Bar comparison rendered as road lanes */
 .bars {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 28px 28px 22px;
+  padding: 24px 24px 18px;
 }
 .bar-row {
   display: grid;
   grid-template-columns: 200px 1fr 60px;
   align-items: center;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .bar-row:last-of-type { margin-bottom: 0; }
 .bar-label {
@@ -169,19 +206,58 @@ code {
   text-transform: uppercase;
   font-weight: 700;
   color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
+.bar-label .icon { font-size: 16px; color: var(--dim); }
 .bar-row:nth-child(2) .bar-label { color: var(--warn); }
+.bar-row:nth-child(2) .bar-label .icon { color: var(--warn); }
 .bar-track {
-  height: 36px;
-  background: transparent;
+  height: 38px;
+  background: var(--asphalt);
   position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  /* center dashed lane marking */
+  background-image: linear-gradient(
+    to right,
+    var(--lane-marker) 0,
+    var(--lane-marker) 14px,
+    transparent 14px,
+    transparent 26px
+  );
+  background-repeat: repeat-x;
+  background-size: 26px 2px;
+  background-position: left center;
 }
 .bar {
   height: 100%;
-  border-radius: 3px;
+  position: relative;
+  z-index: 1;
 }
-.bar-cool { background: var(--cool-bar); }
-.bar-warm { background: var(--warn); }
+.bar-cool {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cool-bar) 70%, transparent), var(--cool-bar));
+}
+.bar-warm {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--warn) 70%, transparent), var(--warn));
+}
+/* roadblock cap at end of barrier lane */
+.bar-warm::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  right: -2px;
+  bottom: -3px;
+  width: 6px;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--text) 0 4px,
+      var(--lane-marker) 4px 8px
+    );
+  border-radius: 1px;
+}
 .bar-value {
   font-size: 22px;
   font-weight: 700;
@@ -207,6 +283,17 @@ code {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
+  position: relative;
+}
+.check h3 {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.check h3 .icon {
+  font-size: 20px;
+  color: var(--accent);
+  margin-top: 1px;
 }
 .check p { font-size: 15px; line-height: 1.55; color: var(--muted); margin: 0 0 10px; }
 .check p:last-child { margin-bottom: 0; }
@@ -223,6 +310,33 @@ code {
 }
 .check-list li { color: var(--muted); font-variant-numeric: tabular-nums; }
 .check-list li strong { color: var(--warn); font-weight: 700; }
+
+/* ECG pulse divider — thematic separator between sections */
+.divider {
+  margin: 56px auto;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--dim);
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.divider svg {
+  width: 88px;
+  height: 24px;
+  fill: none;
+  stroke: var(--warn);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
 
 /* Implication blockquote */
 .implication blockquote {
@@ -322,7 +436,10 @@ footer a:hover { color: var(--accent); }
   .deliverables { grid-template-columns: 1fr; }
   .bar-row { grid-template-columns: 1fr; gap: 8px; }
   .bar-value { text-align: left; }
+  .bar-track { height: 28px; }
   .bars { padding: 20px; }
+  .divider { margin: 40px auto; max-width: 240px; }
+  .divider svg { width: 64px; }
   .implication blockquote { padding: 22px 24px; }
   .implication blockquote p { font-size: 17px; }
 }

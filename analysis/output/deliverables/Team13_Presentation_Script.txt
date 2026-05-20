@@ -1,0 +1,65 @@
+TEAM 13 PRESENTATION SCRIPT
+When a Ride Is the Missing Treatment
+
+Target runtime: about 4 to 5 minutes total.
+
+
+SLIDE 1 - TITLE / FINDINGS SUMMARY (about 30 seconds)
+Script:
+Hi everyone, we are Team 13 from Wesleyan University. Our investigation asks whether one social-determinant answer, a transportation barrier, predicts a measurably different healthcare journey.
+
+We used the full DataFest 2026 release from Stormont Vail Health: 7.68 million encounters across 947 thousand patients, from 2022 through 2025, loaded into DuckDB and analyzed in R.
+
+Transition:
+So first, what exactly do we mean by one transportation answer?
+
+
+SLIDE 2 - THE QUESTION (about 60 seconds)
+Script:
+Our premise is simple. When transportation keeps people from routine care, we expect reactive use of the hospital system, not as a choice but as a consequence of blocked access.
+
+We operationalize that through two questions in the Transportation Needs SDOH domain: in the past 12 months, has lack of transportation kept you from medical appointments; and, have you had to worry about not having a way to get to your appointments.
+
+From those answers, we define three groups. Barrier is ever answering yes to either question, 2,986 patients. No barrier is ever no and never yes, 55,653 patients. Declined or unable is a separate group.
+
+Only about 6 percent of patients are screened at all, so our comparison is within screened patients. The outcomes we track are ED visits and inpatient admissions normalized by each patient's observed follow-up, plus 180-day ED return inside four chronic cohorts.
+
+Transition:
+So, with that cohort defined, what does the signal look like?
+
+
+SLIDE 3 - TRANSPORT BARRIER PREDICTS ACUTE-CARE USE (about 90 seconds)
+Script:
+This slide carries the core evidence.
+
+On raw intensity, barrier patients average 1.94 ED visits per person-year versus 0.48 for no barrier, and 0.70 inpatient admits per person-year versus 0.22. That is about three to four times higher acute-care intensity. Any-ED prevalence is 68 percent versus 43 percent, and any-inpatient is 63 percent versus 35 percent.
+
+On the left, the logistic model adjusted for age and sex on all 58,639 screened patients gives an adjusted odds ratio of 3.17 for any ED use, 95 percent confidence interval 2.93 to 3.43, and 3.49 for any inpatient admission, 3.23 to 3.77. This is not an age artifact: barrier patients are actually younger, median 51 versus 61.
+
+On the right, the pattern holds inside each chronic cohort. 180-day ED return after a first hypertension, type 2 diabetes, CKD, or AFib encounter roughly doubles in the barrier group. Hypertension 33 percent versus 15. Type 2 diabetes 40 versus 17. CKD 37 versus 21. AFib 34 versus 24.
+
+Transition:
+So the signal is robust, disease-agnostic, and clinically relevant. What does that imply operationally?
+
+
+SLIDE 4 - FROM SIGNAL TO ACTION (about 75 seconds)
+Script:
+The animated trajectory shows barrier patients stay on a distinctly higher ED-intensity path year over year. This is a sustained gap, not a one-year spike.
+
+That means a system already asking the transportation question is sitting on a high-yield intervention target. And Stormont already has the scaffolding: Ambulatory Care Management coordinates rides and transit vouchers through the Kansas Community Care Network, and MyChart supports virtual visits. So this is about routing the barrier-positive cohort into programs Stormont already runs, not building new ones. Three practical actions:
+1) targeted transit support for high-risk acute-care users,
+2) telehealth bridge visits when transportation access is unstable,
+3) pharmacy delivery support for chronic-disease continuity.
+
+We keep three caveats explicit. Only about 6 percent of patients are screened, so absolute prevalences should not be projected system-wide. About 20 percent of encounters carry a diagnosis key that is not in the lookup, so the chronic cohort is a lower bound. And 65 percent of patients lack a parseable FIPS code, so we did not fit a geographic model.
+
+Despite those constraints, the directional signal is strong and consistent.
+
+
+CLOSING (about 20 seconds)
+Script:
+Our takeaway: one transportation question identifies patients with about three times adjusted odds of acute-care use, independent of age, and the gap persists inside every chronic cohort we tested.
+
+Ask the question more consistently, and resource the response.
+
+Thank you.

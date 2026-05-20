@@ -1,0 +1,67 @@
+\documentclass[9pt]{article}
+\usepackage[margin=0.56in,top=0.5in,bottom=0.5in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setstretch{0.99}
+\setlength{\parskip}{0.26em}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=1.15em,itemsep=0.1em,topsep=0.1em,parsep=0em,partopsep=0em}
+\setlist[enumerate]{leftmargin=1.35em,itemsep=0.12em,topsep=0.1em,parsep=0em,partopsep=0em}
+\definecolor{accent}{HTML}{1F4E79}
+
+\begin{document}
+
+{\Large \textbf{When a Ride Is the Missing Treatment}}\\[-0.15em]
+{\normalsize Transportation Barriers and Acute-Care Patient Journeys at Stormont Vail Health (2022--2025)}\\[0.1em]
+\textbf{Team 13 --- DataFest 2026, Wesleyan University}\\
+April 19, 2026
+\vspace{0.12em}
+
+\hrule
+\vspace{0.1em}
+\small
+
+\section*{\textcolor{accent}{Question}}
+Using the longitudinal EHR data, I asked: \textit{Do patients who report a transportation barrier experience measurably different healthcare journeys than otherwise similar patients?} If yes, this is an upstream actionable signal --- a social determinant the health system can act on with shuttle programs, tele-visits, or case management.
+
+\section*{\textcolor{accent}{Data and Methods}}
+I used the full DataFest 2026 release from Stormont Vail Health: \textbf{7,675,801 encounters} for \textbf{947,685 patients}, 2022-01-01 through 2025-12-31, joined to diagnoses, departments, providers, and the 12-domain social-determinants (SDOH) questionnaire. I ingested the seven CSV files into a local DuckDB database for columnar queries, parsed \texttt{Date} + \texttt{TimeOfDayKey} into an encounter timestamp, and built a patient-level analytic table with encounter counts, ED/inpatient/observation flags, median gap-days between consecutive encounters, and merged demographics.
+
+From the \textit{Transportation Needs} SDOH domain I derived a three-level exposure:
+\begin{itemize}
+  \item \textbf{Barrier:} patient ever answered \textit{Yes} to either transportation question (\textbf{n = 2,986})
+  \item \textbf{No barrier:} ever answered \textit{No}, never \textit{Yes} (\textbf{n = 55,653})
+  \item \textbf{Declined / unable:} (\textbf{n = 1,438})
+\end{itemize}
+Non-screened patients (\textbf{299,699}) were kept as context but excluded from comparative tests. Headline outcomes: ED visits per person-year, inpatient admits per person-year, probability of any ED / any inpatient visit, and a diagnosis-anchored check: \% with any ED visit within 180 days after first encounter for I10, E11, N18, or I48.
+
+\section*{\textcolor{accent}{Key Findings}}
+\begin{enumerate}
+  \item \textbf{Transport-barrier patients use 3--4x more acute care.} They average \textbf{1.94 ED visits per person-year} vs \textbf{0.48} for no-barrier patients, and \textbf{0.70 inpatient admits/py} vs \textbf{0.22}. Any-ED prevalence is \textbf{68\% vs 43\%}; any-inpatient is \textbf{63\% vs 35\%}.
+  \item \textbf{The signal survives age and sex adjustment.} In a logistic model (\texttt{outcome \textasciitilde{} transport + age + sex}, \textbf{n = 58,639} screened patients), reporting a barrier carries an \textbf{adjusted OR of 3.17 (95\% CI 2.93--3.43)} for any ED use and \textbf{3.49 (3.23--3.77)} for any inpatient admission. Barrier patients are \textit{younger} (median age 51 vs 61), ruling out an age artifact.
+  \item \textbf{The gap persists inside each chronic disease.} Restricting to patients with hypertension, diabetes, CKD, or AFib index encounters, the 180-day ED-return rate roughly \textbf{doubles} for barrier patients (HTN \textbf{33\% vs 15\%}; T2D \textbf{40\% vs 17\%}; CKD \textbf{37\% vs 21\%}; AFib \textbf{34\% vs 24\%}). Barrier patients also visit more often (median 4-day gap vs 8-day), consistent with a more reactive unscheduled pattern.
+\end{enumerate}
+
+\section*{\textcolor{accent}{Caveats}}
+\begin{itemize}
+  \item Only \textbf{61,052 of 947,685} patients (\textasciitilde{}6\%) have any transportation answer; screening is non-random, so absolute prevalences should not be projected to the full system.
+  \item \textbf{20\%} of encounters carry a \texttt{PrimaryDiagnosisKey} not found in the diagnosis lookup (known data issue per the Q\&A), so the chronic-disease cohort is a lower bound.
+  \item \textbf{65\%} of patients have no parseable FIPS code, so no geographic model was fit.
+  \item \texttt{DepartmentType} is \texttt{*Unknown} for 71\% of rows, so setting analyses use boolean encounter flags (\texttt{IsEdVisit}, \texttt{IsInpatientAdmission}, ...).
+  \item Patient journeys are left- and right-censored at the 2022-01-01 / 2025-12-31 window; rates are annualized by observed follow-up.
+\end{itemize}
+
+\section*{\textcolor{accent}{Implication}}
+A single question --- \textit{"Has lack of transportation kept you from medical appointments?"} --- identifies a cohort with \textbf{\textasciitilde{}3x odds} of acute-care need, independent of age. This is a high-yield intervention target: reliable rides, co-located pharmacy delivery, tele-visits for chronic-disease follow-up, and case management. Acting on the transport answer that \textit{Stormont Vail already collects} is a concrete next step.
+
+\vspace{0.08em}
+\hrule
+\vspace{0.08em}
+\footnotesize \textit{Code and reproducible pipeline (R + DuckDB) accompany this write-up as \texttt{TeamXX\_Code.txt}.}
+
+\end{document}

@@ -103,6 +103,7 @@ body {
   stroke: var(--asphalt);
   stroke-width: 26;
   stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .journey-svg .road-dash {
   fill: none;
@@ -110,7 +111,7 @@ body {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-dasharray: 14 14;
-  opacity: 0.9;
+  opacity: 0.85;
   animation: lane-move 4s linear infinite;
 }
 .journey-ed .road-dash { animation-duration: 6s; opacity: 0.7; }
@@ -118,28 +119,12 @@ body {
   to { stroke-dashoffset: -56; }
 }
 
-/* The pulse traveling along each road */
-.journey-svg .road-pulse {
-  fill: none;
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-dasharray: 30 9999;
-  animation: pulse-travel 3.4s ease-in-out infinite;
+/* Pulse circle traveling along each road via SMIL animateMotion */
+.journey-svg .journey-pulse {
+  filter: drop-shadow(0 0 4px currentColor);
 }
-.journey-clinic .road-pulse {
-  stroke: var(--accent);
-  animation-duration: 4.2s;
-}
-.journey-ed .road-pulse {
-  stroke: var(--warn);
-  animation-duration: 2.8s;
-}
-@keyframes pulse-travel {
-  0%   { stroke-dashoffset: 0; opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { stroke-dashoffset: -900; opacity: 0; }
-}
+.journey-svg .pulse-clinic { fill: var(--accent); color: var(--accent); }
+.journey-svg .pulse-ed     { fill: var(--warn);   color: var(--warn);   }
 
 /* Endpoint medallions */
 .journey-svg .endpoint-bg-origin {
@@ -205,22 +190,25 @@ body {
   letter-spacing: 0.04em;
 }
 
-/* Barrier glyph mid-route */
-.journey-barrier .barrier-bar {
+/* Barrier medallion mid-route — matches endpoint-medallion language */
+.journey-barrier .barrier-bg {
   fill: var(--warn);
-  stroke: var(--text);
-  stroke-width: 1.5;
+  stroke: var(--bg);
+  stroke-width: 3;
 }
-.journey-barrier .barrier-leg {
-  stroke: var(--text);
-  stroke-width: 2;
+.journey-barrier .barrier-icon-svg {
+  overflow: visible;
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 1.8;
   stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .journey-svg .road-dash,
-  .journey-svg .road-pulse,
   .journey-svg .endpoint-bg-ed { animation: none; }
+  .journey-svg .journey-pulse { display: none; }
 }
 
 main {

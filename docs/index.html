@@ -94,47 +94,53 @@
   <section class="journey-hero" aria-label="Two patient journeys: direct to clinic vs detoured through the emergency department">
     <div class="journey-inner">
       <p class="journey-kicker">Two patient journeys, same health system</p>
-      <svg class="journey-svg" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
-        <defs>
-          <path id="path-clinic" d="M 110 130 C 280 60, 540 60, 720 130"/>
-          <path id="path-ed"     d="M 110 230 C 240 320, 360 320, 440 320 L 460 320 L 480 360 L 500 320 L 520 320 Q 600 320 720 230"/>
-        </defs>
-
+      <svg class="journey-svg" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
         <g class="journey-row journey-clinic">
-          <use href="#path-clinic" class="road"/>
-          <use href="#path-clinic" class="road-dash"/>
-          <use href="#path-clinic" class="road-pulse"/>
-          <text x="110" y="105" class="journey-route-label">DIRECT TO CARE</text>
-          <text x="110" y="172" class="journey-stat-label">0.48 <tspan class="journey-stat-unit">ED visits / py</tspan></text>
+          <path id="path-clinic" class="road" d="M 110 180 C 290 170, 540 135, 820 130"/>
+          <path class="road-dash"  d="M 110 180 C 290 170, 540 135, 820 130"/>
+
+          <text x="120" y="62" class="journey-route-label">DIRECT TO CARE</text>
+          <text x="120" y="98" class="journey-stat-label">0.48 <tspan class="journey-stat-unit">ED visits / py</tspan></text>
+
+          <circle r="6" class="journey-pulse pulse-clinic">
+            <animateMotion dur="4.6s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#path-clinic"/>
+            </animateMotion>
+          </circle>
         </g>
 
         <g class="journey-row journey-ed">
-          <use href="#path-ed" class="road"/>
-          <use href="#path-ed" class="road-dash"/>
-          <use href="#path-ed" class="road-pulse"/>
-          <text x="110" y="270" class="journey-route-label">DETOURED · BARRIER</text>
-          <text x="110" y="207" class="journey-stat-label">1.94 <tspan class="journey-stat-unit">ED visits / py</tspan></text>
+          <path id="path-ed" class="road" d="M 110 200 C 220 290, 380 318, 510 318 L 580 318 C 690 318, 800 280, 820 252"/>
+          <path class="road-dash" d="M 110 200 C 220 290, 380 318, 510 318 L 580 318 C 690 318, 800 280, 820 252"/>
 
-          <g class="journey-barrier" transform="translate(490, 320)">
-            <rect x="-26" y="-10" width="52" height="20" rx="2" class="barrier-bar"/>
-            <line x1="-20" y1="10" x2="-20" y2="22" class="barrier-leg"/>
-            <line x1="20"  y1="10" x2="20"  y2="22" class="barrier-leg"/>
+          <g class="journey-barrier" transform="translate(545, 318)">
+            <circle r="22" class="barrier-bg"/>
+            <svg x="-13" y="-13" width="26" height="26" viewBox="0 0 24 24" class="barrier-icon-svg"><use href="#i-barrier"/></svg>
           </g>
+
+          <text x="120" y="368" class="journey-route-label">DETOURED · BARRIER</text>
+          <text x="120" y="404" class="journey-stat-label">1.94 <tspan class="journey-stat-unit">ED visits / py</tspan></text>
+
+          <circle r="6" class="journey-pulse pulse-ed">
+            <animateMotion dur="2.8s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#path-ed"/>
+            </animateMotion>
+          </circle>
         </g>
 
-        <g class="journey-endpoint journey-endpoint-origin" transform="translate(75, 180)">
+        <g class="journey-endpoint journey-endpoint-origin" transform="translate(75, 190)">
           <circle r="34" class="endpoint-bg-origin"/>
           <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" class="endpoint-icon"><use href="#i-person"/></svg>
           <text x="0" y="62" class="endpoint-label">PATIENT</text>
         </g>
 
-        <g class="journey-endpoint journey-endpoint-clinic" transform="translate(755, 130)">
+        <g class="journey-endpoint journey-endpoint-clinic" transform="translate(855, 130)">
           <circle r="34" class="endpoint-bg-clinic"/>
           <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" class="endpoint-icon"><use href="#i-clinic"/></svg>
           <text x="0" y="62" class="endpoint-label">CLINIC</text>
         </g>
 
-        <g class="journey-endpoint journey-endpoint-ed" transform="translate(755, 230)">
+        <g class="journey-endpoint journey-endpoint-ed" transform="translate(855, 252)">
           <circle r="34" class="endpoint-bg-ed"/>
           <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" class="endpoint-icon"><use href="#i-ambulance"/></svg>
           <text x="0" y="62" class="endpoint-label">EMERGENCY</text>

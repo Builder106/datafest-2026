@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "mkdir -p public && cp -r docs/. public/ && mkdir -p public/assets && cp assets/banner-dark.svg assets/banner-light.svg assets/banner-dark.png assets/banner-light.png assets/social-card.png assets/social-card.svg public/assets/",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false
+}

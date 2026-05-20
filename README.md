@@ -7,11 +7,10 @@
 </picture>
 
 [![CI](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml)
-[![Pages](https://github.com/Builder106/datafest-2026/actions/workflows/pages.yml/badge.svg)](https://yinkavaughan.me/datafest-2026/)
 [![R](https://img.shields.io/badge/R-4.3%2B-276DC3.svg?logo=r&logoColor=white)](https://www.r-project.org/)
 [![DuckDB](https://img.shields.io/badge/DuckDB-columnar-FFF000.svg?logo=duckdb&logoColor=black)](https://duckdb.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
-[![Site](https://img.shields.io/badge/site-live-success.svg)](https://yinkavaughan.me/datafest-2026/)
+[![Site](https://img.shields.io/badge/site-live-success.svg)](https://datafest-2026.vercel.app/)
 [![DataFest](https://img.shields.io/badge/DataFest-2026-success.svg)](https://ww2.amstat.org/education/datafest/)
 
 > A single question — *"Has lack of transportation kept you from medical appointments?"* — identifies a cohort with **~3× odds** of acute-care need, independent of age. This repo is the reproducible R + DuckDB pipeline behind that finding.

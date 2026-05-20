@@ -27,5 +27,9 @@ missfont.log
 # Reference deck from sibling CapitolAlpha project (>50 MB)
 /Capitol_Alpha_reference_deck.pptx
 
+# Vercel build artifacts
+/.vercel
+/public
+
 analysis/MANUS_PRESENTATION_PROMPT.md
 analysis/FLOURISH_VIZ_PROMPT.md

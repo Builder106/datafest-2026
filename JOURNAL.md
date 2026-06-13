@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-06-13 — Repo move broke every R path; made the pipeline self-locating #incident
+
+A test audit caught that all 14 R scripts (3 configs, the pipeline 01–07, run_all, and `analysis/tests/smoke_test_outputs.R`) hardcoded `ROOT <- ".../My Drive/.../DataFest"` plus absolute `source()` calls — but the repo had moved under `.../CS/Projects/Analyst/DataFest-2026`, so the very first `file.exists()` in the smoke test failed and the whole pipeline was unrunnable. Replaced every hardcoded path with a self-locating `ROOT` block (resolves from the script's own location via `--file=`/`ofile`, two dirs up; honors a `DATAFEST_ROOT` override; falls back to `getwd()`). Two macOS-specific gotchas: `normalizePath(mustWork=FALSE)` won't collapse `../..` for a path that doesn't yet exist, and `commandArgs()` returns the `--file=` value with spaces encoded as `~+~` — so the detector decodes `~+~`→space before resolving. Also added a `smoke` CI job that installs `data.table` and runs the smoke test, since CI previously only parse-checked syntax and never executed the one test.
+
 ## 2026-05-20 — Rewrote the writeup in first-person singular #decision
 
 The judges' writeup went from "we" to "I" because the submission ended up solo. The slide deck still says "Team 13 from Wesleyan University" and the talk script reads "we are Team 13," so the deck and the one-pager now disagree on voice on purpose: the deck keeps the team framing it was presented under, the PDF tells the truth about who did the analysis. Worth remembering if anyone later asks why the two deliverables don't match pronoun-for-pronoun.

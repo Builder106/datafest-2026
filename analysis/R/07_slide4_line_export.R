@@ -1,4 +1,20 @@
-ROOT <- "/Users/yinkavaughan/My Drive (yvaughan@wesleyan.edu)/DataFest"
+ROOT <- local({
+  e <- Sys.getenv("DATAFEST_ROOT")
+  if (nzchar(e)) return(normalizePath(e, mustWork = FALSE))
+  a <- commandArgs(trailingOnly = FALSE)
+  f <- sub("^--file=", "", grep("^--file=", a, value = TRUE))
+  self <- if (length(f)) gsub("~+~", " ", f[[1]], fixed = TRUE) else {
+    p <- NULL
+    for (i in rev(seq_len(sys.nframe()))) {
+      o <- tryCatch(get("ofile", envir = sys.frame(i), inherits = FALSE),
+                    error = function(e) NULL)
+      if (!is.null(o)) { p <- o; break }
+    }
+    p
+  }
+  if (is.null(self)) normalizePath(getwd(), mustWork = FALSE)
+  else normalizePath(file.path(dirname(self), "..", ".."), mustWork = FALSE)
+})
 OUT_FL <- file.path(ROOT, "analysis/output/flourish")
 OUT_FIG <- file.path(ROOT, "analysis/output/figures")
 CSV_ANNUAL <- file.path(OUT_FL, "annual", "flourish_transport_ed_by_year.csv")

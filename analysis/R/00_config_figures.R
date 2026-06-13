@@ -8,8 +8,23 @@ suppressPackageStartupMessages({
   library(scales)
 })
 
-ROOT <- "/Users/yinkavaughan/My Drive (yvaughan@wesleyan.edu)/DataFest"
-
+ROOT <- local({
+  e <- Sys.getenv("DATAFEST_ROOT")
+  if (nzchar(e)) return(normalizePath(e, mustWork = FALSE))
+  a <- commandArgs(trailingOnly = FALSE)
+  f <- sub("^--file=", "", grep("^--file=", a, value = TRUE))
+  self <- if (length(f)) gsub("~+~", " ", f[[1]], fixed = TRUE) else {
+    p <- NULL
+    for (i in rev(seq_len(sys.nframe()))) {
+      o <- tryCatch(get("ofile", envir = sys.frame(i), inherits = FALSE),
+                    error = function(e) NULL)
+      if (!is.null(o)) { p <- o; break }
+    }
+    p
+  }
+  if (is.null(self)) normalizePath(getwd(), mustWork = FALSE)
+  else normalizePath(file.path(dirname(self), "..", ".."), mustWork = FALSE)
+})
 DATA_DIR <- file.path(ROOT, "DataFest 2026 - Data Challenge",
                       "Data", "2026-ASA-DataFest-Data-Files")
 OUT_DIR  <- file.path(ROOT, "analysis", "output")

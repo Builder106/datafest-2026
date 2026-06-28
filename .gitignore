@@ -1,4 +1,8 @@
 .DS_Store
+node_modules/
+.features-gen/
+playwright-report/
+test-results/
 *.duckdb
 *.duckdb.wal
 

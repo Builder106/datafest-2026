@@ -18,6 +18,7 @@ ROOT <- local({
 })
 
 source(file.path(ROOT, "analysis", "R", "00_config.R"))
+source(file.path(ROOT, "analysis", "R", "functions.R"))
 
 log_note("04_analyses: start")
 con <- connect_db(read_only = FALSE)
@@ -116,20 +117,6 @@ pa_df[, sex := factor(ifelse(SexAtBirth %in% c("Male","Female"), SexAtBirth, "Ot
 
 m_ed <- glm(any_ed ~ transport + age_proxy + sex, data = pa_df, family = binomial())
 m_in <- glm(any_inpat ~ transport + age_proxy + sex, data = pa_df, family = binomial())
-
-coef_or <- function(m, label) {
-  co <- summary(m)$coefficients
-  out <- data.table(term = rownames(co),
-                    est = co[, "Estimate"],
-                    se  = co[, "Std. Error"],
-                    z   = co[, "z value"],
-                    p   = co[, "Pr(>|z|)"])
-  out[, odds_ratio := exp(est)]
-  out[, or_lo := exp(est - 1.96 * se)]
-  out[, or_hi := exp(est + 1.96 * se)]
-  out[, model := label]
-  out[]
-}
 
 or_tab <- rbindlist(list(coef_or(m_ed, "any_ED"),
                          coef_or(m_in, "any_inpatient")))

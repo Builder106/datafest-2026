@@ -35,6 +35,9 @@ missfont.log
 /.vercel
 /public
 
+# Claude Code local settings
+.claude/settings.local.json
+
 analysis/MANUS_PRESENTATION_PROMPT.md
 analysis/FLOURISH_VIZ_PROMPT.md
 .vercel

@@ -1,13 +1,12 @@
-// @ts-check
-const { defineConfig, devices } = require('@playwright/test');
-const { defineBddConfig } = require('playwright-bdd');
+import { defineConfig, devices } from '@playwright/test';
+import { defineBddConfig } from 'playwright-bdd';
 
 const testDir = defineBddConfig({
   features: 'e2e/features',
   steps: 'e2e/steps',
 });
 
-module.exports = defineConfig({
+export default defineConfig({
   testDir,
   fullyParallel: false,
   workers: 1,

@@ -62,8 +62,8 @@ jobs:
       - name: Install test dependencies
         shell: Rscript {0}
         run: |
-          install.packages(c("testthat", "data.table", "DBI", "duckdb"),
-                           repos = "https://cloud.r-project.org")
+          options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))
+          install.packages(c("testthat", "data.table", "DBI", "duckdb"))
 
       - name: Run unit tests
         shell: Rscript {0}

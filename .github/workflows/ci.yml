@@ -42,7 +42,7 @@ jobs:
           exit "$fail"
 
       - name: Shellcheck shell scripts
-        uses: ludeeus/action-shellcheck@v2
+        uses: ludeeus/action-shellcheck@2.0.0
         with:
           scandir: analysis/sh
           severity: warning
@@ -92,7 +92,7 @@ jobs:
           cache: npm
 
       - name: Install deps
-        run: npm ci --no-audit --no-fund
+        run: (npm ci --no-audit --no-fund) || (npm install --no-audit --no-fund)
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium

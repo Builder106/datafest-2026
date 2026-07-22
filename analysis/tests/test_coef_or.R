@@ -1,7 +1,8 @@
 library(testthat)
 library(data.table)
 
-source("analysis/R/functions.R")
+func_path <- if (file.exists(file.path("..", "R", "functions.R"))) file.path("..", "R", "functions.R") else file.path("analysis", "R", "functions.R")
+source(func_path)
 
 test_that("coef_or returns expected columns and labels", {
   set.seed(42)

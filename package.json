@@ -10,6 +10,6 @@
     "@playwright/test": "^1.61.1",
     "@types/node": "^22.13.1",
     "playwright-bdd": "^9.2.0",
-    "typescript": "^5.7.3"
+    "typescript": "^7.0.2"
   }
 }

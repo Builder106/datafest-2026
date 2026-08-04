@@ -45,7 +45,7 @@ The full run order, paths, and outputs are documented in **[analysis/README.md](
 
 The existing log uses short imperative subjects ending in a period:
 
-```
+```text
 Add 07_slide4_line_export: PNG/SVG from flourish_transport_ed_by_year.csv.
 Fix slide4 animation: keep completed segments visible (polyline through seg).
 Split Flourish annual vs quarterly exports into separate folders; slide4 figures match.

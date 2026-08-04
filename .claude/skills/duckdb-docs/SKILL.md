@@ -139,7 +139,7 @@ If the user's question could benefit from both DuckDB docs and blog results, run
 
 For each result chunk returned (ordered by score descending), format as:
 
-```
+```markdown
 ### {section} — {page_title}
 {url}
 

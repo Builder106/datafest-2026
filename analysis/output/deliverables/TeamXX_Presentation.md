@@ -29,7 +29,7 @@ header-includes: |
 **Cohort** (61,052 screened on *Transportation Needs*):
 
 | Group | n | Rule |
-|------:|--:|------|
+| ------: | --: | ------ |
 | No barrier | 55,653 | Ever *No*, never *Yes* |
 | **Barrier** | **2,986** | Ever *Yes* |
 | Declined | 1,438 | Declined / unable |

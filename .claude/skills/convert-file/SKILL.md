@@ -23,7 +23,7 @@ Output file: `${1:-}`
 Infer the output format from the output file extension:
 
 | Extension | Format clause |
-|---|---|
+| --- | --- |
 | `.parquet`, `.pq` | *(default, no clause needed)* |
 | `.csv` | `(FORMAT csv, HEADER)` |
 | `.tsv` | `(FORMAT csv, HEADER, DELIMITER '\t')` |
@@ -48,7 +48,7 @@ COPY (FROM '<INPUT_PATH>') TO '<OUTPUT_PATH>' <FORMAT_CLAUSE>;
 For remote inputs (`s3://`, `https://`, etc.), prepend the same protocol setup as `read-file`:
 
 | Protocol | Prepend |
-|---|---|
+| --- | --- |
 | `s3://` | `LOAD httpfs; CREATE SECRET (TYPE S3, PROVIDER credential_chain);` |
 | `gs://` / `gcs://` | `LOAD httpfs; CREATE SECRET (TYPE GCS, PROVIDER credential_chain);` |
 | `https://` / `http://` | `LOAD httpfs;` |
@@ -60,11 +60,13 @@ For remote inputs (`s3://`, `https://`, etc.), prepend the same protocol setup a
 ## Step 3 — Report
 
 On success, report:
+
 - Input file and detected format
 - Output file, format, and size (`ls -lh`)
 - Row count if quick to compute
 
 On failure:
+
 - **`duckdb: command not found`** → delegate to `/duckdb-skills:install-duckdb`
 - **Missing extension** → install it and retry
 - **Input parse error** → suggest the user check the input format or try `/duckdb-skills:read-file` first to inspect it

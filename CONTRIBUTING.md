@@ -63,6 +63,7 @@ Match that. No Conventional Commits prefix (`feat:`, `fix:`) is in use here. No 
 ## Scope
 
 **In scope — happy to review:**
+
 - Bug fixes in the existing pipeline scripts.
 - Performance improvements that don't change results.
 - Documentation, README, and `analysis/README.md` clarifications.
@@ -71,6 +72,7 @@ Match that. No Conventional Commits prefix (`feat:`, `fix:`) is in use here. No 
 - New SQL views in `analysis/sql/` that don't require schema changes.
 
 **Out of scope — will likely close:**
+
 - Changes to the submitted findings, cohort definitions, or model specs. Those are part of the historical submission.
 - Switching the analysis stack (e.g. Python rewrite, Polars, Postgres). The point of the repo is the R + DuckDB pipeline as judged.
 - Re-running the pipeline against a different dataset and replacing the writeup numbers. That's a fork, not a PR.

@@ -39,14 +39,14 @@ The query is: `$@`
 There are two search indexes available:
 
 | Index | Remote URL | Local cache filename | Versions | Use when |
-|-------|-----------|---------------------|----------|----------|
+| ------- | ----------- | --------------------- | ---------- | ---------- |
 | **DuckDB docs + blog** | `https://duckdb.org/data/docs-search.duckdb` | `duckdb-docs.duckdb` | `lts`, `current`, `blog` | Default — any DuckDB question |
 | **DuckLake docs** | `https://ducklake.select/data/docs-search.duckdb` | `ducklake-docs.duckdb` | `stable`, `preview` | Query mentions DuckLake, catalogs, or DuckLake-specific features |
 
 Both indexes share the same schema:
 
 | Column | Type | Description |
-|--------|------|-------------|
+| -------- | ------ | ------------- |
 | `chunk_id` | `VARCHAR` (PK) | e.g. `stable/sql/functions/numeric#absx` |
 | `page_title` | `VARCHAR` | Page title from front matter |
 | `section` | `VARCHAR` | Section heading (null for page intros) |
@@ -133,7 +133,7 @@ If the user's question could benefit from both DuckDB docs and blog results, run
 
 - **Extension not installed** (`httpfs` or `fts` not found): run `duckdb :memory: -c "INSTALL httpfs; INSTALL fts;"` and retry.
 - **ATTACH fails / network unreachable**: inform the user that the docs index is unavailable and suggest checking their internet connection. The DuckDB index is hosted at `https://duckdb.org/data/docs-search.duckdb` and the DuckLake index at `https://ducklake.select/data/docs-search.duckdb`.
-- **No results** (all scores NULL or empty result set): try broadening the query — drop the least specific term, or try a single-word version of the query — then retry Step 5. If still no results, tell the user no matching documentation was found and suggest visiting https://duckdb.org/docs or https://ducklake.select/docs directly.
+- **No results** (all scores NULL or empty result set): try broadening the query — drop the least specific term, or try a single-word version of the query — then retry Step 5. If still no results, tell the user no matching documentation was found and suggest visiting <https://duckdb.org/docs> or <https://ducklake.select/docs> directly.
 
 ## Step 7 — Present results
 

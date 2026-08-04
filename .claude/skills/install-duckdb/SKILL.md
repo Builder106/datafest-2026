@@ -11,6 +11,7 @@ allowed-tools: Bash
 Arguments: `$@`
 
 Each extension argument has the form `name` or `name@repo`.
+
 - `name` → `INSTALL name;`
 - `name@repo` → `INSTALL name FROM repo;`
 
@@ -23,6 +24,7 @@ DUCKDB=$(command -v duckdb)
 If not found, tell the user:
 
 > **DuckDB is not installed.** Install it first with one of:
+>
 > - macOS:   `brew install duckdb`
 > - Linux:   `curl -fsSL https://install.duckdb.org | sh`
 > - Windows: `winget install DuckDB.cli`
@@ -41,6 +43,7 @@ Otherwise mode is **install**.
 **Install mode:**
 
 Parse each remaining argument:
+
 - If it contains `@`, split on `@` → `INSTALL <name> FROM <repo>;`
 - Otherwise → `INSTALL <name>;`
 

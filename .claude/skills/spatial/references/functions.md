@@ -12,7 +12,7 @@ INSTALL h3 FROM community; LOAD h3;
 ## Reading spatial files
 
 | Format | Read method |
-|--------|-------------|
+| -------- | ------------- |
 | GeoJSON | `ST_Read('file.geojson')` |
 | Shapefile | `ST_Read('file.shp')` |
 | GeoPackage | `ST_Read('file.gpkg')` |
@@ -39,8 +39,9 @@ Set `geometry_always_xy = true` before writing to avoid axis order issues with K
 ## Key functions
 
 ### Construction
+
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `ST_Point(x, y)` | Create point from lon, lat |
 | `ST_MakeEnvelope(xmin, ymin, xmax, ymax)` | Create bounding box rectangle |
 | `ST_GeomFromText('POLYGON(...)')` | Parse WKT |
@@ -48,21 +49,24 @@ Set `geometry_always_xy = true` before writing to avoid axis order issues with K
 | `ST_MakeLine(geom_array)` | Create line from points |
 
 ### Distance & proximity
+
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `ST_Distance(a, b)` | Planar distance (units depend on CRS). Accepts any `GEOMETRY`. |
 | `ST_Distance_Spheroid(a, b)` | Geodesic distance in **meters** (WGS84). **Requires `POINT_2D` inputs** — see note below. |
 | `ST_DWithin(a, b, dist)` | Is planar distance ≤ dist? |
 | `ST_DWithin_Spheroid(a, b, dist)` | Is geodesic distance ≤ dist meters? **Requires `POINT_2D` inputs.** |
 
 > **`POINT_2D` requirement:** Spheroid functions (`ST_Distance_Spheroid`, `ST_Area_Spheroid`, `ST_Length_Spheroid`, `ST_DWithin_Spheroid`) only accept `POINT_2D`, not generic `GEOMETRY`. Overture Maps and `ST_Read()` return `GEOMETRY` types that cannot be cast directly. Extract and rebuild:
+>
 > ```sql
 > ST_Point(ST_X(geometry), ST_Y(geometry))::POINT_2D
 > ```
 
 ### Spatial relationships
+
 | Function | Returns true when |
-|----------|-------------------|
+| ---------- | ------------------- |
 | `ST_Contains(a, b)` | a fully contains b |
 | `ST_Within(a, b)` | a is fully within b |
 | `ST_Intersects(a, b)` | a and b share any space |
@@ -71,8 +75,9 @@ Set `geometry_always_xy = true` before writing to avoid axis order issues with K
 | `ST_Touches(a, b)` | a and b touch at boundary only |
 
 ### Measurement
+
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `ST_Area(geom)` | Planar area |
 | `ST_Area_Spheroid(geom)` | Geodesic area in **square meters** |
 | `ST_Length(geom)` | Planar length of linestring |
@@ -81,8 +86,9 @@ Set `geometry_always_xy = true` before writing to avoid axis order issues with K
 | `ST_NPoints(geom)` | Number of vertices |
 
 ### Transformation
+
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `ST_Transform(geom, 'EPSG:from', 'EPSG:to')` | Reproject |
 | `ST_Centroid(geom)` | Center point |
 | `ST_Buffer(geom, dist)` | Buffer/expand geometry |
@@ -94,15 +100,17 @@ Set `geometry_always_xy = true` before writing to avoid axis order issues with K
 | `ST_FlipCoordinates(geom)` | Swap x/y (for axis order issues) |
 
 ### Aggregation
+
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `ST_Extent_Agg(geom)` | Bounding box of all geometries |
 | `ST_Union_Agg(geom)` | Union of all geometries |
 | `ST_Collect(array)` | Create GeometryCollection |
 
 ### Accessors
+
 | Function | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `ST_X(point)` | Get longitude |
 | `ST_Y(point)` | Get latitude |
 | `ST_GeometryType(geom)` | Type name (POINT, POLYGON, etc.) |
@@ -115,7 +123,7 @@ Set `geometry_always_xy = true` before writing to avoid axis order issues with K
 H3 converts lat/lng to hexagonal cells at different resolutions. Great for density maps and hotspot analysis.
 
 | Resolution | Avg edge | Use case |
-|------------|----------|----------|
+| ------------ | ---------- | ---------- |
 | 0 | ~1,107 km | Continental |
 | 3 | ~59 km | Metropolitan regions |
 | 5 | ~8 km | Cities |
@@ -125,6 +133,7 @@ H3 converts lat/lng to hexagonal cells at different resolutions. Great for densi
 | 13 | ~3.3 m | Parking spots |
 
 Key functions:
+
 ```sql
 -- Point to hex cell
 h3_latlng_to_cell(lat, lng, resolution) → UBIGINT
@@ -150,11 +159,13 @@ ORDER BY cnt DESC;
 ## Common patterns
 
 ### CSV with lat/lng → spatial queries
+
 ```sql
 SELECT *, ST_Point(longitude, latitude) AS geom FROM 'data.csv';
 ```
 
 ### Distance matrix between all pairs
+
 ```sql
 SELECT a.name, b.name,
        ST_Distance_Spheroid(a.geom, b.geom) AS dist_m
@@ -163,6 +174,7 @@ WHERE a.name < b.name;
 ```
 
 ### Points inside polygons
+
 ```sql
 SELECT p.name, z.zone_name
 FROM points p, zones z
@@ -170,6 +182,7 @@ WHERE ST_Contains(z.geom, p.geom);
 ```
 
 ### Nearest neighbor (top-K per row)
+
 ```sql
 SELECT a.name, b.name AS nearest,
        ST_Distance_Spheroid(a.geom, b.geom) AS dist_m

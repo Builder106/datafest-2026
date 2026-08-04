@@ -21,7 +21,7 @@ Additional context: `${1:-}`
 Classify the question:
 
 | Pattern | Data source | Key functions |
-|---------|-------------|---------------|
+| --------- | ------------- | --------------- |
 | "Find X near Y" (no user file) | Overture Maps on S3 | `ST_Distance_Spheroid`, bbox filtering |
 | "How far between A and B" | Geocode or user data | `ST_Distance_Spheroid` |
 | "Which points fall inside polygons" | User files | `ST_Contains` |
@@ -37,12 +37,14 @@ For spatial function syntax, read `references/functions.md`.
 ## Step 2 — Write and run the query
 
 Always start with:
+
 ```sql
 LOAD spatial;
 SET geometry_always_xy = true;
 ```
 
 Add extensions as needed:
+
 - Overture/remote data: `LOAD httpfs; CREATE SECRET (TYPE S3, PROVIDER config, REGION 'us-west-2');`
 - H3 hex binning: `INSTALL h3 FROM community; LOAD h3;`
 
@@ -53,6 +55,7 @@ Add extensions as needed:
 **Always set `geometry_always_xy = true`** — This ensures all spatial functions interpret coordinates as longitude, latitude (the standard for Overture, GeoJSON, and most data sources). Without it, spheroid functions assume latitude first and return wrong results.
 
 **Use spheroid functions for real-world distances** — `ST_Distance_Spheroid` returns meters on the WGS84 ellipsoid. Plain `ST_Distance` uses planar coordinates and gives meaningless results for lat/lng. **Important:** spheroid functions (`ST_Distance_Spheroid`, `ST_Area_Spheroid`, etc.) require `POINT_2D` inputs, not generic `GEOMETRY`. Overture geometry columns are typed `GEOMETRY('OGC:CRS84')` and cannot be cast directly. Extract coordinates first:
+
 ```sql
 ST_Point(ST_X(geometry), ST_Y(geometry))::POINT_2D
 ```
@@ -77,6 +80,7 @@ LOAD spatial;
 - For density/hotspot results: describe the pattern and offer to export for visualization
 
 If the query fails:
+
 - **`duckdb: command not found`** → delegate to `/duckdb-skills:install-duckdb`
 - **Missing extension** → `INSTALL spatial; LOAD spatial;` or `INSTALL h3 FROM community; LOAD h3;`
 - **S3 access denied** → suggest checking AWS credentials

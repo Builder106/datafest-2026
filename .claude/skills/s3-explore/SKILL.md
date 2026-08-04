@@ -20,7 +20,7 @@ Question: `${1:-list and describe what's there}`
 Based on the URL or user context, prepend the appropriate secret configuration:
 
 | Provider | URL patterns | Secret setup |
-|---|---|---|
+| --- | --- | --- |
 | **AWS S3** | `s3://` | `CREATE SECRET (TYPE S3, PROVIDER credential_chain);` |
 | **Cloudflare R2** | `r2://`, `s3://` with R2 endpoint | `CREATE SECRET (TYPE R2, PROVIDER credential_chain);` |
 | **GCS** | `gs://`, `gcs://` | `CREATE SECRET (TYPE GCS, PROVIDER credential_chain);` |
@@ -31,6 +31,7 @@ For R2, if the user provides an account ID, the endpoint is `<account_id>.r2.clo
 For public buckets (e.g., Overture Maps, AWS open data), no secret is needed — skip this step.
 
 Always prepend:
+
 ```sql
 LOAD httpfs;
 ```

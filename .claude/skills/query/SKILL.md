@@ -96,6 +96,7 @@ SELECT count() AS row_count FROM 'FILE_PATH';
 ```
 
 **Evaluate**:
+
 - If the query already has a `LIMIT`, `count()`, or other aggregation that bounds the output -> safe, proceed.
 - If the source has **>1M rows** and the query has no LIMIT or aggregation -> tell the user:
   *"This query would return a very large result set. Displaying it here would consume a lot of tokens and increase cost. I'd recommend adding `LIMIT 1000` or an aggregation to keep the output manageable."*
@@ -160,6 +161,7 @@ For natural language questions, also provide a brief interpretation of the resul
 When generating SQL, prefer these idiomatic DuckDB constructs:
 
 ### Compact clauses
+
 - **FROM-first**: `FROM table WHERE x > 10` (implicit `SELECT *`)
 - **GROUP BY ALL**: auto-groups by all non-aggregate columns
 - **ORDER BY ALL**: orders by all columns for deterministic results
@@ -171,6 +173,7 @@ When generating SQL, prefer these idiomatic DuckDB constructs:
 - **Trailing commas** allowed in SELECT lists
 
 ### Query features
+
 - **count()**: no need for `count(*)`
 - **Reusable aliases**: use column aliases in WHERE / GROUP BY / HAVING
 - **Lateral column aliases**: `SELECT i+1 AS j, j+2 AS k`
@@ -184,11 +187,13 @@ When generating SQL, prefer these idiomatic DuckDB constructs:
 - **SET VARIABLE x = expr**: define SQL-level variables, reference with `getvariable('x')`
 
 ### Data import
+
 - **Direct file queries**: `FROM 'file.csv'`, `FROM 'data.parquet'`
 - **Globbing**: `FROM 'data/part-*.parquet'` reads multiple files
 - **Auto-detection**: CSV headers and schemas are inferred automatically
 
 ### Expressions and types
+
 - **Dot operator chaining**: `'hello'.upper()` or `col.trim().lower()`
 - **List comprehensions**: `[x*2 FOR x IN list_col]`
 - **List/string slicing**: `col[1:3]`, negative indexing `col[-1]`
@@ -197,11 +202,13 @@ When generating SQL, prefer these idiomatic DuckDB constructs:
 - **format()**: `format('{}->{}', a, b)` for string formatting
 
 ### Joins
+
 - **ASOF joins**: approximate matching on ordered data (e.g. timestamps)
 - **POSITIONAL joins**: match rows by position, not keys
 - **LATERAL joins**: reference prior table expressions in subqueries
 
 ### Data modification
+
 - **CREATE OR REPLACE TABLE**: no need for `DROP TABLE IF EXISTS` first
 - **CREATE TABLE ... AS SELECT (CTAS)**: create tables from query results
 - **INSERT INTO ... BY NAME**: match columns by name, not position

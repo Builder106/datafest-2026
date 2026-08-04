@@ -17,7 +17,7 @@ Use the STAC catalog at `https://stac.overturemaps.org/catalog.json` to find the
 Base path: `s3://overturemaps-us-west-2/release/<RELEASE>/`
 
 | Theme | Type | Path suffix |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | Places (POIs) | place | `theme=places/type=place/*` |
 | Buildings | building | `theme=buildings/type=building/*` |
 | Transportation | segment | `theme=transportation/type=segment/*` |
@@ -41,7 +41,7 @@ Always filter on bbox first, then apply additional filters.
 ## Schema: Places
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | `id` | VARCHAR | Unique identifier |
 | `geometry` | GEOMETRY | Point location |
 | `bbox.xmin/xmax/ymin/ymax` | DOUBLE | Bounding box (for pushdown) |
@@ -59,7 +59,7 @@ Always filter on bbox first, then apply additional filters.
 ## Schema: Buildings
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | `id` | VARCHAR | Unique identifier |
 | `geometry` | GEOMETRY | Polygon footprint |
 | `names.primary` | VARCHAR | Building name (often null) |
@@ -71,7 +71,7 @@ Always filter on bbox first, then apply additional filters.
 ## Schema: Divisions
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | `id` | VARCHAR | Unique identifier |
 | `geometry` | GEOMETRY | Point (representative location) |
 | `names.primary` | VARCHAR | Division name |
@@ -83,7 +83,7 @@ Always filter on bbox first, then apply additional filters.
 ## Schema: Division Areas (boundaries)
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | `id` | VARCHAR | Unique identifier |
 | `geometry` | GEOMETRY | MultiPolygon boundary |
 | `division_id` | VARCHAR | Links to division |
@@ -94,7 +94,7 @@ Always filter on bbox first, then apply additional filters.
 ## Schema: Transportation Segments
 
 | Field | Type | Description |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | `id` | VARCHAR | Unique identifier |
 | `geometry` | GEOMETRY | LineString centerline |
 | `names.primary` | VARCHAR | Road name |
@@ -105,6 +105,7 @@ Always filter on bbox first, then apply additional filters.
 ## Common queries
 
 ### Find places by category near a point
+
 ```sql
 SELECT names.primary, categories.primary, confidence,
        ST_Distance_Spheroid(
@@ -120,6 +121,7 @@ LIMIT 10;
 ```
 
 ### Count buildings in a city
+
 ```sql
 SELECT count(*) AS buildings
 FROM read_parquet('s3://overturemaps-us-west-2/release/2026-03-18.0/theme=buildings/type=building/*')
@@ -128,6 +130,7 @@ WHERE bbox.xmin BETWEEN -122.75 AND -122.55
 ```
 
 ### Join user data with Overture
+
 ```sql
 -- Find nearest Overture place to each row in user's CSV
 SELECT u.*, p.names.primary AS nearest_place, p.categories.primary AS category,

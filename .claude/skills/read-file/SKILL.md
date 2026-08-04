@@ -22,7 +22,7 @@ Run a single DuckDB command that defines the `read_any` macro inline and reads t
 For **remote files**, prepend the necessary LOAD/SECRET before the macro:
 
 | Protocol | Prepend |
-|---|---|
+| --- | --- |
 | `https://` / `http://` | `LOAD httpfs;` |
 | `s3://` | `LOAD httpfs; CREATE SECRET (TYPE S3, PROVIDER credential_chain);` |
 | `gs://` / `gcs://` | `LOAD httpfs; CREATE SECRET (TYPE GCS, PROVIDER credential_chain);` |
@@ -70,6 +70,7 @@ FROM read_any('RESOLVED_PATH') LIMIT 20;
 ```
 
 **If this fails:**
+
 - **`duckdb: command not found`** → invoke `/duckdb-skills:install-duckdb` and retry.
 - **Missing extension** (e.g. spatial files, xlsx, sqlite) → retry with `INSTALL spatial; LOAD spatial;` or `INSTALL sqlite_scanner; LOAD sqlite_scanner;` prepended before the macro.
 - **Wrong reader / parse error** → use the correct `read_*` function directly instead of `read_any`.

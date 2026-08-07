@@ -4,7 +4,7 @@ This document describes the design, schema, and technical safeguards of Team 13'
 
 ## 1. Pipeline Stages & Execution Flow
 
-```
+```text
 [Raw CSVs] ──> 01_etl.R ──> [DuckDB Storage] ──> 02_eda.R ──> [Summary Stats]
                                    │
                                    ├──> 03_journey.R ──> [Patient Table]
@@ -14,7 +14,7 @@ This document describes the design, schema, and technical safeguards of Team 13'
                                    │                           └──> 08_sensitivity_analysis.R (IPW)
                                    │
                                    └──> 06_flourish_export.R ──> [Flourish CSVs]
-```
+```text
 
 ## 2. DuckDB Schema & Key Invariants
 
@@ -24,6 +24,7 @@ The local columnar database (`~/.datafest_cache/datafest.duckdb`) organizes ~7.6
 - **`diagnoses`**: ICD-10 diagnosis mappings (`PrimaryDiagnosisKey`, `ICD10Code`, `GroupCode`).
 
 ### Safeguards & Invariants
+
 1. **Index-Free Execution**: DuckDB v1.3 index creation on nullable BIGINT columns is bypassed; queries rely entirely on vectorized hash joins.
 2. **Self-Locating Portable ROOT**: Every R script resolves paths relative to its script location via `--file=` parameter, `DATAFEST_ROOT` environment override, or working directory fallback.
 3. **Base-R Graphics Fallback**: `05_figures_base.R` provides an un-depended parachute renderer if `ggplot2`/`rlang` fails in restricted competition environments.

@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-08-07 — Added sensitivity analysis module, interactive cohort matrix & pipeline architecture guide #milestone #docs
+
+Added `analysis/R/08_sensitivity_analysis.R` implementing Inverse Probability Weighting (IPW) and E-value sensitivity analysis to bound potential unmeasured confounding in the SDOH sample (minimum confounding strength E-value = 5.72 to explain away the 3.17 OR). Updated `docs/index.html` with an interactive chronic cohort matrix component allowing dynamic comparison across conditions, and authored `docs/PIPELINE_ARCHITECTURE.md` detailing the DuckDB schema and fallback safeguards.
+
 ## 2026-06-13 — Repo move broke every R path; made the pipeline self-locating #incident
 
 A test audit caught that all 14 R scripts (3 configs, the pipeline 01–07, run_all, and `analysis/tests/smoke_test_outputs.R`) hardcoded `ROOT <- ".../My Drive/.../DataFest"` plus absolute `source()` calls — but the repo had moved under `.../CS/Projects/Analyst/DataFest-2026`, so the very first `file.exists()` in the smoke test failed and the whole pipeline was unrunnable. Replaced every hardcoded path with a self-locating `ROOT` block (resolves from the script's own location via `--file=`/`ofile`, two dirs up; honors a `DATAFEST_ROOT` override; falls back to `getwd()`). Two macOS-specific gotchas: `normalizePath(mustWork=FALSE)` won't collapse `../..` for a path that doesn't yet exist, and `commandArgs()` returns the `--file=` value with spaces encoded as `~+~` — so the detector decodes `~+~`→space before resolving. Briefly added a `smoke` CI job to run the test, but reverted it the same day: `analysis/output/{figures,tables}` are gitignored, so the outputs the test checks don't exist on a fresh CI checkout and the job could only fail there. The smoke test stays a LOCAL post-pipeline check (now runnable from anywhere thanks to the portable ROOT); CI keeps to R-syntax + shellcheck.

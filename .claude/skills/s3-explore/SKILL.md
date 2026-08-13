@@ -21,12 +21,12 @@ Based on the URL or user context, prepend the appropriate secret configuration:
 
 | Provider | URL patterns | Secret setup |
 | --- | --- | --- |
-| **AWS S3** | `s3://` | `CREATE SECRET (TYPE S3, PROVIDER credential_chain);` |
-| **Cloudflare R2** | `r2://`, `s3://` with R2 endpoint | `CREATE SECRET (TYPE R2, PROVIDER credential_chain);` |
-| **GCS** | `gs://`, `gcs://` | `CREATE SECRET (TYPE GCS, PROVIDER credential_chain);` |
-| **MinIO / custom** | `s3://` with custom endpoint | `CREATE SECRET (TYPE S3, KEY_ID '...', SECRET '...', ENDPOINT '...', USE_SSL true);` |
+| **AWS S3** | `s3://`|`CREATE SECRET (TYPE S3, PROVIDER credential_chain);` |
+| **Cloudflare R2** | `r2://`, `s3://`with R2 endpoint |`CREATE SECRET (TYPE R2, PROVIDER credential_chain);` |
+| **GCS** | `gs://`, `gcs://`|`CREATE SECRET (TYPE GCS, PROVIDER credential_chain);` |
+| **MinIO / custom** | `s3://`with custom endpoint |`CREATE SECRET (TYPE S3, KEY_ID '...', SECRET '...', ENDPOINT '...', USE_SSL true);` |
 
-For R2, if the user provides an account ID, the endpoint is `<account_id>.r2.cloudflarestorage.com`. R2 URLs like `r2://bucket/path` should be rewritten to `s3://bucket/path` with the R2 secret.
+For R2, if the user provides an account ID, the endpoint is `<account_id>.r2.cloudflarestorage.com`. R2 URLs like `r2://bucket/path`should be rewritten to`s3://bucket/path` with the R2 secret.
 
 For public buckets (e.g., Overture Maps, AWS open data), no secret is needed — skip this step.
 
@@ -51,7 +51,7 @@ LIMIT 50;
 "
 ```
 
-Note: only select `filename`, `size`, `last_modified` — never select `content`, which would download the actual files.
+Note: only select `filename`, `size`, `last_modified`— never select`content`, which would download the actual files.
 
 If the URL points to a **specific file or glob pattern** (has a file extension or contains `*`), preview it:
 

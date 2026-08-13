@@ -54,7 +54,7 @@ Add extensions as needed:
 
 **Always set `geometry_always_xy = true`** — This ensures all spatial functions interpret coordinates as longitude, latitude (the standard for Overture, GeoJSON, and most data sources). Without it, spheroid functions assume latitude first and return wrong results.
 
-**Use spheroid functions for real-world distances** — `ST_Distance_Spheroid` returns meters on the WGS84 ellipsoid. Plain `ST_Distance` uses planar coordinates and gives meaningless results for lat/lng. **Important:** spheroid functions (`ST_Distance_Spheroid`, `ST_Area_Spheroid`, etc.) require `POINT_2D` inputs, not generic `GEOMETRY`. Overture geometry columns are typed `GEOMETRY('OGC:CRS84')` and cannot be cast directly. Extract coordinates first:
+**Use spheroid functions for real-world distances**— `ST_Distance_Spheroid`returns meters on the WGS84 ellipsoid. Plain`ST_Distance` uses planar coordinates and gives meaningless results for lat/lng.**Important:** spheroid functions (`ST_Distance_Spheroid`, `ST_Area_Spheroid`, etc.) require `POINT_2D`inputs, not generic`GEOMETRY`. Overture geometry columns are typed `GEOMETRY('OGC:CRS84')` and cannot be cast directly. Extract coordinates first:
 
 ```sql
 ST_Point(ST_X(geometry), ST_Y(geometry))::POINT_2D
@@ -82,6 +82,6 @@ LOAD spatial;
 If the query fails:
 
 - **`duckdb: command not found`** → delegate to `/duckdb-skills:install-duckdb`
-- **Missing extension** → `INSTALL spatial; LOAD spatial;` or `INSTALL h3 FROM community; LOAD h3;`
+- **Missing extension** → `INSTALL spatial; LOAD spatial;`or`INSTALL h3 FROM community; LOAD h3;`
 - **S3 access denied** → suggest checking AWS credentials
 - **No results with Overture** → widen the bbox, check the category spelling, or try a broader search

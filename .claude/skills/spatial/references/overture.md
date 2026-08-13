@@ -12,7 +12,7 @@ CREATE SECRET (TYPE S3, PROVIDER config, REGION 'us-west-2');
 
 ## S3 paths
 
-Use the STAC catalog at `https://stac.overturemaps.org/catalog.json` to find the latest release. As of 2026-03-18, the latest release is `2026-03-18.0`.
+Use the STAC catalog at `https://stac.overturemaps.org/catalog.json`to find the latest release. As of 2026-03-18, the latest release is`2026-03-18.0`.
 
 Base path: `s3://overturemaps-us-west-2/release/<RELEASE>/`
 
@@ -46,7 +46,7 @@ Always filter on bbox first, then apply additional filters.
 | `geometry` | GEOMETRY | Point location |
 | `bbox.xmin/xmax/ymin/ymax` | DOUBLE | Bounding box (for pushdown) |
 | `names.primary` | VARCHAR | Primary name |
-| `categories.primary` | VARCHAR | Primary category (e.g., `coffee_shop`, `restaurant`, `hospital`) |
+| `categories.primary`| VARCHAR | Primary category (e.g.,`coffee_shop`, `restaurant`, `hospital`) |
 | `categories.alternate` | VARCHAR[] | Additional categories |
 | `confidence` | DOUBLE | 0–1 confidence score |
 | `addresses[1].freeform` | VARCHAR | Full address text |
@@ -75,7 +75,7 @@ Always filter on bbox first, then apply additional filters.
 | `id` | VARCHAR | Unique identifier |
 | `geometry` | GEOMETRY | Point (representative location) |
 | `names.primary` | VARCHAR | Division name |
-| `subtype` | VARCHAR | `country`, `region`, `county`, `locality`, etc. |
+| `subtype`| VARCHAR |`country`, `region`, `county`, `locality`, etc. |
 | `admin_level` | INTEGER | Hierarchy level |
 | `population` | INTEGER | Population |
 | `country` | VARCHAR | ISO 3166-1 alpha-2 |

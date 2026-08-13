@@ -24,7 +24,7 @@ header-includes: |
 
 \vspace{0.15em}
 
-**Data.** 7.68 M encounters, 947 K patients (2022–2025). DuckDB + R; encounter flags for ED / inpatient (most `DepartmentType` values are `*Unknown`).
+**Data.** 7.68 M encounters, 947 K patients (2022–2025). DuckDB + R; encounter flags for ED / inpatient (most `DepartmentType`values are`*Unknown`).
 
 **Cohort** (61,052 screened on *Transportation Needs*):
 

@@ -19,6 +19,7 @@ This document describes the design, schema, and technical safeguards of Team 13'
 ## 2. DuckDB Schema & Key Invariants
 
 The local columnar database (`~/.datafest_cache/datafest.duckdb`) organizes ~7.6M encounter rows across 7 primary tables:
+
 - **`encounters`**: Core encounter records (`EncounterKey`, `PatientKey`, `EncounterDate`, `IsEdVisit`, `IsInpatientAdmission`).
 - **`sdoh`**: Social Determinants of Health questionnaire responses. Transportation exposure is collapsed to `ever_transport_barrier` (ever Yes vs ever No).
 - **`diagnoses`**: ICD-10 diagnosis mappings (`PrimaryDiagnosisKey`, `ICD10Code`, `GroupCode`).
@@ -26,8 +27,8 @@ The local columnar database (`~/.datafest_cache/datafest.duckdb`) organizes ~7.6
 ### Safeguards & Invariants
 
 1. **Index-Free Execution**: DuckDB v1.3 index creation on nullable BIGINT columns is bypassed; queries rely entirely on vectorized hash joins.
-2. **Self-Locating Portable ROOT**: Every R script resolves paths relative to its script location via `--file=` parameter, `DATAFEST_ROOT` environment override, or working directory fallback.
-3. **Base-R Graphics Fallback**: `05_figures_base.R` provides an un-depended parachute renderer if `ggplot2`/`rlang` fails in restricted competition environments.
+2. **Self-Locating Portable ROOT**: Every R script resolves paths relative to its script location via `--file=`parameter,`DATAFEST_ROOT` environment override, or working directory fallback.
+3. **Base-R Graphics Fallback**: `05_figures_base.R`provides an un-depended parachute renderer if`ggplot2`/`rlang` fails in restricted competition environments.
 
 ## 3. Statistical Framing
 

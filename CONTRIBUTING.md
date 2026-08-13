@@ -9,16 +9,21 @@ That said, the pipeline is open source and reusable. Bug fixes, reproducibility 
 You need a recent R (4.3+), the DuckDB CLI (`brew install duckdb`), and ffmpeg (`brew install ffmpeg`) for the Slide 4 animation export. Then:
 
 ```bash
+
 # R packages into an isolated lib path (avoids polluting the system library)
+
 Rscript -e 'install.packages(c("data.table","duckdb","DBI","dplyr","tidyr","stringr","lubridate","ggplot2","scales"), lib="~/R/datafest_libs")'
 
-# Drop the official DataFest 2026 CSV bundle into:
+# Drop the official DataFest 2026 CSV bundle into
+
 # DataFest 2026 - Data Challenge/Data/2026-ASA-DataFest-Data-Files/
 
 # Full pipeline (builds DuckDB on first run at ~/.datafest_cache/datafest.duckdb)
+
 Rscript analysis/R/run_all.R
 
 # Smoke tests
+
 Rscript analysis/tests/smoke_test_outputs.R
 ```
 
@@ -26,7 +31,9 @@ If `library(duckdb)` segfaults in R (a known issue on some macOS configurations)
 
 ```bash
 DATAFEST_FLOURISH_CLI_ONLY=1 Rscript analysis/R/06_flourish_export.R
-# or call the shell script directly:
+
+# or call the shell script directly
+
 bash analysis/sh/flourish_export_duckdb_cli.sh
 ```
 
@@ -34,12 +41,12 @@ The full run order, paths, and outputs are documented in **[analysis/README.md](
 
 ## Project-specific guardrails
 
-- **Numbered R scripts** (`00_…` → `07_…`) are a run-order contract. New steps slot into the existing sequence; don't insert a step that depends on a later one.
+- **Numbered R scripts** (`00_…`→`07_…`) are a run-order contract. New steps slot into the existing sequence; don't insert a step that depends on a later one.
 - **`00_config_paths.R`** is the single source of truth for paths. New scripts must import paths from it, not hard-code.
-- **DuckDB is the columnar store, not a transactional DB.** Don't write per-row `INSERT`s — bulk-load via `dbWriteTable` or `read_csv_auto`. The 7.6M-row encounter table is the perf floor; anything slower than ~5s for a cohort query is a regression.
-- **No `dplyr` in figure-generation scripts.** `05_figures_base.R` exists as a fallback because `dplyr` / `rlang` crashed on some judge laptops during the event. Keep that path working.
+- **DuckDB is the columnar store, not a transactional DB.** Don't write per-row `INSERT`s — bulk-load via `dbWriteTable`or`read_csv_auto`. The 7.6M-row encounter table is the perf floor; anything slower than ~5s for a cohort query is a regression.
+- **No `dplyr`in figure-generation scripts.**`05_figures_base.R`exists as a fallback because`dplyr`/`rlang` crashed on some judge laptops during the event. Keep that path working.
 - **Smoke tests must pass.** `analysis/tests/smoke_test_outputs.R` is the gate: cohort sizes, OR point estimates, and figure file existence. CI runs the R syntax check; the smoke test requires the (gitignored) data.
-- **Never commit the EHR/SDOH data.** The `.gitignore` excludes the `Data/` folder and `.duckdb` files. Don't loosen those rules.
+- **Never commit the EHR/SDOH data.** The `.gitignore`excludes the`Data/`folder and`.duckdb` files. Don't loosen those rules.
 
 ## Commit conventions
 

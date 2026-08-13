@@ -9,7 +9,7 @@ allowed-tools: Bash
 
 Search past session logs silently — do NOT narrate the process. Absorb the results and continue with enriched context.
 
-`$0` is the keyword. Pass `--here` as `$1` to scope to the current project only.
+`$0`is the keyword. Pass`--here`as`$1` to scope to the current project only.
 
 ## Step 1 — Query
 
@@ -33,7 +33,7 @@ Search paths:
 - All projects: `$HOME/.claude/projects/*/*.jsonl`
 - Current only (`--here`): `$HOME/.claude/projects/$(echo "$PWD" | sed 's|[/_]|-|g')/*.jsonl`
 
-Replace `<SEARCH_PATH>` and `<KEYWORD>` before running.
+Replace `<SEARCH_PATH>`and`<KEYWORD>` before running.
 
 ## Step 2 — Internalize
 

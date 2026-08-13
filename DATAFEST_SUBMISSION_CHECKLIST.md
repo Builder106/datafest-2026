@@ -20,7 +20,7 @@ Replace `XX` with your team number in every filename.
 
 ## Live presentation (Sunday, ~1–3pm, Shanklin 107)
 
-- [ ] Exact talk length confirmed Saturday (target ~**5–8 min** + **1–2 min** Q&A).
+- [ ] Exact talk length confirmed Saturday (target ~**5–8 min**+**1–2 min** Q&A).
 - [ ] Practice finishing **under** the time limit.
 - [ ] **All** team members present; not all must speak.
 

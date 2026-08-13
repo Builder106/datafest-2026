@@ -14,11 +14,11 @@ Database path given: `$0`
 
 Follow these steps in order, stopping and reporting clearly if any step fails.
 
-**State file convention**: see the "Resolve state directory" section below. All skills share a single `state.sql` file per project. Once resolved, any skill can use it with `duckdb -init "$STATE_DIR/state.sql" -c "<QUERY>"`.
+**State file convention**: see the "Resolve state directory" section below. All skills share a single `state.sql`file per project. Once resolved, any skill can use it with`duckdb -init "$STATE_DIR/state.sql" -c "<QUERY>"`.
 
 ## Step 1 — Resolve the database path
 
-If `$0` is a relative path, resolve it against `$PWD` to get an absolute path (`RESOLVED_PATH`).
+If `$0`is a relative path, resolve it against`$PWD` to get an absolute path (`RESOLVED_PATH`).
 
 ```bash
 RESOLVED_PATH="$(cd "$(dirname "$0")" 2>/dev/null && pwd)/$(basename "$0")"
@@ -80,10 +80,13 @@ Collect the column definitions and row counts for the summary.
 Check if a state file already exists in either location:
 
 ```bash
+
 # Option 1: in the project directory
+
 test -f .duckdb-skills/state.sql && STATE_DIR=".duckdb-skills"
 
 # Option 2: in the home directory, scoped by project root path
+
 PROJECT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")"
 PROJECT_ID="$(echo "$PROJECT_ROOT" | tr '/' '-')"
 test -f "$HOME/.duckdb-skills/$PROJECT_ID/state.sql" && STATE_DIR="$HOME/.duckdb-skills/$PROJECT_ID"
@@ -124,7 +127,7 @@ mkdir -p "$STATE_DIR"
 
 `state.sql` is a shared, accumulative init file used by all duckdb-skills. It may already contain macros, LOAD statements, secrets, or other ATTACH statements written by other skills. **Never overwrite it** — always check for duplicates and append.
 
-Derive the database alias from the filename without extension (e.g. `my_data.duckdb` → `my_data`). Check if this ATTACH already exists:
+Derive the database alias from the filename without extension (e.g. `my_data.duckdb`→`my_data`). Check if this ATTACH already exists:
 
 ```bash
 grep -q "ATTACH.*RESOLVED_PATH" "$STATE_DIR/state.sql" 2>/dev/null
@@ -139,7 +142,7 @@ USE my_data;
 STATESQL
 ```
 
-Replace `RESOLVED_PATH` and `my_data` with the actual values. If the alias would conflict with an existing one in the file, ask the user for a name.
+Replace `RESOLVED_PATH`and`my_data` with the actual values. If the alias would conflict with an existing one in the file, ask the user for a name.
 
 ## Step 7 — Verify the state file works
 

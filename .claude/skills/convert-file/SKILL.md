@@ -18,21 +18,21 @@ Output file: `${1:-}`
 
 **Input**: `$0`. If it's a bare filename (no `/`), resolve to a full path with `find "$PWD" -name "$0" -not -path '*/.git/*' 2>/dev/null | head -1`.
 
-**Output**: If `$1` is provided, use it as the output path. If not, default to the same stem as the input with a `.parquet` extension (e.g., `data.csv` → `data.parquet`).
+**Output**: If `$1`is provided, use it as the output path. If not, default to the same stem as the input with a`.parquet`extension (e.g.,`data.csv`→`data.parquet`).
 
 Infer the output format from the output file extension:
 
 | Extension | Format clause |
 | --- | --- |
 | `.parquet`, `.pq` | *(default, no clause needed)* |
-| `.csv` | `(FORMAT csv, HEADER)` |
-| `.tsv` | `(FORMAT csv, HEADER, DELIMITER '\t')` |
-| `.json` | `(FORMAT json, ARRAY true)` |
-| `.jsonl`, `.ndjson` | `(FORMAT json, ARRAY false)` |
-| `.xlsx` | `(FORMAT xlsx)` — requires `INSTALL excel; LOAD excel;` |
-| `.geojson` | `(FORMAT GDAL, DRIVER 'GeoJSON')` — requires `LOAD spatial;` |
-| `.gpkg` | `(FORMAT GDAL, DRIVER 'GPKG')` — requires `LOAD spatial;` |
-| `.shp` | `(FORMAT GDAL, DRIVER 'ESRI Shapefile')` — requires `LOAD spatial;` |
+| `.csv`|`(FORMAT csv, HEADER)` |
+| `.tsv`|`(FORMAT csv, HEADER, DELIMITER '\t')` |
+| `.json`|`(FORMAT json, ARRAY true)` |
+| `.jsonl`, `.ndjson`|`(FORMAT json, ARRAY false)` |
+| `.xlsx`|`(FORMAT xlsx)`— requires`INSTALL excel; LOAD excel;` |
+| `.geojson`|`(FORMAT GDAL, DRIVER 'GeoJSON')`— requires`LOAD spatial;` |
+| `.gpkg`|`(FORMAT GDAL, DRIVER 'GPKG')`— requires`LOAD spatial;` |
+| `.shp`|`(FORMAT GDAL, DRIVER 'ESRI Shapefile')`— requires`LOAD spatial;` |
 
 ## Step 2 — Convert
 
@@ -49,9 +49,9 @@ For remote inputs (`s3://`, `https://`, etc.), prepend the same protocol setup a
 
 | Protocol | Prepend |
 | --- | --- |
-| `s3://` | `LOAD httpfs; CREATE SECRET (TYPE S3, PROVIDER credential_chain);` |
-| `gs://` / `gcs://` | `LOAD httpfs; CREATE SECRET (TYPE GCS, PROVIDER credential_chain);` |
-| `https://` / `http://` | `LOAD httpfs;` |
+| `s3://`|`LOAD httpfs; CREATE SECRET (TYPE S3, PROVIDER credential_chain);` |
+| `gs://`/`gcs://`|`LOAD httpfs; CREATE SECRET (TYPE GCS, PROVIDER credential_chain);` |
+| `https://`/`http://`|`LOAD httpfs;` |
 
 **If the user mentions partitioning** (e.g., "partition by year"), add `PARTITION_BY (col)` to the format clause. This only works with Parquet and CSV output.
 

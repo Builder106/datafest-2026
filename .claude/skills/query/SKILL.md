@@ -33,7 +33,7 @@ duckdb -init "$STATE_DIR/state.sql" -c "SHOW DATABASES;"
 
 Now determine the mode:
 
-- **Ad-hoc mode** if: the `--file` flag is present, or the SQL references file paths/literals (e.g. `FROM 'data.csv'`), or `STATE_DIR` is empty.
+- **Ad-hoc mode** if: the `--file`flag is present, or the SQL references file paths/literals (e.g.`FROM 'data.csv'`), or `STATE_DIR` is empty.
 - **Session mode** if: `STATE_DIR` is set and the input references table names, is natural language, or is SQL without file references.
 
 If no state file exists and no file is referenced, fall back to ad-hoc mode against `:memory:` — the user must reference files directly in their SQL.
@@ -99,9 +99,12 @@ SELECT count() AS row_count FROM 'FILE_PATH';
 
 - If the query already has a `LIMIT`, `count()`, or other aggregation that bounds the output -> safe, proceed.
 - If the source has **>1M rows** and the query has no LIMIT or aggregation -> tell the user:
+
   *"This query would return a very large result set. Displaying it here would consume a lot of tokens and increase cost. I'd recommend adding `LIMIT 1000` or an aggregation to keep the output manageable."*
   Ask for confirmation before running as-is.
+
 - If the data size is **>10 GB** -> additionally warn:
+
   *"This table is over 10 GB — the query may take a while to complete."*
   Proceed if the user confirms.
 
@@ -121,7 +124,7 @@ SET lock_configuration=true;
 SQL
 ```
 
-Replace `FILE_PATH` with the actual file path extracted from the query or `--file` argument.
+Replace `FILE_PATH`with the actual file path extracted from the query or`--file` argument.
 If multiple files are referenced, include all paths in the `allowed_paths` list.
 
 **Session mode** (user-trusted database):
@@ -162,14 +165,14 @@ When generating SQL, prefer these idiomatic DuckDB constructs:
 
 ### Compact clauses
 
-- **FROM-first**: `FROM table WHERE x > 10` (implicit `SELECT *`)
+- **FROM-first**: `FROM table WHERE x > 10`(implicit`SELECT *`)
 - **GROUP BY ALL**: auto-groups by all non-aggregate columns
 - **ORDER BY ALL**: orders by all columns for deterministic results
 - **SELECT * EXCLUDE (col1, col2)**: drop columns from wildcard
 - **SELECT * REPLACE (expr AS col)**: transform a column in-place
 - **UNION ALL BY NAME**: combine tables with different column orders
 - **Percentage LIMIT**: `LIMIT 10%` returns a percentage of rows
-- **Prefix aliases**: `SELECT x: 42` instead of `SELECT 42 AS x`
+- **Prefix aliases**: `SELECT x: 42`instead of`SELECT 42 AS x`
 - **Trailing commas** allowed in SELECT lists
 
 ### Query features
@@ -180,7 +183,7 @@ When generating SQL, prefer these idiomatic DuckDB constructs:
 - **COLUMNS(*)**: apply expressions across columns; supports regex, EXCLUDE, REPLACE, lambdas
 - **FILTER clause**: `count() FILTER (WHERE x > 10)` for conditional aggregation
 - **GROUPING SETS / CUBE / ROLLUP**: advanced multi-level aggregation
-- **Top-N per group**: `max(col, 3)` returns top 3 as a list; also `arg_max(arg, val, n)`, `min_by(arg, val, n)`
+- **Top-N per group**: `max(col, 3)`returns top 3 as a list; also`arg_max(arg, val, n)`, `min_by(arg, val, n)`
 - **DESCRIBE table_name**: schema summary (column names and types)
 - **SUMMARIZE table_name**: instant statistical profile
 - **PIVOT / UNPIVOT**: reshape between wide and long formats
@@ -194,7 +197,7 @@ When generating SQL, prefer these idiomatic DuckDB constructs:
 
 ### Expressions and types
 
-- **Dot operator chaining**: `'hello'.upper()` or `col.trim().lower()`
+- **Dot operator chaining**: `'hello'.upper()`or`col.trim().lower()`
 - **List comprehensions**: `[x*2 FOR x IN list_col]`
 - **List/string slicing**: `col[1:3]`, negative indexing `col[-1]`
 - **STRUCT.* notation**: `SELECT s.* FROM (SELECT {'a': 1, 'b': 2} AS s)`

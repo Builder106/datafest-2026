@@ -9,3 +9,4 @@
 **/__pycache__/**
 **/.chat-archive/**
 **/contracts/lib/**
+.claude/**

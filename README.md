@@ -44,21 +44,21 @@ Caveats matter — see the [writeup](Team13_Writeup.pdf) and the [Caveats](#cave
 
 ```mermaid
 flowchart LR
-  csv[7 CSV files<br/>Stormont Vail EHR + SDOH] --> etl[01_etl.R<br/>load to DuckDB]
-  etl --> duck[(DuckDB<br/>columnar store)]
-  duck --> eda[02_eda.R<br/>EDA tables]
-  duck --> journey[03_journey.R<br/>patient-level analytic table]
-  journey --> analyses[04_analyses.R<br/>cohort stats + logistic GLM]
-  journey --> figures[05_figures.R<br/>ggplot2 figures]
-  duck --> flourish[06_flourish_export.R<br/>+ sql/]
-  duck --> slide4[07_slide4_line_export.R<br/>animated MP4/GIF]
+  csv["7 CSV files<br/>Stormont Vail EHR + SDOH"] --> etl["01_etl.R<br/>load to DuckDB"]
+  etl --> duck[("DuckDB<br/>columnar store")]
+  duck --> eda["02_eda.R<br/>EDA tables"]
+  duck --> journey["03_journey.R<br/>patient-level analytic table"]
+  journey --> analyses["04_analyses.R<br/>cohort stats + logistic GLM"]
+  journey --> figures["05_figures.R<br/>ggplot2 figures"]
+  duck --> flourish["06_flourish_export.R<br/>+ sql/"]
+  duck --> slide4["07_slide4_line_export.R<br/>animated MP4/GIF"]
 
-  analyses --> tables[output/tables/]
-  figures --> figs[output/figures/]
-  flourish --> rawviz[output/flourish/<br/>annual + quarterly]
-  slide4 --> animation[figures/slide4_ed_py_*]
+  analyses --> tables["output/tables/"]
+  figures --> figs["output/figures/"]
+  flourish --> rawviz["output/flourish/<br/>annual + quarterly"]
+  slide4 --> animation["figures/slide4_ed_py_*"]
 
-  tables --> deck[Team13 deck + writeup]
+  tables --> deck["Team13 deck + writeup"]
   figs --> deck
   rawviz --> deck
   animation --> deck

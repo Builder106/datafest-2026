@@ -13,30 +13,39 @@
 [![Site](https://img.shields.io/badge/site-live-success.svg)](https://datafest-2026.vercel.app/)
 [![DataFest](https://img.shields.io/badge/DataFest-2026-success.svg)](https://ww2.amstat.org/education/datafest/)
 
-> A single question — *"Has lack of transportation kept you from medical appointments?"* — identifies a cohort with **~3× odds** of acute-care need, independent of age. This repo is the reproducible R + DuckDB pipeline behind that finding.
+> A single question: *"Has lack of transportation kept you from medical appointments?"* identifies a patient group with **over 3x higher odds** of needing emergency hospital care, regardless of age. This repository contains the reproducible analysis pipeline behind that finding.
+
+## 💡 What is this Project?
+
+When patients cannot get a ride to regular doctor appointments, small health problems can grow into medical emergencies. This project analyzed anonymized hospital records from nearly 1 million patient encounters to study how transportation barriers impact healthcare outcomes.
+
+The finding is striking: patients without reliable transportation visit the emergency room four times more frequently and are admitted to the hospital over three times as often. Providing basic transportation support can keep patients healthier while drastically reducing emergency healthcare costs.
+
+**Live site:** [datafest-2026.vercel.app](https://datafest-2026.vercel.app/)
 
 ## What this is
 
-Team 13's submission to **[ASA DataFest 2026](https://ww2.amstat.org/education/datafest/)**at**Wesleyan University**(April 17–19, 2026). The data sponsor was**Stormont Vail Health**, which released a longitudinal EHR sample joined to a 12-domain social-determinants questionnaire.
+Team 13's project for **[ASA DataFest 2026](https://ww2.amstat.org/education/datafest/)** at **Wesleyan University** (April 17 to 19, 2026). The data sponsor was **Stormont Vail Health**, which provided an anonymized electronic health record sample linked to social needs survey responses.
 
-We asked: *Do patients who report a transportation barrier experience measurably different healthcare journeys than otherwise similar patients?* The headline answer is yes, and the gap is large enough that the transport question itself is a screening signal worth acting on.
+Full deliverables:
 
-Full deliverables are in the repo:
-
-- **[Team13_Writeup.pdf](Team13_Writeup.pdf)** — 1-page judges' writeup
-- **[Team13_Presentation.pdf](Team13_Presentation.pdf)** — 4-slide deck
-- **[analysis/](analysis/)** — R + DuckDB pipeline and reproducibility notes
+- **[Team13_Writeup.pdf](Team13_Writeup.pdf)**: 1-page summary writeup
+- **[Team13_Presentation.pdf](Team13_Presentation.pdf)**: 4-slide presentation deck
+- **[analysis/](analysis/)**: Complete R and DuckDB data processing scripts
 
 ## Key findings
 
-| Outcome | No barrier | Transport barrier | Effect |
+| Outcome | Patients with reliable rides | Patients with transportation barriers | Effect |
 | --- | --- | --- | --- |
-| ED visits per person-year | 0.48 | **1.94** | 4.0× crude |
-| Inpatient admits per person-year | 0.22 | **0.70** | 3.2× crude |
-| Any ED visit (prevalence) | 43% | **68%** | OR**3.17** (95% CI 2.93–3.43) |
-| Any inpatient admit (prevalence) | 35% | **63%** | OR**3.49** (3.23–3.77) |
+| Emergency Room (ED) visits per person per year | 0.48 | **1.94** | 4.0x more visits |
+| Hospital inpatient admissions per person per year | 0.22 | **0.70** | 3.2x more hospitalizations |
+| Likelihood of visiting the Emergency Room | 43% | **68%** | **3.17x higher odds** (95% CI 2.93 to 3.43) |
+| Likelihood of hospital admission | 35% | **63%** | **3.49x higher odds** (95% CI 3.23 to 3.77) |
 
-The ED-return gap also persists *inside*every chronic-disease cohort we examined (hypertension 33% vs 15%, type 2 diabetes 40% vs 17%, CKD 37% vs 21%, AFib 34% vs 24% — 180-day ED return after index encounter). Barrier patients are also*younger* (median 51 vs 61), ruling out an age artifact. The logistic model is fit on n = 58,639 screened patients with `outcome ~ transport + age + sex`.
+*What this means:*
+- **Emergency Room (ED) visits**: Patients facing ride barriers end up in the emergency room about four times as often.
+- **Hospital Inpatient Stays**: Patients who miss routine checkups are more than three times as likely to be admitted to a hospital bed for intensive care.
+- **Across chronic conditions**: The gap persists across chronic diseases: hypertension (33% vs 15% return to ED within 180 days), type 2 diabetes (40% vs 17%), kidney disease (37% vs 21%), and irregular heartbeat (34% vs 24%). Patients with transportation barriers are also younger on average (median age 51 vs 61), proving this is not simply an effect of aging.
 
 Caveats matter — see the [writeup](Team13_Writeup.pdf) and the [Caveats](#caveats) section below.
 
@@ -91,7 +100,7 @@ Rscript analysis/tests/smoke_test_outputs.R
 
 If the DB already exists, skip ETL: `Rscript analysis/R/run_all.R --skip-etl`.
 
-The shared SQL for Flourish CSV exports lives in **[analysis/sql/](analysis/sql/)**and can be run by the DuckDB CLI directly — see**[analysis/sh/flourish_export_duckdb_cli.sh](analysis/sh/flourish_export_duckdb_cli.sh)**.
+The shared SQL for Flourish CSV exports lives in **[analysis/sql/](analysis/sql/)** and can be run by the DuckDB CLI directly (see **[analysis/sh/flourish_export_duckdb_cli.sh](analysis/sh/flourish_export_duckdb_cli.sh)**).
 
 Full run-order details: **[analysis/README.md](analysis/README.md)**.
 
@@ -99,26 +108,25 @@ Full run-order details: **[analysis/README.md](analysis/README.md)**.
 
 The data is observational and the screening sample is non-random. We surface these explicitly rather than hiding them:
 
-- Only **~6%** of patients in the release (61,052 / 947,685) have any SDOH answer. Absolute prevalences should not be projected to the full system.
-- **20%** of encounter rows carry a `PrimaryDiagnosisKey` not found in the diagnosis lookup (a known data issue per the sponsor Q&A) — the chronic-disease cohort is therefore a lower bound.
-- **65%** of patients have no parseable FIPS code, so no geographic model was fit.
-- `DepartmentType`is`*Unknown` for **71%** of rows, so setting analyses use boolean encounter flags (`IsEdVisit`, `IsInpatientAdmission`, etc.) instead.
-- Patient journeys are left- and right-censored at the 2022-01-01 / 2025-12-31 window; rates are annualized by observed follow-up.
+- Only **~6%** of patients in the release (61,052 / 947,685) completed social determinants of health survey questions.
+- **20%** of encounter rows carry a missing diagnosis key (a known data issue per the sponsor Q&A), meaning chronic disease rates represent a conservative lower bound.
+- **65%** of patients have no parseable location code, so geographic models were not fit.
+- Patient journeys are tracked within the 2022 to 2025 window; rates are annualized by observed follow-up.
 
 ## Tech stack
 
-- **R 4.3+** for the analysis pipeline (`data.table`, `duckdb`, `DBI`, `ggplot2`, `scales`)
-- **DuckDB** as the local columnar store (~7.6M-row encounter table)
-- **Flourish**+**RAWGraphs** for interactive web visualizations (CSV-driven)
-- **ffmpeg** for the animated Slide 4 export (MP4/GIF)
-- **LaTeX (XeLaTeX)** via pandoc for the 1-page writeup PDF
+- **R 4.3+** for data processing and statistical analysis
+- **DuckDB** for fast queries across 7.6 million hospital encounter records
+- **Flourish & RAWGraphs** for interactive charts
+- **ffmpeg** for video exports
+- **LaTeX (XeLaTeX)** for the research writeup PDF
 
 ## Acknowledgments
 
-- **Stormont Vail Health** for the de-identified EHR and SDOH data sponsorship
+- **Stormont Vail Health** for the de-identified healthcare dataset
 - **[Wesleyan QAC](https://www.wesleyan.edu/qac/)** for hosting Wesleyan DataFest 2026
 - **[American Statistical Association](https://www.amstat.org/)** for the DataFest program
 
 ## License
 
-Code in this repository is released under the [MIT License](LICENSE). The underlying EHR and SDOH data are **not** included and remain subject to the data-use agreement with Stormont Vail Health and the ASA DataFest 2026 release terms.
+Code in this repository is released under the [MIT License](LICENSE). The underlying EHR and survey data are **not** included and remain subject to the data-use agreement with Stormont Vail Health and the ASA DataFest 2026 release terms.

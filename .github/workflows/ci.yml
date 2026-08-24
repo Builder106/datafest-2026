@@ -75,7 +75,7 @@ jobs:
         shell: Rscript {0}
         run: |
           options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))
-          install.packages(c("testthat", "data.table", "DBI", "duckdb"))
+          install.packages(c("testthat", "data.table", "DBI", "duckdb", "covr"))
 
       - name: Run unit tests
         shell: Rscript {0}
@@ -83,6 +83,9 @@ jobs:
           testthat::test_dir("analysis/tests",
                              reporter  = "progress",
                              stop_on_failure = TRUE)
+
+      - name: Enforce deterministic analysis coverage
+        run: Rscript analysis/tests/run_coverage.R
 
   # NOTE: there is deliberately no CI "smoke test" job. analysis/output/{figures,
   # tables} are gitignored generated artifacts, so they don't exist on a fresh CI

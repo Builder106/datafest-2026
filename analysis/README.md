@@ -15,6 +15,21 @@
 - Flourish/RAWGraphs CSVs (gitignored): **`analysis/output/flourish/annual/`**(`flourish_transport_ed_by_year.csv` — one row per calendar year per cohort) and**`analysis/output/flourish/quarterly/`**(`flourish_transport_ed_by_quarter.csv` — one row per quarter per cohort). Slide 4 exports land in**`figures/slide4_ed_py_annual/`**and**`figures/slide4_ed_py_quarterly/`** (`07_slide4_line_export.R`).
 - Submission PDFs and code bundle: `analysis/output/deliverables/` (`TeamXX_*`— replace`XX` with team number)
 
+## Test coverage
+
+CI enforces 100% line coverage for the deterministic analysis scope in
+`analysis/R/functions.R`. This scope contains the reusable `coef_or()` helper
+and is tested with synthetic GLM inputs. The data-backed DuckDB pipeline,
+figures, exports, and generated-output smoke test remain integration or local
+reproducibility checks because they require the licensed data bundle or
+external tools.
+
+Run the coverage gate with:
+
+```sh
+Rscript analysis/tests/run_coverage.R
+```
+
 ## Deliverable PDFs
 
 Built with pandoc + XeLaTeX from `output/deliverables/TeamXX_*.md`.

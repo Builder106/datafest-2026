@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-08-23 — Defined and enforced deterministic R coverage scope #testing #decision
+
+CI now runs `covr` against `analysis/R/functions.R` and requires 100% line coverage using the synthetic `testthat` suite. The DuckDB pipeline, figures, exports, and generated-output smoke test stay outside this unit boundary because they depend on the licensed data bundle or external tools.
+
 ## 2026-08-07 — Added sensitivity analysis module, interactive cohort matrix & pipeline architecture guide #milestone #docs
 
 Added `analysis/R/08_sensitivity_analysis.R`implementing Inverse Probability Weighting (IPW) and E-value sensitivity analysis to bound potential unmeasured confounding in the SDOH sample (minimum confounding strength E-value = 5.72 to explain away the 3.17 OR). Updated`docs/index.html`with an interactive chronic cohort matrix component allowing dynamic comparison across conditions, and authored`docs/PIPELINE_ARCHITECTURE.md` detailing the DuckDB schema and fallback safeguards.

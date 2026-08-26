@@ -61,6 +61,7 @@ jobs:
 
   test:
     name: Unit tests
+    needs: syntax
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     steps:
@@ -96,6 +97,7 @@ jobs:
 
   playwright:
     name: E2E tests (Playwright BDD)
+    needs: syntax
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -108,6 +110,12 @@ jobs:
 
       - name: Install deps
         run: (npm ci --no-audit --no-fund) || (npm install --no-audit --no-fund)
+
+      - name: Typecheck TypeScript
+        run: npx tsc --noEmit
+
+      - name: License check
+        run: npx license-checker --summary
 
       - name: Node dependency audit
         run: npm audit --audit-level=high

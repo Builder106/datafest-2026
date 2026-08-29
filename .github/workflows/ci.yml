@@ -124,7 +124,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Generate Gherkin specs
-        run: npx bddgen
+        run: npm run bddgen
 
       - name: Run Playwright
         run: npx playwright test

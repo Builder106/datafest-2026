@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "bddgen": "bddgen",
-    "test:e2e": "bddgen && playwright test"
+    "bddgen": "bddgen test",
+    "test:e2e": "bddgen test && playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

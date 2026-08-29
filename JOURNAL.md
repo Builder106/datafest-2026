@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-08-29: Git deployment branches restricted #decision
+
+Git-triggered Vercel deployments now run only for `main` and `staging`. The project keeps `main` as its Production Branch, so `staging` is the only Preview branch. Replaced the old `ignoreCommand`, which created canceled deployment records for blocked branches, with `git.deploymentEnabled`.
+
 ## 2026-08-23 — Defined and enforced deterministic R coverage scope #testing #decision
 
 CI now runs `covr` against `analysis/R/functions.R` and requires 100% line coverage using the synthetic `testthat` suite. The DuckDB pipeline, figures, exports, and generated-output smoke test stay outside this unit boundary because they depend on the licensed data bundle or external tools.

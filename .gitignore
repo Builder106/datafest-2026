@@ -1,9 +1,16 @@
+*.log
 node_modules/
 .features-gen/
 playwright-report/
 test-results/
 *.duckdb
 *.duckdb.wal
+
+# R session & environment
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata/
 
 DataFest 2026 - Data Challenge/Data/
 DataFest 2026 - Data Challenge/*.docx
@@ -26,6 +33,12 @@ analysis/output/deliverables/TeamXX_Code.txt
 *.log
 *.out
 missfont.log
+docs/**/*.aux
+docs/**/*.log
+docs/**/*.out
+analysis/output/**/*.aux
+analysis/output/**/*.log
+analysis/output/**/*.out
 
 # Reference deck from sibling CapitolAlpha project (>50 MB)
 /Capitol_Alpha_reference_deck.pptx
@@ -39,5 +52,4 @@ missfont.log
 
 analysis/MANUS_PRESENTATION_PROMPT.md
 analysis/FLOURISH_VIZ_PROMPT.md
-.vercel
 .vscode/settings.json

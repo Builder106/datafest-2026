@@ -54,7 +54,7 @@ jobs:
           exit "$fail"
 
       - name: Shellcheck shell scripts
-        uses: ludeeus/action-shellcheck@2.0.0
+        uses: ludeeus/action-shellcheck@v2
         with:
           scandir: analysis/sh
           severity: warning

@@ -7,6 +7,13 @@ updates:
     ignore:
       - dependency-name: "typescript"
         versions: [">= 7.0.0"]
+    groups:
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -14,4 +21,5 @@ updates:
       interval: "weekly"
     groups:
       actions:
-        patterns: ["*"]
+        patterns:
+          - "*"

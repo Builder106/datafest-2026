@@ -54,10 +54,7 @@ jobs:
           exit "$fail"
 
       - name: Shellcheck shell scripts
-        uses: ludeeus/action-shellcheck@2.0.0
-        with:
-          scandir: analysis/sh
-          severity: warning
+        run: shellcheck analysis/sh/*.sh
 
   test:
     name: Unit tests

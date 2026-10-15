@@ -51,27 +51,9 @@ Caveats matter — see the [writeup](Team13_Writeup.pdf) and the [Caveats](#cave
 
 ## Pipeline
 
-```mermaid
-flowchart LR
-  csv["7 CSV files<br/>Stormont Vail EHR + SDOH"] --> etl["01_etl.R<br/>load to DuckDB"]
-  etl --> duck[("DuckDB<br/>columnar store")]
-  duck --> eda["02_eda.R<br/>EDA tables"]
-  duck --> journey["03_journey.R<br/>patient-level analytic table"]
-  journey --> analyses["04_analyses.R<br/>cohort stats + logistic GLM"]
-  journey --> figures["05_figures.R<br/>ggplot2 figures"]
-  duck --> flourish["06_flourish_export.R<br/>+ sql/"]
-  duck --> slide4["07_slide4_line_export.R<br/>animated MP4/GIF"]
+![DataFest analysis pipeline](assets/pipeline.png)
 
-  analyses --> tables["output/tables/"]
-  figures --> figs["output/figures/"]
-  flourish --> rawviz["output/flourish/<br/>annual + quarterly"]
-  slide4 --> animation["figures/slide4_ed_py_*"]
-
-  tables --> deck["Team13 deck + writeup"]
-  figs --> deck
-  rawviz --> deck
-  animation --> deck
-```
+The ETL loads seven CSVs into DuckDB. EDA and Flourish or slide exports read the store directly; the journey table feeds statistical analysis and figures. Tables, figures, Flourish CSVs, and animation feed the Team 13 deck and writeup. Direct exports come from `06_flourish_export.R` and `07_slide4_line_export.R`. Outputs land in `output/tables/`, `output/figures/`, `output/flourish/`, and `figures/slide4_ed_py_*`.
 
 The pipeline is orchestrated by **[run_all.R](analysis/R/run_all.R)**and gated by smoke tests in**[smoke_test_outputs.R](analysis/tests/smoke_test_outputs.R)**.
 

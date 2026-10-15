@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-10-13: Replace the README Mermaid diagram #decision
+
+The README now uses a static diagram with an editable HTML source at `assets/pipeline.html`. PNG keeps the GitHub rendering consistent. The graph keeps the DuckDB fan-out visible: EDA, patient journey, and direct exports. The patient table feeds statistics and figures. Flourish and animation exports share one node, and the final file directories are grouped as deliverables.
+
 ## 2026-08-29: Git deployment branches restricted #decision
 
 Git-triggered Vercel deployments now run only for `main` and `staging`. The project keeps `main` as its Production Branch, so `staging` is the only Preview branch. Replaced the old `ignoreCommand`, which created canceled deployment records for blocked branches, with `git.deploymentEnabled`.

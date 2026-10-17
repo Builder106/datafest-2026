@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-10-17: Added animated SVG evidence to the site #decision
+
+The site gained four inline SVGs: a forest plot of both adjusted odds ratios (ED 3.17 and inpatient 3.49, which the page didn't show before), a cohort dumbbell chart that replaces the text list in the chronic-disease card, a screening funnel (947,685 → 61,052 → 2,986) under the caveats, and a barrier-gate loop in the implication band. Every number comes from `Team13_Writeup.pdf`. The animations play once, triggered by an `IntersectionObserver`, rather than through CSS `view()` timelines, because Firefox still lacks scroll-driven animations and a draw-in tied to scroll position never finishes when the reader stops halfway. The script adds `.reveal-ready` only when motion is allowed, so readers with reduced motion or without JS see the final state. The pre-reveal hold uses `animation-play-state: paused !important` because each `animation` shorthand resets play-state and would otherwise start the charts offscreen. The dumbbell and funnel keep their text in HTML and draw only marks in SVG, so labels stay readable at phone width instead of shrinking with a `viewBox`.
+
 ## 2026-10-13: Replace the README Mermaid diagram #decision
 
 The README now uses a static diagram with an editable HTML source at `assets/pipeline.html`. PNG keeps the GitHub rendering consistent. The graph keeps the DuckDB fan-out visible: EDA, patient journey, and direct exports. The patient table feeds statistics and figures. Flourish and animation exports share one node, and the final file directories are grouped as deliverables.

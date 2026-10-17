@@ -5,7 +5,7 @@ const { Given, Then } = createBdd();
 
 Given('I am on the research site', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.stats-wrap')).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('h1')).toBeVisible({ timeout: 10_000 });
 });
 
 Then('the page title contains {string}', async ({ page }, text: string) => {
@@ -13,20 +13,20 @@ Then('the page title contains {string}', async ({ page }, text: string) => {
 });
 
 Then('the adjusted odds ratio {string} is visible', async ({ page }, value: string) => {
-  await expect(page.locator('.stat-num').first()).toContainText(value);
+  await expect(page.locator('.forest .fp-value').first()).toContainText(value);
 });
 
 Then('the ED rate {string} is visible', async ({ page }, value: string) => {
-  await expect(page.locator('.stat-num').nth(1)).toContainText(value);
+  await expect(page.locator('svg.journey-svg .journey-ed .journey-stat-label')).toContainText(value);
 });
 
 Then('the journey SVG is visible', async ({ page }) => {
   await expect(page.locator('svg.journey-svg')).toBeVisible();
 });
 
-Then('the transport barrier bar chart is visible', async ({ page }) => {
-  await expect(page.locator('.bars')).toBeVisible();
-  await expect(page.locator('.bar-row')).toHaveCount(2);
+Then('the cohort chart shows {int} conditions', async ({ page }, count: number) => {
+  await expect(page.locator('.cohort-viz')).toBeVisible();
+  await expect(page.locator('.cohort-viz .db-row[data-cohort]')).toHaveCount(count);
 });
 
 Then('all {int} robustness check cards are present', async ({ page }, count: number) => {

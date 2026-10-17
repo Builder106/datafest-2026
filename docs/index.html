@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>When a Ride Is the Missing Treatment — Wesleyan DataFest 2026, Team 13</title>
+  <title>When a Ride Is the Missing Treatment | Wesleyan DataFest 2026, Team 13</title>
   <meta name="description"
-    content="Patients who report a transportation barrier visit the emergency department 3× as often, independent of age. A DataFest 2026 analysis of 7.6M Stormont Vail Health encounters.">
+    content="Patients who report a transportation barrier make about four times as many emergency department visits, and the gap holds after adjusting for age and sex. A DataFest 2026 analysis of 7.6M Stormont Vail Health encounters.">
   <meta property="og:title" content="When a Ride Is the Missing Treatment">
   <meta property="og:description"
-    content="Transportation barriers drive 3× higher ED use. A DataFest 2026 analysis of 7.6M Stormont Vail Health encounters.">
+    content="Patients who report a transportation barrier make about four times as many ED visits. A DataFest 2026 analysis of 7.6M Stormont Vail Health encounters.">
   <meta property="og:image" content="https://datafest-2026.vercel.app/assets/social-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -18,6 +18,10 @@
   <meta name="twitter:image" content="https://datafest-2026.vercel.app/assets/social-card.png">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
   <link rel="stylesheet" href="style.css">
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
@@ -26,9 +30,6 @@
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
     <defs>
-      <symbol id="i-pulse" viewBox="0 0 24 24">
-        <path d="M2 12h4l2-5 3.5 10 2.5-8 2 4 2-1h6" />
-      </symbol>
       <symbol id="i-ambulance" viewBox="0 0 24 24">
         <path d="M2 8.5A1.5 1.5 0 0 1 3.5 7H13v9.5H4.5A1.5 1.5 0 0 1 3 15.5z" />
         <path d="M13 10.5h4.4a1 1 0 0 1 .8.4l2.6 3.4a1 1 0 0 1 .2.6V16a1 1 0 0 1-1 1H13z" />
@@ -36,38 +37,9 @@
         <circle cx="17" cy="18.5" r="1.8" />
         <path d="M7.5 10.5v3M6 12h3" />
       </symbol>
-      <symbol id="i-bed" viewBox="0 0 24 24">
-        <path d="M3 18V8M3 14h18M21 18v-4a2 2 0 0 0-2-2h-7V8H7" />
-        <circle cx="7" cy="11.5" r="1.6" />
-      </symbol>
-      <symbol id="i-route" viewBox="0 0 24 24">
-        <circle cx="6" cy="19" r="2" />
-        <circle cx="18" cy="5" r="2" />
-        <path d="M6 17V11a4 4 0 0 1 4-4h4M18 7v2a4 4 0 0 1-4 4H9" />
-      </symbol>
-      <symbol id="i-clipboard" viewBox="0 0 24 24">
-        <path d="M9 4h6a1 1 0 0 1 1 1v2H8V5a1 1 0 0 1 1-1z" />
-        <path d="M16 5h2a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2" />
-        <path d="M9 13h6M9 17h4" />
-      </symbol>
       <symbol id="i-barrier" viewBox="0 0 24 24">
         <path d="M3 10h18v4H3zM6 14v6M18 14v6" />
         <path d="M3.5 10l3-3M9 10l3-3M14.5 10l3-3M20 10l-1 1" />
-      </symbol>
-      <symbol id="i-shield" viewBox="0 0 24 24">
-        <path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z" />
-        <path d="M9 12l2 2 4-4.5" />
-      </symbol>
-      <symbol id="i-replicate" viewBox="0 0 24 24">
-        <rect x="8" y="8" width="12" height="12" rx="2" />
-        <path d="M16 4H6a2 2 0 0 0-2 2v10" />
-      </symbol>
-      <symbol id="i-scale" viewBox="0 0 24 24">
-        <path d="M3 20h18M6 20V11M11 20V7M16 20v-7M21 20v-4" />
-      </symbol>
-      <symbol id="i-quote-route" viewBox="0 0 24 24">
-        <circle cx="5" cy="19" r="1.6" />
-        <path d="M5 17V8a3 3 0 0 1 3-3h11M14 5l5-0M19 5v3" />
       </symbol>
       <symbol id="i-person" viewBox="0 0 24 24">
         <circle cx="12" cy="7" r="3.5" />
@@ -78,40 +50,25 @@
         <path d="M12 12v6M9 15h6" />
         <path d="M4 21h16" />
       </symbol>
-      <symbol id="i-quote" viewBox="0 0 24 24">
-        <path
-          d="M7 11c0-3 2-5 4-5M7 11v3a3 3 0 0 0 3 3v0a3 3 0 0 0 0-6H7zM15 11c0-3 2-5 4-5M15 11v3a3 3 0 0 0 3 3v0a3 3 0 0 0 0-6h-3z" />
-      </symbol>
-      <symbol id="i-yield" viewBox="0 0 24 24">
-        <path d="M12 3l10 17H2z" />
-        <path d="M12 10v5M12 17.5v.5" />
-      </symbol>
     </defs>
   </svg>
 
-  <header class="hero">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg" type="image/svg+xml">
-      <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg" type="image/svg+xml">
-      <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
-      <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
-      <img alt="When a Ride Is the Missing Treatment — Wesleyan DataFest 2026, Team 13" src="assets/banner-dark.png"
-        width="1200" height="420">
-    </picture>
+  <header class="masthead">
+    <h1>When a Ride Is the Missing Treatment</h1>
+    <p class="dek">Transportation barriers and acute-care patient journeys at Stormont Vail Health, 2022&ndash;2025</p>
+    <p class="byline">Wesleyan DataFest 2026, Team 13</p>
   </header>
 
-  <section class="journey-hero"
-    aria-label="Two patient journeys: direct to clinic vs detoured through the emergency department">
+  <section class="journey-hero" aria-labelledby="journey-cap">
     <div class="journey-inner">
-      <p class="journey-kicker">Two patient journeys, same health system</p>
-      <svg class="journey-svg" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+      <svg class="journey-svg" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <g class="journey-row journey-clinic">
           <path id="path-clinic" class="road" d="M 110 180 C 290 170, 540 135, 820 130" />
           <path class="road-dash" d="M 110 180 C 290 170, 540 135, 820 130" />
 
-          <text x="120" y="62" class="journey-route-label">DIRECT TO CARE</text>
-          <text x="120" y="98" class="journey-stat-label">0.48 <tspan class="journey-stat-unit">ED visits / py</tspan>
-            </text>
+          <text x="120" y="62" class="journey-route-label">Direct to care</text>
+          <text x="120" y="98" class="journey-stat-label">0.48 <tspan class="journey-stat-unit">ED visits per
+              person-year</tspan></text>
 
           <circle r="6" class="journey-pulse pulse-clinic">
             <animateMotion dur="4.6s" repeatCount="indefinite" rotate="auto">
@@ -132,9 +89,9 @@
             </svg>
           </g>
 
-          <text x="120" y="368" class="journey-route-label">DETOURED | BARRIER</text>
-          <text x="120" y="404" class="journey-stat-label">1.94 <tspan class="journey-stat-unit">ED visits / py</tspan>
-            </text>
+          <text x="120" y="368" class="journey-route-label">Detoured by a transport barrier</text>
+          <text x="120" y="404" class="journey-stat-label">1.94 <tspan class="journey-stat-unit">ED visits per
+              person-year</tspan></text>
 
           <circle r="6" class="journey-pulse pulse-ed">
             <animateMotion dur="2.8s" repeatCount="indefinite" rotate="auto">
@@ -148,7 +105,7 @@
           <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" class="endpoint-icon">
             <use href="#i-person" />
           </svg>
-          <text x="0" y="62" class="endpoint-label">PATIENT</text>
+          <text x="0" y="62" class="endpoint-label">Patient</text>
         </g>
 
         <g class="journey-endpoint journey-endpoint-clinic" transform="translate(855, 130)">
@@ -156,7 +113,7 @@
           <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" class="endpoint-icon">
             <use href="#i-clinic" />
           </svg>
-          <text x="0" y="62" class="endpoint-label">CLINIC</text>
+          <text x="0" y="62" class="endpoint-label">Clinic</text>
         </g>
 
         <g class="journey-endpoint journey-endpoint-ed" transform="translate(855, 252)">
@@ -164,106 +121,57 @@
           <svg x="-14" y="-14" width="28" height="28" viewBox="0 0 24 24" class="endpoint-icon">
             <use href="#i-ambulance" />
           </svg>
-          <text x="0" y="62" class="endpoint-label">EMERGENCY</text>
+          <text x="0" y="62" class="endpoint-label">Emergency</text>
         </g>
       </svg>
-      <p class="journey-cap">A single SDOH answer separates these two journeys. n&nbsp;=&nbsp;58,639 screened patients
-        (2,986 with a transport barrier, 55,653 without).</p>
+      <p class="journey-cap" id="journey-cap">Emergency department visits per person-year for screened patients who
+        did and didn't report a transport barrier. n&nbsp;=&nbsp;58,639 (2,986 with a barrier, 55,653 without).</p>
     </div>
   </section>
 
   <main>
     <section class="question">
-      <p class="kicker">The question</p>
-      <p class="ask">Do patients who report a transportation barrier experience measurably different healthcare journeys
-        than otherwise similar patients?</p>
-      <p class="answer">Yes. They visit the emergency department <strong>3&times;</strong> as often &mdash; and the gap
-        survives age and sex adjustment, and persists inside every chronic-disease cohort I checked.</p>
-    </section>
-
-    <section class="stats-wrap">
-      <p class="kicker">The answer</p>
-      <ul class="stats">
-        <li>
-          <span class="stat-icon-wrap"><svg class="icon" aria-hidden="true">
-              <use href="#i-shield" />
-            </svg></span>
-          <span class="stat-num">3.17</span>
-          <span class="stat-label">Adjusted OR<br>for any ED visit</span>
-          <span class="stat-foot">95% CI 2.93&ndash;3.43</span>
-        </li>
-        <li>
-          <span class="stat-icon-wrap"><svg class="icon" aria-hidden="true">
-              <use href="#i-ambulance" />
-            </svg></span>
-          <span class="stat-num">1.94</span>
-          <span class="stat-label">ED visits per<br>person-year</span>
-          <span class="stat-foot">vs 0.48 with no barrier</span>
-        </li>
-        <li>
-          <span class="stat-icon-wrap"><svg class="icon" aria-hidden="true">
-              <use href="#i-pulse" />
-            </svg></span>
-          <span class="stat-num">68%</span>
-          <span class="stat-label">had any ED visit<br>in the window</span>
-          <span class="stat-foot">vs 43% with no barrier</span>
-        </li>
-        <li>
-          <span class="stat-icon-wrap"><svg class="icon" aria-hidden="true">
-              <use href="#i-bed" />
-            </svg></span>
-          <span class="stat-num">63%</span>
-          <span class="stat-label">had any inpatient<br>admission</span>
-          <span class="stat-foot">vs 35% with no barrier</span>
-        </li>
-      </ul>
-    </section>
-
-    <div class="divider" aria-hidden="true">
-      <svg viewBox="0 0 220 40">
-        <path
-          d="M0 20 H40 L50 8 L62 32 L72 20 L84 4 L96 36 L106 14 L120 24 L132 20 H170 L180 14 L188 26 L196 20 H220" />
-      </svg>
-    </div>
-
-    <section class="visual-wrap">
-      <p class="kicker">ED visits per person-year, by cohort</p>
-      <div class="bars">
-        <div class="bar-row">
-          <span class="bar-label"><svg class="icon" aria-hidden="true">
-              <use href="#i-route" />
-            </svg>No transport barrier</span>
-          <div class="bar-track">
-            <div class="bar bar-cool" style="width: 24.7%"></div>
-          </div>
-          <span class="bar-value">0.48</span>
-        </div>
-        <div class="bar-row">
-          <span class="bar-label"><svg class="icon" aria-hidden="true">
-              <use href="#i-barrier" />
-            </svg>Transport barrier</span>
-          <div class="bar-track">
-            <div class="bar bar-warm" style="width: 100%"></div>
-          </div>
-          <span class="bar-value">1.94</span>
-        </div>
-      </div>
-      <p class="cap">n = 58,639 screened patients. Barrier cohort n = 2,986; no-barrier n = 55,653. <a
-          href="https://github.com/Builder106/datafest-2026/blob/main/Team13_Writeup.pdf">Full numbers in the writeup
-          &rarr;</a></p>
+      <h2>Do patients who report a transportation barrier have measurably different healthcare journeys than
+        otherwise similar patients?</h2>
+      <p class="answer">Yes. They make about <strong>four times</strong> as many emergency visits per person-year as
+        patients without a barrier. The gap holds after adjusting for age and sex, and it shows up in each
+        chronic-disease cohort I checked.</p>
+      <table class="outcomes">
+        <caption>Acute care for screened patients over the 2022&ndash;2025 window.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Outcome</th>
+            <th scope="col" class="col-hit">Transport barrier</th>
+            <th scope="col">No barrier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Any ED visit</th>
+            <td class="col-hit">68%</td>
+            <td>43%</td>
+          </tr>
+          <tr>
+            <th scope="row">Any inpatient admission</th>
+            <td class="col-hit">63%</td>
+            <td>35%</td>
+          </tr>
+          <tr>
+            <th scope="row">Inpatient admissions per person-year</th>
+            <td class="col-hit">0.70</td>
+            <td>0.22</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section>
-      <p class="kicker">Why I believe it</p>
-      <h2>Three robustness checks</h2>
+      <h2>How the result holds up</h2>
       <div class="check-grid">
         <div class="check">
-          <h3><svg class="icon" aria-hidden="true">
-              <use href="#i-shield" />
-            </svg>It survives age and sex adjustment</h3>
+          <h3>It survives age and sex adjustment</h3>
           <p>Logistic model <code>outcome ~ transport + age + sex</code> on n&nbsp;=&nbsp;58,639 screened patients.
-            Adjusted OR <strong>3.17</strong> (95% CI 2.93&ndash;3.43) for any ED use. Barrier patients are also
-            <em>younger</em> (median 51 vs 61), so this isn't an age artifact.</p>
+            Barrier patients are also <em>younger</em> (median 51 vs 61), so this isn't an age artifact.</p>
           <svg class="forest" viewBox="0 0 200 104" role="img" aria-labelledby="forest-title" data-reveal>
             <title id="forest-title">Adjusted odds ratios with 95% confidence intervals: any ED visit 3.17 (2.93 to
               3.43); any inpatient admission 3.49 (3.23 to 3.77). A ratio of 1 means no difference.</title>
@@ -306,19 +214,15 @@
           <p class="viz-note">Adjusted odds ratio, 95% CI. The dashed line at 1 means no difference.</p>
         </div>
         <div class="check">
-          <h3><svg class="icon" aria-hidden="true">
-              <use href="#i-replicate" />
-            </svg>It replicates inside every chronic disease</h3>
-          <p>Restricting to patients with hypertension, type&nbsp;2 diabetes, CKD, or AFib index encounters, the 180-day
-            ED-return rate roughly doubles. The chart below breaks it out by cohort.</p>
+          <h3>It holds within four chronic diseases</h3>
+          <p>Among patients with a hypertension, type&nbsp;2 diabetes, CKD, or AFib index encounter, the 180-day
+            ED-return rate is higher for barrier patients in all four, and roughly double in three. The chart below
+            breaks it out by cohort.</p>
         </div>
         <div class="check">
-          <h3><svg class="icon" aria-hidden="true">
-              <use href="#i-scale" />
-            </svg>The scale is real</h3>
+          <h3>It uses the full four-year release</h3>
           <p><strong>7,675,801</strong> encounters across <strong>947,685</strong> patients, 2022-01-01 through
-            2025-12-31. A 12-domain social-determinants questionnaire identifies the cohort. The effect is robust to
-            multiple cohort definitions and outcome variants.</p>
+            2025-12-31. A 12-domain social-determinants questionnaire identifies the cohort.</p>
         </div>
       </div>
 
@@ -398,64 +302,17 @@
       </figure>
     </section>
 
-    <div class="divider" aria-hidden="true">
-      <svg viewBox="0 0 220 40">
-        <path
-          d="M0 20 H40 L50 8 L62 32 L72 20 L84 4 L96 36 L106 14 L120 24 L132 20 H170 L180 14 L188 26 L196 20 H220" />
-      </svg>
-    </div>
-
     <section class="implication">
-      <p class="kicker">What it means</p>
-      <svg class="gate" viewBox="0 0 480 130" aria-hidden="true" data-reveal>
-        <rect class="gate-road" x="60" y="86" width="360" height="22" rx="11" />
-        <line class="gate-lane" x1="76" y1="97" x2="404" y2="97" />
-        <g transform="translate(240, 70)">
-          <g class="gate-arm">
-            <rect x="0" y="-4" width="80" height="8" rx="4" class="gate-arm-bar" />
-            <rect x="16" y="-4" width="9" height="8" class="gate-arm-stripe" />
-            <rect x="36" y="-4" width="9" height="8" class="gate-arm-stripe" />
-            <rect x="56" y="-4" width="9" height="8" class="gate-arm-stripe" />
-          </g>
-        </g>
-        <rect class="gate-post" x="234" y="62" width="10" height="46" rx="3" />
-        <circle class="gate-pivot" cx="240" cy="70" r="5" />
-        <g transform="translate(0, 96)">
-          <g class="gate-car">
-            <rect x="-13" y="-25" width="26" height="12" rx="4" class="gate-car-roof" />
-            <rect x="-23" y="-15" width="46" height="13" rx="5" class="gate-car-body" />
-            <circle cx="-12" cy="-1" r="5" class="gate-car-wheel" />
-            <circle cx="12" cy="-1" r="5" class="gate-car-wheel" />
-          </g>
-        </g>
-        <g transform="translate(40, 97)">
-          <circle r="26" class="endpoint-bg-origin" />
-          <svg x="-12" y="-12" width="24" height="24" viewBox="0 0 24 24" class="gate-icon">
-            <use href="#i-person" />
-          </svg>
-        </g>
-        <g transform="translate(440, 97)">
-          <circle r="26" class="gate-ring" />
-          <circle r="26" class="endpoint-bg-clinic" />
-          <svg x="-12" y="-12" width="24" height="24" viewBox="0 0 24 24" class="gate-icon gate-icon-clinic">
-            <use href="#i-clinic" />
-          </svg>
-        </g>
-      </svg>
-      <blockquote>
-        <p>A single question &mdash; <em>&ldquo;Has lack of transportation kept you from medical
-            appointments?&rdquo;</em> &mdash; identifies a cohort with <strong>~3&times; odds</strong> of acute-care
-          need, independent of age.</p>
-        <p>This is a high-yield intervention target: reliable rides, co-located pharmacy delivery, tele-visits for
-          chronic-disease follow-up, and case management. Acting on the transport answer that Stormont Vail <em>already
-            collects</em> is a concrete next step.</p>
-      </blockquote>
+      <h2>The screening question is already being asked</h2>
+      <p class="lead">Stormont Vail already asks patients, <em>&ldquo;Has lack of transportation kept you from medical
+          appointments?&rdquo;</em> Those who answer yes have about three times the odds of an ED visit, regardless
+        of age.</p>
+      <p>That answer could route patients to reliable rides, pharmacy delivery, tele-visits for chronic-disease
+        follow-up, or case management.</p>
     </section>
 
     <section class="caveat">
-      <p class="kicker caution-kicker"><svg class="icon" aria-hidden="true">
-          <use href="#i-yield" />
-        </svg>Honest limits</p>
+      <h2>Limits</h2>
       <p>The data is observational and the screening sample is non-random. Only <strong>~6%</strong> of patients in the
         release have any SDOH answer, so absolute prevalences shouldn't be projected to the full system.
         <strong>20%</strong> of encounter rows carry a diagnosis key not in the lookup; <strong>65%</strong> of patients
@@ -481,28 +338,24 @@
     </section>
 
     <section class="links">
-      <p class="kicker">Read the analysis</p>
+      <h2>Read the analysis</h2>
       <ul class="deliverables">
         <li>
           <a href="https://github.com/Builder106/datafest-2026/blob/main/Team13_Writeup.pdf">
-            <span class="label">PDF | 1 page</span>
             <span class="title">Judges' writeup</span>
-            <span class="desc">The full method, numbers, and caveats in one page.</span>
+            <span class="desc">The full method, numbers, and caveats. PDF, 1 page.</span>
           </a>
         </li>
         <li>
           <a href="https://github.com/Builder106/datafest-2026/blob/main/Team13_Presentation.pdf">
-            <span class="label">PDF | 4 slides</span>
             <span class="title">Presentation deck</span>
-            <span class="desc">What I presented to the judges on Sunday.</span>
+            <span class="desc">What I presented to the judges on Sunday. PDF, 4 slides.</span>
           </a>
         </li>
         <li>
           <a href="https://github.com/Builder106/datafest-2026">
-            <span class="label">Code</span>
             <span class="title">R + DuckDB pipeline</span>
-            <span class="desc">Reproducible analysis &mdash; clone, drop in the CSVs,
-              <code>Rscript run_all.R</code>.</span>
+            <span class="desc">Clone it, drop in the CSVs, and run <code>Rscript run_all.R</code>.</span>
           </a>
         </li>
       </ul>

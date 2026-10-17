@@ -9,7 +9,7 @@ Feature: DataFest-2026 research site
   Scenario: Patient journey visualization is rendered
     Given I am on the research site
     Then the journey SVG is visible
-    And the transport barrier bar chart is visible
+    And the cohort chart shows 4 conditions
 
   Scenario: Three robustness check cards are present
     Given I am on the research site

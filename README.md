@@ -3,7 +3,7 @@
   <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg" type="image/svg+xml">
   <source media="(prefers-color-scheme: dark)"  srcset="assets/banner-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
-  <img alt="When a Ride Is the Missing Treatment — Wesleyan DataFest 2026, Team 13" src="assets/banner-dark.svg">
+  <img alt="When a Ride Is the Missing Treatment | Wesleyan DataFest 2026, Team 13" src="assets/banner-dark.svg">
 </picture>
 
 [![CI](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml)
@@ -13,13 +13,11 @@
 [![Site](https://img.shields.io/badge/site-live-success.svg)](https://datafest-2026.vercel.app/)
 [![DataFest](https://img.shields.io/badge/DataFest-2026-success.svg)](https://ww2.amstat.org/education/datafest/)
 
-> A single question: *"Has lack of transportation kept you from medical appointments?"* identifies a patient group with **over 3x higher odds** of needing emergency hospital care, regardless of age. This repository contains the reproducible analysis pipeline behind that finding.
+> A single question, *"Has lack of transportation kept you from medical appointments?"*, identifies a patient group with **over 3x higher odds** of an emergency department visit after adjusting for age and sex. This repository contains the reproducible analysis pipeline behind that finding.
 
-## 💡 What is this Project?
+When patients can't get a ride to routine appointments, problems that a clinic visit could handle may end up in the emergency department instead. This project used de-identified records covering 7.6 million encounters for 947,685 patients to compare acute-care use between patients who did and didn't report a transportation barrier.
 
-When patients cannot get a ride to regular doctor appointments, small health problems can grow into medical emergencies. This project analyzed anonymized hospital records from nearly 1 million patient encounters to study how transportation barriers impact healthcare outcomes.
-
-The finding is striking: patients without reliable transportation visit the emergency room four times more frequently and are admitted to the hospital over three times as often. Providing basic transportation support can keep patients healthier while drastically reducing emergency healthcare costs.
+Patients who reported a barrier made about four times as many emergency department visits per person-year and about three times as many inpatient admissions. The data is observational, so it shows who is at risk, not what an intervention would save. Since the health system already asks the question, the answer is a ready way to flag patients for ride support, tele-visits, or case management.
 
 **Live site:** [datafest-2026.vercel.app](https://datafest-2026.vercel.app/)
 
@@ -35,19 +33,21 @@ Full deliverables:
 
 ## Key findings
 
-| Outcome | Patients with reliable rides | Patients with transportation barriers | Effect |
+| Outcome | No barrier reported (n = 55,653) | Transport barrier reported (n = 2,986) | Comparison |
 | --- | --- | --- | --- |
-| Emergency Room (ED) visits per person per year | 0.48 | **1.94** | 4.0x more visits |
-| Hospital inpatient admissions per person per year | 0.22 | **0.70** | 3.2x more hospitalizations |
-| Likelihood of visiting the Emergency Room | 43% | **68%** | **3.17x higher odds** (95% CI 2.93 to 3.43) |
-| Likelihood of hospital admission | 35% | **63%** | **3.49x higher odds** (95% CI 3.23 to 3.77) |
+| ED visits per person-year | 0.48 | **1.94** | 4.0x the rate |
+| Inpatient admissions per person-year | 0.22 | **0.70** | 3.2x the rate |
+| Any ED visit in the window | 43% | **68%** | adjusted OR **3.17** (95% CI 2.93 to 3.43) |
+| Any inpatient admission in the window | 35% | **63%** | adjusted OR **3.49** (95% CI 3.23 to 3.77) |
+
+The odds ratios come from a logistic model, `outcome ~ transport + age + sex`, fit on the 58,639 screened patients. They compare odds, not visit counts, so they aren't interchangeable with the rate ratios above them.
 
 *What this means:*
-- **Emergency Room (ED) visits**: Patients facing ride barriers end up in the emergency room about four times as often.
-- **Hospital Inpatient Stays**: Patients who miss routine checkups are more than three times as likely to be admitted to a hospital bed for intensive care.
-- **Across chronic conditions**: The gap persists across chronic diseases: hypertension (33% vs 15% return to ED within 180 days), type 2 diabetes (40% vs 17%), kidney disease (37% vs 21%), and irregular heartbeat (34% vs 24%). Patients with transportation barriers are also younger on average (median age 51 vs 61), proving this is not simply an effect of aging.
+- **ED visits**: Patients who reported a transportation barrier made about four times as many emergency department visits per person-year.
+- **Inpatient admissions**: The same patients had about three times as many inpatient admissions per person-year, and higher odds of any admission after adjusting for age and sex.
+- **Across chronic conditions**: Among patients with an index encounter for hypertension, type 2 diabetes, chronic kidney disease, or atrial fibrillation, barrier patients returned to the ED within 180 days more often in every cohort (33% vs 15%, 40% vs 17%, 37% vs 21%, and 34% vs 24%). Barrier patients were also younger (median age 51 vs 61), so the gap isn't explained by age.
 
-Caveats matter — see the [writeup](Team13_Writeup.pdf) and the [Caveats](#caveats) section below.
+For the full caveats, see the [writeup](Team13_Writeup.pdf) and the [Caveats](#caveats) section below.
 
 ## Pipeline
 
@@ -55,7 +55,7 @@ Caveats matter — see the [writeup](Team13_Writeup.pdf) and the [Caveats](#cave
 
 The ETL loads seven CSVs into DuckDB. EDA and Flourish or slide exports read the store directly; the journey table feeds statistical analysis and figures. Tables, figures, Flourish CSVs, and animation feed the Team 13 deck and writeup. Direct exports come from `06_flourish_export.R` and `07_slide4_line_export.R`. Outputs land in `output/tables/`, `output/figures/`, `output/flourish/`, and `figures/slide4_ed_py_*`.
 
-The pipeline is orchestrated by **[run_all.R](analysis/R/run_all.R)**and gated by smoke tests in**[smoke_test_outputs.R](analysis/tests/smoke_test_outputs.R)**.
+**[run_all.R](analysis/R/run_all.R)** runs the pipeline. After a run, **[smoke_test_outputs.R](analysis/tests/smoke_test_outputs.R)** checks that the expected outputs exist.
 
 ## Reproducing the analysis
 
@@ -88,10 +88,10 @@ Full run-order details: **[analysis/README.md](analysis/README.md)**.
 
 ## Caveats
 
-The data is observational and the screening sample is non-random. We surface these explicitly rather than hiding them:
+The data is observational and the screening sample is non-random.
 
-- Only **~6%** of patients in the release (61,052 / 947,685) completed social determinants of health survey questions.
-- **20%** of encounter rows carry a missing diagnosis key (a known data issue per the sponsor Q&A), meaning chronic disease rates represent a conservative lower bound.
+- Only **~6%** of patients in the release (61,052 / 947,685) answered the transportation questions, so absolute prevalences shouldn't be projected to the whole system.
+- **20%** of encounter rows carry a diagnosis key that isn't in the diagnosis lookup (a known data issue per the sponsor Q&A), so the chronic-disease cohorts are a lower bound.
 - **65%** of patients have no parseable location code, so geographic models were not fit.
 - Patient journeys are tracked within the 2022 to 2025 window; rates are annualized by observed follow-up.
 

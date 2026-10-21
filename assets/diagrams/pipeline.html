@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One DuckDB file feeds every step</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root { color-scheme: light dark; --bg: #ffffff; --ink: #1f2328; --muted: #59636e; --edge: #59636e; --box: #8c959f; --group: #d1d9e0; --groupfill: #f6f8fa; --accent: #0969da; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0d1117; --ink: #f0f6fc; --muted: #9198a1; --edge: #9198a1; --box: #656c76; --group: #3d444d; --groupfill: #151b23; --accent: #4493f8; } }
+html, body { margin: 0; background: var(--bg); }
+main { max-width: 880px; margin: 0 auto; }
+svg { display: block; width: 100%; height: auto; }
+text { font-family: "IBM Plex Sans", system-ui, sans-serif; fill: var(--ink); }
+.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.muted { fill: var(--muted); }
+.accent-text { fill: var(--accent); }
+.bg, .halo { fill: var(--bg); }
+.node { fill: var(--bg); stroke-width: 1.25; }
+.node.box { stroke: var(--box); }
+.node.accent { stroke: var(--accent); stroke-width: 2; }
+.group { fill: var(--groupfill); stroke: var(--group); }
+.boundary { fill: none; stroke: var(--box); stroke-dasharray: 6 6; }
+.edge { fill: none; stroke: var(--edge); stroke-width: 1.5; }
+.edge.accent { stroke: var(--accent); stroke-width: 2; }
+.edge.dashed { stroke-dasharray: 6 5; }
+.lifeline { fill: none; stroke: var(--group); stroke-dasharray: 4 5; }
+.tip { fill: var(--edge); }
+.tip-accent { fill: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 411" role="img" aria-labelledby="diagram-title diagram-desc">
+<title id="diagram-title">One DuckDB file feeds every step</title>
+<desc id="diagram-desc">01_etl.R loads seven CSVs into a DuckDB file. 03_journey.R reads it and writes the patient_analytic table back. 02_eda.R, 04_analyses.R, and 06_flourish_export.R read from the file. 05_figures.R does not touch DuckDB; it reads the CSV tables that 04_analyses.R writes.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="tip" d="M0,0 L10,5 L0,10 Z"/></marker>
+<marker id="arrow-accent" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="tip-accent" d="M0,0 L10,5 L0,10 Z"/></marker>
+</defs>
+<rect class="bg" width="880" height="411"/>
+<rect class="node box" x="16" y="120" width="150" height="67" rx="6"/>
+<text x="30" y="147" font-size="16" font-weight="600">Seven CSVs</text>
+<text x="30" y="168" font-size="14" class="muted">EHR and SDOH</text>
+<rect class="node box" x="206" y="120" width="140" height="67" rx="6"/>
+<text x="220" y="147" font-size="16" class="mono" font-weight="600">01_etl.R</text>
+<text x="220" y="168" font-size="14" class="muted">loads tables</text>
+<path class="node accent" d="M386,124 V181 A90,10 0 0 0 566,181 V124 A90,10 0 0 0 386,124 Z"/><ellipse class="node accent" cx="476" cy="124" rx="90" ry="10"/>
+<text x="400" y="151" font-size="16" font-weight="600">DuckDB</text>
+<text x="400" y="172" font-size="14" class="muted">datafest.duckdb</text>
+<rect class="node box" x="386" y="16" width="180" height="67" rx="6"/>
+<text x="400" y="43" font-size="16" class="mono" font-weight="600">03_journey.R</text>
+<text x="400" y="64" font-size="14" class="muted mono">patient_analytic</text>
+<rect class="node box" x="626" y="16" width="238" height="67" rx="6"/>
+<text x="640" y="43" font-size="16" class="mono" font-weight="600">02_eda.R</text>
+<text x="640" y="64" font-size="14" class="muted">describes raw tables</text>
+<rect class="node box" x="626" y="120" width="238" height="67" rx="6"/>
+<text x="640" y="147" font-size="16" class="mono" font-weight="600">06_flourish_export.R</text>
+<text x="640" y="168" font-size="14" class="muted">Flourish CSVs</text>
+<rect class="node box" x="626" y="224" width="238" height="67" rx="6"/>
+<text x="640" y="251" font-size="16" class="mono" font-weight="600">04_analyses.R</text>
+<text x="640" y="272" font-size="14" class="muted">writes an_*.csv tables</text>
+<rect class="node box" x="626" y="328" width="238" height="67" rx="6"/>
+<text x="640" y="355" font-size="16" class="mono" font-weight="600">05_figures.R</text>
+<text x="640" y="376" font-size="14" class="muted">reads those tables</text>
+<path class="edge" d="M166,153.5 L206,153.5" marker-end="url(#arrow)"/>
+<path class="edge" d="M346,153.5 L386,153.5" marker-end="url(#arrow)"/>
+<path class="edge" d="M476,83 L476,114" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<path class="edge" d="M566,152.5 L596,152.5 L596,49.5 L626,49.5" marker-end="url(#arrow)"/>
+<path class="edge" d="M566,152.5 L596,152.5 L596,153.5 L626,153.5" marker-end="url(#arrow)"/>
+<path class="edge" d="M566,152.5 L596,152.5 L596,257.5 L626,257.5" marker-end="url(#arrow)"/>
+<path class="edge" d="M745,291 L745,328" marker-end="url(#arrow)"/>
+<rect class="halo" x="749" y="301.5" width="86.4" height="19"/>
+<text x="753" y="314.5" font-size="14" class="label">CSV tables</text>
+</svg>
+</main>
+<script type="application/json" id="diagram-spec">
+{
+  "title": "One DuckDB file feeds every step",
+  "desc": "01_etl.R loads seven CSVs into a DuckDB file. 03_journey.R reads it and writes the patient_analytic table back. 02_eda.R, 04_analyses.R, and 06_flourish_export.R read from the file. 05_figures.R does not touch DuckDB; it reads the CSV tables that 04_analyses.R writes.",
+  "width": 880,
+  "nodes": [
+    {
+      "id": "csv",
+      "x": 16,
+      "y": 120,
+      "w": 150,
+      "title": "Seven CSVs",
+      "lines": [
+        "EHR and SDOH"
+      ]
+    },
+    {
+      "id": "etl",
+      "x": 206,
+      "y": 120,
+      "w": 140,
+      "title": "01_etl.R",
+      "mono_title": true,
+      "lines": [
+        "loads tables"
+      ]
+    },
+    {
+      "id": "db",
+      "x": 386,
+      "y": 114,
+      "w": 180,
+      "shape": "store",
+      "accent": true,
+      "title": "DuckDB",
+      "lines": [
+        "datafest.duckdb"
+      ]
+    },
+    {
+      "id": "jny",
+      "x": 386,
+      "y": 16,
+      "w": 180,
+      "title": "03_journey.R",
+      "mono_title": true,
+      "lines": [
+        {
+          "text": "patient_analytic",
+          "mono": true
+        }
+      ]
+    },
+    {
+      "id": "eda",
+      "x": 626,
+      "y": 16,
+      "w": 238,
+      "title": "02_eda.R",
+      "mono_title": true,
+      "lines": [
+        "describes raw tables"
+      ]
+    },
+    {
+      "id": "fl",
+      "x": 626,
+      "y": 120,
+      "w": 238,
+      "title": "06_flourish_export.R",
+      "mono_title": true,
+      "lines": [
+        "Flourish CSVs"
+      ]
+    },
+    {
+      "id": "an",
+      "x": 626,
+      "y": 224,
+      "w": 238,
+      "title": "04_analyses.R",
+      "mono_title": true,
+      "lines": [
+        "writes an_*.csv tables"
+      ]
+    },
+    {
+      "id": "fig",
+      "x": 626,
+      "y": 328,
+      "w": 238,
+      "title": "05_figures.R",
+      "mono_title": true,
+      "lines": [
+        "reads those tables"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "csv.r",
+      "to": "etl.l"
+    },
+    {
+      "from": "etl.r",
+      "to": [
+        386,
+        153.5
+      ]
+    },
+    {
+      "from": "jny.b",
+      "to": "db.t",
+      "both": true
+    },
+    {
+      "from": "db.r",
+      "to": "eda.l"
+    },
+    {
+      "from": "db.r",
+      "to": "fl.l"
+    },
+    {
+      "from": "db.r",
+      "to": "an.l"
+    },
+    {
+      "from": "an.b",
+      "to": "fig.t",
+      "label": "CSV tables"
+    }
+  ]
+}
+</script>
+</body>
+</html>

@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-10-21: Redraw the pipeline figure from the code #decision
+
+The old figure drew `05_figures.R` reading the patient table. It reads the `an_*.csv` tables that `04_analyses.R` writes, and the new figure in `assets/diagrams/` shows that. It also dropped the template title, the tinted deliverables box, and deck notes like "Team 13 deck".
+
 ## 2026-10-17: Stripped template tells and fixed the "3×" claim #decision
 
 An audit found the site saying patients "visit the ED 3× as often." The visit rate ratio is 4.0× (1.94 vs 0.48); 3.17 is the adjusted *odds ratio* for any ED visit, which is a different measure. The page, meta description, and social card now say "about four times as many" and keep 3.17 labeled as an odds ratio. I also cut "robust to multiple cohort definitions and outcome variants," which nothing on the page or in the writeup supports. I deliberately didn't swap in the E-value from `08_sensitivity_analysis.R`: that script uses the rare-outcome formula `OR + sqrt(OR(OR−1))`, and with 43–68% of patients having any ED visit the outcome isn't rare, so 5.72 overstates it. The rest was decoration that read as generated: the banner image (now a real `<h1>` masthead; the README keeps the banner), eight small-caps kickers, four icon stat cards (now a plain outcomes table), the repeated bar chart, both ECG dividers, corner watermarks, glows, gradients, the barrier-gate loop, and the stock Tailwind palette. Type is Newsreader for headings and Public Sans for text, on warm neutrals with a teal and brick pair.

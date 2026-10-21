@@ -51,9 +51,16 @@ For the full caveats, see the [writeup](Team13_Writeup.pdf) and the [Caveats](#c
 
 ## Pipeline
 
-![DataFest analysis pipeline](assets/pipeline.png)
+After the ETL, everything reads from one DuckDB file. The exception is `05_figures.R`, which reads the CSV tables that `04_analyses.R` writes.
 
-The ETL loads seven CSVs into DuckDB. EDA and Flourish or slide exports read the store directly; the journey table feeds statistical analysis and figures. Tables, figures, Flourish CSVs, and animation feed the Team 13 deck and writeup. Direct exports come from `06_flourish_export.R` and `07_slide4_line_export.R`. Outputs land in `output/tables/`, `output/figures/`, `output/flourish/`, and `figures/slide4_ed_py_*`.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/diagrams/pipeline-dark.png">
+  <img src="assets/diagrams/pipeline.png" alt="01_etl.R loads seven CSVs into datafest.duckdb. 03_journey.R reads the file and writes the patient_analytic table back. 02_eda.R, 06_flourish_export.R, and 04_analyses.R read from it. 04_analyses.R writes CSV tables, and 05_figures.R reads those instead of the database." width="880">
+</picture>
+
+[Edit the diagram](assets/diagrams/pipeline.html).
+
+`07_slide4_line_export.R` runs separately and draws the slide 4 chart from the Flourish CSVs. Outputs land in `output/tables/`, `output/figures/`, and `output/flourish/`.
 
 **[run_all.R](analysis/R/run_all.R)** runs the pipeline. After a run, **[smoke_test_outputs.R](analysis/tests/smoke_test_outputs.R)** checks that the expected outputs exist.
 

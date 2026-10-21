@@ -3,7 +3,7 @@
   <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg" type="image/svg+xml">
   <source media="(prefers-color-scheme: dark)"  srcset="assets/banner-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
-  <img alt="When a Ride Is the Missing Treatment | Wesleyan DataFest 2026, Team 13" src="assets/banner-dark.svg">
+  <img alt="When a Ride Is the Missing Treatment. Wesleyan DataFest 2026, Team 13. Emergency department visits per person-year: 1.94 for patients who reported a transportation barrier, 0.48 for those who did not." src="assets/banner-dark.svg">
 </picture>
 
 [![CI](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/datafest-2026/actions/workflows/ci.yml)

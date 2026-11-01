@@ -123,7 +123,8 @@ jobs:
         run: npx license-checker --summary
 
       - name: Node dependency audit
-        run: npm audit --audit-level=high      - name: Cache Playwright browsers
+        run: npm audit --audit-level=high
+      - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v6
         with:

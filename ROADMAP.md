@@ -5,7 +5,7 @@ Data analysis pipeline, exploratory models, and presentation roadmap.
 ## v1.1 — Feature Engineering & Cleaning
 
 - [x] **Automated Pipeline**: Robust missing data imputation and outlier detection.
-- [ ] **Exploratory Data Analysis**: Statistical correlation and dimensional reduction (PCA, UMAP).
+- [x] **Exploratory Data Analysis**: Statistical correlation and dimensional reduction (PCA, UMAP).
 
 ## v1.2 — Modeling & Insight Delivery
 

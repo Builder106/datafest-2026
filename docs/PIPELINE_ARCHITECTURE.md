@@ -11,6 +11,7 @@ This document describes the design, schema, and technical safeguards of Team 13'
                                    │                           │
                                    │                           ├──> 03b_clean_impute.R ──> [Clean Patient Table]
                                    │                           │          │
+                                   │                           │          ├──> 03c_eda_dimred.R ──> [PCA & UMAP Embeddings]
                                    │                           │          ├──> 04_analyses.R (GLM)
                                    │                           │          ├──> 05_figures.R (ggplot2)
                                    │                           │          └──> 08_sensitivity_analysis.R (IPW)
@@ -27,6 +28,8 @@ The local columnar database (`~/.datafest_cache/datafest.duckdb`) organizes ~7.6
 - **`diagnoses`**: ICD-10 diagnosis mappings (`PrimaryDiagnosisKey`, `ICD10Code`, `GroupCode`).
 - **`patient_analytic`**: Patient-level journey metrics joined with SDOH and demographics.
 - **`patient_analytic_clean`**: Robustly cleaned patient cohort featuring Winsorized numeric outliers and imputed missing values with tracking indicators.
+- **`patient_analytic_pca`**: Orthogonal principal component projections (PC1–PC10) with feature factor loadings.
+- **`patient_analytic_umap`**: Non-linear manifold embeddings (UMAP1, UMAP2) mapping topological patient clusters.
 
 ### Safeguards & Invariants
 
@@ -34,6 +37,7 @@ The local columnar database (`~/.datafest_cache/datafest.duckdb`) organizes ~7.6
 2. **Self-Locating Portable ROOT**: Every R script resolves paths relative to its script location via `--file=`parameter,`DATAFEST_ROOT` environment override, or working directory fallback.
 3. **Base-R Graphics Fallback**: `05_figures_base.R`provides an un-depended parachute renderer if`ggplot2`/`rlang` fails in restricted competition environments.
 4. **Robust Automated Preprocessing**: `03b_clean_impute.R` applies IQR Tukey's fences and MAD (Hampel filter) outlier capping alongside median/mode imputation with missingness indicators, preventing leverage distortion while retaining full sample size.
+5. **Deterministic Dimensional Reduction**: `03c_eda_dimred.R` calculates Pearson and Spearman correlation matrices with p-values, SVD-based PCA with variance decomposition, and a self-contained pure-R UMAP manifold embedding with high-dimensional fuzzy simplicial sets and Cauchy-kernel gradient optimization.
 
 ## 3. Statistical Framing
 

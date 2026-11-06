@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-11-06 — Exploratory data analysis: statistical correlation and dimensional reduction (PCA, UMAP) #decision #milestone
+
+Added `03c_eda_dimred.R` and deterministic EDA helpers (`calc_correlation_matrix`, `calc_feature_correlations`, `find_top_correlations`, `fit_pca`, `project_pca`, `fit_umap`) to `analysis/R/functions.R`. The statistical correlation module computes full Pearson and Spearman correlation matrices, Student's t-test p-value significance matrices, and collinear feature rankings against acute care utilization targets. Principal Component Analysis extracts eigenvalues, proportion of variance explained, feature loadings, and orthogonal patient projections. A pure-R UMAP implementation constructs high-dimensional fuzzy simplicial sets with binary-searched local connectivity scales $\sigma_i$ and optimizes 2D manifold embeddings via Cauchy-kernel gradient descent, avoiding external C++ compilation dependencies. All helpers achieve 100% line coverage under `covr`.
+
 ## 2026-11-06 — Automated pipeline for missing data imputation and outlier detection #decision #milestone
 
 Added `03b_clean_impute.R` and deterministic cleaning helpers (`impute_missing`, `impute_dt`, `calc_outlier_bounds`, `detect_outliers`, `cap_outliers`, `clean_pipeline_features`, `summarize_cleaning`) to `analysis/R/functions.R`. Outliers are treated via Tukey IQR fences and MAD Hampel filters with Winsorization capping rather than truncation, preserving full sample size across the patient journey cohort. Missing values are imputed using robust central tendencies (medians for continuous encounter and age metrics, statistical modes for discrete SDOH demographics) while appending binary missingness indicators to preserve unmeasured SDOH screening signals. The deterministic analysis test suite achieves 100% line coverage under `covr`.

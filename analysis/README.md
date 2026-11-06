@@ -18,11 +18,12 @@
 ## Test coverage
 
 CI enforces 100% line coverage for the deterministic analysis scope in
-`analysis/R/functions.R`. This scope contains the reusable `coef_or()` helper
-and is tested with synthetic GLM inputs. The data-backed DuckDB pipeline,
-figures, exports, and generated-output smoke test remain integration or local
-reproducibility checks because they require the licensed data bundle or
-external tools.
+`analysis/R/functions.R`. This scope contains reusable regression helpers (`coef_or()`),
+robust missing data imputation (`impute_missing()`, `impute_dt()`), and outlier detection
+and capping (`calc_outlier_bounds()`, `detect_outliers()`, `cap_outliers()`, `clean_pipeline_features()`).
+The data-backed DuckDB pipeline, figures, exports, and generated-output smoke test remain
+integration or local reproducibility checks because they require the licensed data bundle
+or external tools.
 
 Run the coverage gate with:
 

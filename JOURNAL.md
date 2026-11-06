@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-11-06 — Automated pipeline for missing data imputation and outlier detection #decision #milestone
+
+Added `03b_clean_impute.R` and deterministic cleaning helpers (`impute_missing`, `impute_dt`, `calc_outlier_bounds`, `detect_outliers`, `cap_outliers`, `clean_pipeline_features`, `summarize_cleaning`) to `analysis/R/functions.R`. Outliers are treated via Tukey IQR fences and MAD Hampel filters with Winsorization capping rather than truncation, preserving full sample size across the patient journey cohort. Missing values are imputed using robust central tendencies (medians for continuous encounter and age metrics, statistical modes for discrete SDOH demographics) while appending binary missingness indicators to preserve unmeasured SDOH screening signals. The deterministic analysis test suite achieves 100% line coverage under `covr`.
+
 ## 2026-10-21: Rebuild the README banner in the site's style #decision
 
 The banner still had the look the site dropped on 10-17: a blue top rule, a small-caps eyebrow, tracked uppercase labels, stock Tailwind blue and red, and Helvetica. It now uses Newsreader, Public Sans, and the site's brick and neutrals, leads with the four-times visit gap, and draws the 0.48 and 1.94 bars on one scale. I took the odds ratio out, since the findings table gives it with its interval. GitHub loads README SVGs through `<img>`, which can't fetch Google Fonts, so each SVG embeds WOFF2 files subset to the banner's characters with the Google Fonts `text=` parameter. If you change the wording, fetch the fonts again or the new characters fall back to Georgia and Helvetica. The backgrounds are GitHub's own (#ffffff and #0d1117), not the site's warm off-white.

@@ -21,6 +21,10 @@ Patients who reported a barrier made about four times as many emergency departme
 
 **Live site:** [datafest-2026.vercel.app](https://datafest-2026.vercel.app/)
 
+<p align="center">
+  <img src="assets/screenshot.png" alt="The opening of the DataFest 2026 write-up, When a Ride Is the Missing Treatment. A road diagram compares emergency department visits per person-year for patients who reported a transport barrier and patients who did not." width="880">
+</p>
+
 ## What this is
 
 Team 13's project for **[ASA DataFest 2026](https://ww2.amstat.org/education/datafest/)** at **Wesleyan University** (April 17 to 19, 2026). The data sponsor was **Stormont Vail Health**, which provided an anonymized electronic health record sample linked to social needs survey responses.

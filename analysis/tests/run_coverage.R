@@ -11,7 +11,8 @@ coverage <- covr::file_coverage(
   test_files = c(
     "analysis/tests/test_coef_or.R",
     "analysis/tests/test_transport_classify.R",
-    "analysis/tests/test_pipeline_cleaning.R"
+    "analysis/tests/test_pipeline_cleaning.R",
+    "analysis/tests/test_eda_dimred.R"
   )
 )
 

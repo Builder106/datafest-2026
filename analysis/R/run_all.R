@@ -25,6 +25,7 @@ if (!skip_etl) {
 }
 source(file.path(ROOT, "analysis", "R", "02_eda.R"))
 source(file.path(ROOT, "analysis", "R", "03_journey.R"))
+source(file.path(ROOT, "analysis", "R", "03b_clean_impute.R"))
 source(file.path(ROOT, "analysis", "R", "04_analyses.R"))
 source(file.path(ROOT, "analysis", "R", "05_figures.R"))
 source(file.path(ROOT, "analysis", "R", "06_flourish_export.R"))

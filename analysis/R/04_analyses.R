@@ -99,16 +99,17 @@ print(ed_rate); save_tbl(ed_rate, "an_annualized_rates_by_transport.csv")
 
 log_note("logistic regression: any ED visit ~ transport + age + sex (approx via GLM in R)")
 
-pa_df <- as.data.table(dbGetQuery(con, "
+src_tbl <- if (dbExistsTable(con, "patient_analytic_clean")) "patient_analytic_clean" else "patient_analytic"
+pa_df <- as.data.table(dbGetQuery(con, sprintf("
   SELECT PatientDurableKey,
          CAST(n_ed > 0 AS INTEGER) AS any_ed,
          CAST(n_inpatient > 0 AS INTEGER) AS any_inpat,
          transport_status,
          age_proxy,
          SexAtBirth
-  FROM patient_analytic
+  FROM %s
   WHERE transport_status IN ('barrier','no_barrier')
-    AND age_proxy IS NOT NULL;"))
+    AND age_proxy IS NOT NULL;", src_tbl)))
 
 pa_df[, transport := relevel(factor(transport_status,
                                     levels = c("no_barrier","barrier")),

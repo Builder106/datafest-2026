@@ -81,7 +81,7 @@ jobs:
         shell: Rscript {0}
         run: |
           options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/latest"))
-          install.packages(c("testthat", "data.table", "DBI", "duckdb", "covr"))
+          install.packages(c("testthat", "data.table", "DBI", "duckdb", "covr", "rpart"))
 
       - name: Run unit tests
         shell: Rscript {0}

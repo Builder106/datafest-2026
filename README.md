@@ -76,7 +76,7 @@ The raw EHR data is **not** in this repo (license restriction). The pipeline is 
 
 # 1. R packages (one-time, into ~/R/datafest_libs)
 
-Rscript -e 'install.packages(c("data.table","duckdb","DBI","dplyr","tidyr","stringr","lubridate","ggplot2","scales"), lib="~/R/datafest_libs")'
+Rscript -e 'install.packages(c("data.table","duckdb","DBI","dplyr","tidyr","stringr","lubridate","ggplot2","scales","rpart"), lib="~/R/datafest_libs")'
 
 # 2. Drop the CSV bundle into place
 

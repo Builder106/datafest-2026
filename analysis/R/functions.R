@@ -1,5 +1,152 @@
 suppressPackageStartupMessages(library(data.table))
 
+# Probability scores for a binary outcome; AUC uses average ranks for ties.
+binary_model_metrics <- function(observed, probability) {
+  if (!is.numeric(observed) || !is.numeric(probability) ||
+      length(observed) == 0L || length(observed) != length(probability) ||
+      anyNA(observed) || anyNA(probability) ||
+      any(!observed %in% c(0, 1)) || any(!is.finite(probability)) ||
+      any(probability < 0 | probability > 1)) {
+    stop("Expected matching binary outcomes and finite probabilities in [0, 1].")
+  }
+  positives <- sum(observed == 1)
+  negatives <- sum(observed == 0)
+  auc <- if (positives == 0L || negatives == 0L) NA_real_ else {
+    (sum(rank(probability)[observed == 1]) - positives * (positives + 1) / 2) /
+      (positives * negatives)
+  }
+  clipped <- pmin(pmax(probability, 1e-15), 1 - 1e-15)
+  c(auc = auc, log_loss = -mean(observed * log(clipped) +
+      (1 - observed) * log1p(-clipped)), brier = mean((probability - observed)^2))
+}
+
+# Learn imputation only from training patients. All-missing columns use zero.
+prepare_model_features <- function(train, test) {
+  medians <- vapply(train, function(x) {
+    if (all(is.na(x))) 0 else stats::median(x, na.rm = TRUE)
+  }, numeric(1))
+  for (j in seq_along(train)) {
+    train[[j]][is.na(train[[j]])] <- medians[j]
+    test[[j]][is.na(test[[j]])] <- medians[j]
+  }
+  list(train = train, test = test, medians = medians)
+}
+
+# Fixed, shallow probability-tree ensembles; no hyperparameter selection on test folds.
+# Input is one row per patient and explicitly selected numeric predictors.
+evaluate_ensemble_models <- function(data, outcome_col, feature_cols,
+                                     id_col = "PatientDurableKey", folds = 5L,
+                                     n_trees = 50L, permutations = 5L, seed = 2026L) {
+  if (!is.data.frame(data) || anyDuplicated(names(data))) {
+    stop("data must be a data.frame with unique column names.")
+  }
+  if (!is.character(outcome_col) || length(outcome_col) != 1L || is.na(outcome_col) ||
+      !is.character(id_col) || length(id_col) != 1L || is.na(id_col) ||
+      !is.character(feature_cols) || length(feature_cols) == 0L || anyNA(feature_cols) ||
+      anyDuplicated(feature_cols) || outcome_col == id_col ||
+      any(feature_cols %in% c(outcome_col, id_col)) ||
+      !all(c(outcome_col, id_col, feature_cols) %in% names(data))) {
+    stop("Select existing, distinct outcome, patient ID and numeric feature columns.")
+  }
+  for (parameter in c("folds", "n_trees", "permutations", "seed")) {
+    value <- get(parameter)
+    lower <- switch(parameter, folds = 2L, seed = 0L, 1L)
+    if (!is.numeric(value) || length(value) != 1L || is.na(value) ||
+        !is.finite(value) || value < lower || value > .Machine$integer.max || value != floor(value)) {
+      stop(paste(parameter, "must be a valid integer >=", lower))
+    }
+  }
+  ids <- data[[id_col]]
+  if (anyNA(ids) || anyDuplicated(ids)) stop("Patient IDs must be nonmissing and unique.")
+  y <- data[[outcome_col]]
+  if (!is.numeric(y) || anyNA(y) || any(!y %in% c(0, 1)) ||
+      sum(y == 0) < folds || sum(y == 1) < folds) {
+    stop("Outcome must be numeric 0/1 with at least folds patients in each class.")
+  }
+  x <- as.data.frame(data)[, feature_cols, drop = FALSE]
+  if (!all(vapply(x, is.numeric, logical(1))) ||
+      any(vapply(x, function(v) any(!is.finite(v) & !is.na(v)), logical(1)))) {
+    stop("Features must be numeric and finite or missing.")
+  }
+  # Internal names keep arbitrary input names out of generated formulas.
+  names(x) <- paste0("x", seq_along(x))
+  had_seed <- exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+  if (had_seed) old_seed <- get(".Random.seed", envir = .GlobalEnv)
+  on.exit({
+    if (had_seed) assign(".Random.seed", old_seed, envir = .GlobalEnv)
+    else rm(".Random.seed", envir = .GlobalEnv)
+  }, add = TRUE)
+  set.seed(seed)
+  fold_id <- integer(length(y))
+  for (class in c(0, 1)) {
+    rows <- which(y == class)
+    fold_id[rows] <- sample(rep(seq_len(folds), length.out = length(rows)))
+  }
+  predictions <- list()
+  scores <- list()
+  importance <- list()
+  for (fold in seq_len(folds)) {
+    test_rows <- which(fold_id == fold)
+    train_rows <- which(fold_id != fold)
+    prepared <- prepare_model_features(x[train_rows, , drop = FALSE], x[test_rows, , drop = FALSE])
+    train <- prepared$train
+    test <- prepared$test
+    for (model in c("prevalence", "bagged_trees", "random_subspace")) {
+      if (model == "prevalence") {
+        probability <- rep(mean(y[train_rows]), length(test_rows))
+      } else {
+        trees <- lapply(seq_len(n_trees), function(i) {
+          columns <- if (model == "bagged_trees") seq_along(train) else {
+            sample.int(ncol(train), max(1L, floor(sqrt(ncol(train)))))
+          }
+          bootstrap <- sample.int(nrow(train), nrow(train), replace = TRUE)
+          tree_data <- train[bootstrap, columns, drop = FALSE]
+          tree_data$.outcome <- y[train_rows][bootstrap]
+          rpart::rpart(.outcome ~ ., data = tree_data, method = "anova",
+                       control = rpart::rpart.control(maxdepth = 3L, minsplit = 20L,
+                         minbucket = 7L, cp = 0, xval = 0L, maxsurrogate = 0L))
+        })
+        predict_ensemble <- function(newdata) {
+          Reduce(`+`, lapply(trees, function(tree) as.numeric(stats::predict(tree, newdata)))) / n_trees
+        }
+        probability <- predict_ensemble(test)
+        loss <- binary_model_metrics(y[test_rows], probability)[["log_loss"]]
+        for (j in seq_along(feature_cols)) {
+          for (repeat_id in seq_len(permutations)) {
+            shuffled <- test
+            shuffled[[j]] <- shuffled[[j]][sample.int(nrow(test))]
+            delta <- binary_model_metrics(y[test_rows], predict_ensemble(shuffled))[["log_loss"]] - loss
+            importance[[length(importance) + 1L]] <- data.table(
+              fold = fold, model = model, feature = feature_cols[j],
+              permutation = repeat_id, log_loss_increase = delta)
+          }
+        }
+      }
+      predictions[[length(predictions) + 1L]] <- data.table(
+        patient_id = ids[test_rows], row_id = test_rows, fold = fold,
+        model = model, observed = y[test_rows], probability = probability)
+      metric <- binary_model_metrics(y[test_rows], probability)
+      scores[[length(scores) + 1L]] <- data.table(
+        fold = fold, model = model, n_train = length(train_rows), n_test = length(test_rows),
+        auc = metric[["auc"]], log_loss = metric[["log_loss"]], brier = metric[["brier"]])
+    }
+  }
+  scores <- rbindlist(scores)
+  importance <- rbindlist(importance)
+  list(
+    predictions = rbindlist(predictions),
+    fold_metrics = scores,
+    summary = scores[, .(folds = .N, auc_mean = mean(auc), auc_sd = sd(auc),
+      log_loss_mean = mean(log_loss), log_loss_sd = sd(log_loss),
+      brier_mean = mean(brier), brier_sd = sd(brier)), by = model],
+    permutation_importance = importance,
+    feature_importance = importance[, .(log_loss_increase_mean = mean(log_loss_increase),
+      log_loss_increase_sd = sd(log_loss_increase)), by = .(model, feature)],
+    settings = list(features = feature_cols, folds = folds, n_trees = n_trees,
+      permutations = permutations, seed = seed, maxdepth = 3L, minsplit = 20L, minbucket = 7L)
+  )
+}
+
 # Extract odds ratios and 95% Wald CI from a fitted binomial GLM.
 # Returns a data.table with one row per coefficient.
 coef_or <- function(m, label) {

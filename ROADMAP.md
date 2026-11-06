@@ -9,7 +9,7 @@ Data analysis pipeline, exploratory models, and presentation roadmap.
 
 ## v1.2 — Modeling & Insight Delivery
 
-- [ ] **Predictive Model Evaluation**: Cross-validated ensemble models and feature importance metrics.
+- [x] **Predictive Model Evaluation**: Cross-validated ensemble models and feature importance metrics.
 - [ ] **Executive Presentation Deck**: Clean, accessible visualizations tailored for presentation delivery.
 
 ## Out of Scope

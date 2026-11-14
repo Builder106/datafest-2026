@@ -2,7 +2,7 @@
 
 This repo is a **frozen hackathon submission** (Wesleyan DataFest 2026, Team 13). The findings and the deliverable PDFs in the root reflect what was submitted to the judges on April 19, 2026 and are not changing.
 
-That said, the pipeline is open source and reusable. Bug fixes, reproducibility improvements, and follow-on analyses are welcome — see *Scope* below.
+The pipeline is open source and reusable. Bug fixes, reproducibility improvements, and follow-on analyses are welcome; see *Scope* below.
 
 ## Development setup
 

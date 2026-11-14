@@ -15,9 +15,9 @@
 
 > A single question, *"Has lack of transportation kept you from medical appointments?"*, identifies a patient group with **over 3x higher odds** of an emergency department visit after adjusting for age and sex. This repository contains the reproducible analysis pipeline behind that finding.
 
-When patients can't get a ride to routine appointments, problems that a clinic visit could handle may end up in the emergency department instead. This project used de-identified records covering 7.6 million encounters for 947,685 patients to compare acute-care use between patients who did and didn't report a transportation barrier.
+When patients can't get a ride to routine appointments, they may miss care they need. This project used de-identified records covering 7.6 million encounters for 947,685 patients to compare acute-care use between patients who did and didn't report a transportation barrier.
 
-Patients who reported a barrier made about four times as many emergency department visits per person-year and about three times as many inpatient admissions. The data is observational, so it shows who is at risk, not what an intervention would save. Since the health system already asks the question, the answer is a ready way to flag patients for ride support, tele-visits, or case management.
+Patients who reported a barrier made about four times as many emergency department visits per person-year and about three times as many inpatient admissions. The data is observational, so it identifies an association rather than what an intervention would save. Since the health system already asks the question, the answer could help identify patients who might benefit from ride support, tele-visits, or case management.
 
 **Live site:** [datafest-2026.vercel.app](https://datafest-2026.vercel.app/)
 
@@ -49,7 +49,7 @@ The odds ratios come from a logistic model, `outcome ~ transport + age + sex`, f
 *What this means:*
 - **ED visits**: Patients who reported a transportation barrier made about four times as many emergency department visits per person-year.
 - **Inpatient admissions**: The same patients had about three times as many inpatient admissions per person-year, and higher odds of any admission after adjusting for age and sex.
-- **Across chronic conditions**: Among patients with an index encounter for hypertension, type 2 diabetes, chronic kidney disease, or atrial fibrillation, barrier patients returned to the ED within 180 days more often in every cohort (33% vs 15%, 40% vs 17%, 37% vs 21%, and 34% vs 24%). Barrier patients were also younger (median age 51 vs 61), so the gap isn't explained by age.
+- **Across chronic conditions**: Among patients with an index encounter for hypertension, type 2 diabetes, chronic kidney disease, or atrial fibrillation, barrier patients returned to the ED within 180 days more often in every cohort (33% vs 15%, 40% vs 17%, 37% vs 21%, and 34% vs 24%). Barrier patients were also younger overall (median age 51 vs 61); that comparison alone does not rule out age-related confounding.
 
 For the full caveats, see the [writeup](Team13_Writeup.pdf) and the [Caveats](#caveats) section below.
 

@@ -1,16 +1,16 @@
 # DataFest-2026 Roadmap
 
-Data analysis pipeline, exploratory models, and presentation roadmap.
+Plans for the analysis pipeline, exploratory models, and presentation.
 
 ## v1.1 — Feature Engineering & Cleaning
 
-- [x] **Automated Pipeline**: Robust missing data imputation and outlier detection.
-- [x] **Exploratory Data Analysis**: Statistical correlation and dimensional reduction (PCA, UMAP).
+- [x] **Automated Pipeline**: Impute missing data and detect outliers.
+- [x] **Exploratory Data Analysis**: Calculate correlations and reduce dimensions with PCA and UMAP.
 
 ## v1.2 — Modeling & Insight Delivery
 
-- [x] **Predictive Model Evaluation**: Cross-validated ensemble models and feature importance metrics.
-- [x] **Executive Presentation Deck**: Clean, accessible visualizations tailored for presentation delivery.
+- [x] **Predictive Model Evaluation**: Evaluate ensemble models with cross-validation and feature importance metrics.
+- [x] **Executive Presentation Deck**: Prepare accessible visualizations for the presentation.
 
 ## Out of Scope
 

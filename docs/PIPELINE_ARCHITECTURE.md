@@ -34,12 +34,12 @@ The local columnar database (`~/.datafest_cache/datafest.duckdb`) organizes ~7.6
 ### Safeguards & Invariants
 
 1. **Index-Free Execution**: DuckDB v1.3 index creation on nullable BIGINT columns is bypassed; queries rely entirely on vectorized hash joins.
-2. **Self-Locating Portable ROOT**: Every R script resolves paths relative to its script location via `--file=`parameter,`DATAFEST_ROOT` environment override, or working directory fallback.
-3. **Base-R Graphics Fallback**: `05_figures_base.R`provides an un-depended parachute renderer if`ggplot2`/`rlang` fails in restricted competition environments.
+2. **Self-Locating Portable ROOT**: Each R script resolves paths from its location via the `--file=` parameter, the `DATAFEST_ROOT` environment override, or a working-directory fallback.
+3. **Base-R Graphics Fallback**: `05_figures_base.R` provides a fallback renderer if `ggplot2`/`rlang` fails in restricted competition environments.
 4. **Robust Automated Preprocessing**: `03b_clean_impute.R` applies IQR Tukey's fences and MAD (Hampel filter) outlier capping alongside median/mode imputation with missingness indicators, preventing leverage distortion while retaining full sample size.
 5. **Deterministic Dimensional Reduction**: `03c_eda_dimred.R` calculates Pearson and Spearman correlation matrices with p-values, SVD-based PCA with variance decomposition, and a self-contained pure-R UMAP manifold embedding with high-dimensional fuzzy simplicial sets and Cauchy-kernel gradient optimization.
 
 ## 3. Statistical Framing
 
 - **Observational Screening Caution**: Absolute prevalences are restricted to the screened subset ($n = 58,639$).
-- **Confounding Control**: Multivariable logistic regression adjusts for age bins and sex. Sensitivity analysis (`08_sensitivity_analysis.R`) provides E-value bounds for potential unmeasured confounding.
+- **Confounding Control**: Multivariable logistic regression adjusts for age bins and sex. Sensitivity analysis (`08_sensitivity_analysis.R`) computes an E-value; as documented in `JOURNAL.md`, its rare-outcome formula overstates the E-value for these common outcomes, so interpret it with caution.
